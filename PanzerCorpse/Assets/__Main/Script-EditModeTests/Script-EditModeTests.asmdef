@@ -1,0 +1,6 @@
+{
+    "name": "Script-EditModeTests",
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ]
+}
