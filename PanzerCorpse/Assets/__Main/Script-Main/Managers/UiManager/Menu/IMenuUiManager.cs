@@ -2,7 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IMenuUiManager 
+public interface IMenuUiManager
 {
-  
+
+
+    void ShowPanel(PanelKeys panelKey);
+
+
 }
+
+
+
+
+
+
+
