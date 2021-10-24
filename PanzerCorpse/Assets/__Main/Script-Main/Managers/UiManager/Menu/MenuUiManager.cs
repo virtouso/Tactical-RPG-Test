@@ -5,21 +5,23 @@ using UnityEngine;
 public class MenuUiManager : MonoBehaviour, IMenuUiManager
 {
 
-    [SerializeField] private List<PanelKeyObjectPair> _panelsList;
-    private Dictionary<PanelKeys, GameObject> _panelsDictionary;
+    [SerializeField] private List<PanelKeyPanelBasePair> _panelsList;
+    private Dictionary<PanelKeys, PanelBase> _panelsDictionary;
     private Stack<PanelKeys> _panelStack;
     private PanelKeys _currentPanel;
 
 
 
 
-    public void ShowPanel(PanelKeys panelKey)
+    public void ShowPanel(PanelKeys panelKey,System.Action<object> action, object data)
     {
-        _panelsDictionary[_currentPanel].SetActive(false);
+        _panelsDictionary[_currentPanel].Hide();
+        _panelsDictionary[_currentPanel].gameObject.SetActive(false);
         _panelStack.Push(_currentPanel);
+
         _currentPanel = panelKey;
         _panelsDictionary[panelKey].gameObject.SetActive(true);
-
+        _panelsDictionary[panelKey].Show(action,data);
 
     }
 
@@ -28,9 +30,9 @@ public class MenuUiManager : MonoBehaviour, IMenuUiManager
     {
 
         if (_panelStack.Count <= 1) return;
-        _panelsDictionary[_currentPanel].SetActive(false);
+        _panelsDictionary[_currentPanel].gameObject.SetActive(false);
         PanelKeys prevPanel = _panelStack.Pop();
-        _panelsDictionary[prevPanel].SetActive(true);
+        _panelsDictionary[prevPanel].gameObject.SetActive(true);
         _currentPanel = prevPanel;
     }
 
@@ -46,10 +48,10 @@ public class MenuUiManager : MonoBehaviour, IMenuUiManager
 
     private void InitPanelDictionary()
     {
-        _panelsDictionary = new Dictionary<PanelKeys, GameObject>(_panelsList.Count);
+        _panelsDictionary = new Dictionary<PanelKeys, PanelBase>(_panelsList.Count);
         foreach (var item in _panelsList)
         {
-            _panelsDictionary.Add(item.PanelKey, item.GameObject);
+            _panelsDictionary.Add(item.PanelKey, item.Panel);
         }
     }
 

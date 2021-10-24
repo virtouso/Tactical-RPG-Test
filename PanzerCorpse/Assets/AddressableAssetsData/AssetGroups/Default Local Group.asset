@@ -16,7 +16,25 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 65790c2acf3e7004eb42ab759000bfbe
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 05fa26eea8226d4419be633a526356e5
+    m_Address: Assets/__Main/Content/Audio/Music/Win-Sound.wav
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: eafbfdd44b3531a478dbda2a21e54231
+    m_Address: Assets/__Main/Content/Audio/Music/Them-Song.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 61b01ba93de381c44bbebfffff3a976b
+    m_Address: Assets/__Main/Content/Audio/Music/Lose-Sound.wav
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 42c15b4baa5149e4782c242882914a6f, type: 2}
   m_SchemaSet:

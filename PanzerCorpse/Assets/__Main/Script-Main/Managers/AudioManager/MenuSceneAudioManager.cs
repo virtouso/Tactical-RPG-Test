@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour, IAudioManager
+public class MenuSceneAudioManager : BaseAudioManager
 {
 
 }

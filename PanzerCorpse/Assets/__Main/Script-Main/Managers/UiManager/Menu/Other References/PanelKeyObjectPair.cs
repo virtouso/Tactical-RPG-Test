@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PanelKeyObjectPair
+public class PanelKeyPanelBasePair
 {
     public PanelKeys PanelKey;
-    public GameObject GameObject;
+    public PanelBase Panel;
 }

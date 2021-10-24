@@ -2,13 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public abstract class PanelBase : MonoBehaviour
 {
 
+    [Inject] protected IMenuUiManager UiManager;
 
     public abstract void Show(Action<object> action, object data);
-    protected abstract void Hide();
+    public abstract void Hide();
 
 
 
