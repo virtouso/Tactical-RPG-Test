@@ -5,12 +5,26 @@ using UnityEngine.UI;
 
 public class SettingsPanelViewModel : ViewModelBase
 {
+    [SerializeField] private SettingsPanel _settingsPanel;
+
     [SerializeField] private Slider _effectSlider;
     [SerializeField] private Slider _musicSlider;
-
+    [SerializeField] private Button _backButton;
 
     protected override void BindDependencies()
     {
-    
+
+        _effectSlider.onValueChanged.AddListener(_settingsPanel.UpdateAfx);
+        _musicSlider.onValueChanged.AddListener(_settingsPanel.UpdateMusic);
+        _backButton.onClick.AddListener(_settingsPanel.BackButtonPressed);
+
     }
+
+    protected override void Start()
+    {
+        base.Start();
+        _effectSlider.value = _settingsPanel.AfxVolume;
+        _musicSlider.value = _settingsPanel.MusicVolume;
+    }
+
 }

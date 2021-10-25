@@ -13,7 +13,7 @@ public class MenuUiManager : MonoBehaviour, IMenuUiManager
 
 
 
-    public void ShowPanel(PanelKeys panelKey,System.Action<object> action, object data)
+    public void ShowPanel(PanelKeys panelKey, System.Action<object> action = null, object data = null)
     {
         _panelsDictionary[_currentPanel].Hide();
         _panelsDictionary[_currentPanel].gameObject.SetActive(false);
@@ -21,7 +21,7 @@ public class MenuUiManager : MonoBehaviour, IMenuUiManager
 
         _currentPanel = panelKey;
         _panelsDictionary[panelKey].gameObject.SetActive(true);
-        _panelsDictionary[panelKey].Show(action,data);
+        _panelsDictionary[panelKey].Show(action, data);
 
     }
 
@@ -35,11 +35,6 @@ public class MenuUiManager : MonoBehaviour, IMenuUiManager
         _panelsDictionary[prevPanel].gameObject.SetActive(true);
         _currentPanel = prevPanel;
     }
-
-
-
-
-
 
 
 
@@ -59,7 +54,7 @@ public class MenuUiManager : MonoBehaviour, IMenuUiManager
     private void InitPanelStack()
     {
         _panelStack = new Stack<PanelKeys>();
-        _currentPanel = PanelKeys.Root;
+
 
     }
 
@@ -67,18 +62,16 @@ public class MenuUiManager : MonoBehaviour, IMenuUiManager
 
 
 
-
-
-
-
-
-
-
-
     private void Awake()
     {
         InitPanelDictionary();
         InitPanelStack();
+    }
+
+
+    private void Start()
+    {
+        ShowPanel(PanelKeys.Root);
     }
 
 }

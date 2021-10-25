@@ -9,7 +9,7 @@ public interface IUtilityAssetLoader
 {
     void LoadAssetByStringAddressAsync<T>(string address, Action<AsyncOperationHandle<T>> callback);
 
-    void LoadAssetByAssetReference<T>(AssetReference assetReference, Action<AsyncOperationHandle<T>> callback);
+    void LoadAssetByAssetReferenceAsync<T>(AssetReference assetReference, Action<AsyncOperationHandle<T>> callback);
 
      T LoadAssetSync<T>(string address);
 

@@ -156,7 +156,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -796,7 +796,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: 459773832}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -1263,7 +1264,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1689,10 +1690,10 @@ RectTransform:
   m_Father: {fileID: 859047956}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -316, y: -20}
-  m_SizeDelta: {x: -722.7759, y: -168.2527}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 228, y: -20}
+  m_SizeDelta: {x: 365.22412, y: 243.7473}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &893823499
 MonoBehaviour:
@@ -1744,10 +1745,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1142a18cbd6d78446ab564d0f4857896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rootPanel: {fileID: 0}
-  _singlePlayerButton: {fileID: 0}
-  _settingsButton: {fileID: 0}
-  _exitButton: {fileID: 0}
+  _rootPanel: {fileID: 893823502}
+  _singlePlayerButton: {fileID: 203835930}
+  _settingsButton: {fileID: 1909385672}
+  _exitButton: {fileID: 556384842}
 --- !u!114 &893823502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1948,7 +1949,7 @@ GameObject:
   - component: {fileID: 1046641684}
   - component: {fileID: 1046641683}
   m_Layer: 5
-  m_Name: Effect
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2229,8 +2230,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 90296837}
   m_HandleRect: {fileID: 1860005734}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -80
+  m_MaxValue: 20
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -2588,8 +2589,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 621626339}
   m_HandleRect: {fileID: 1589952124}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -80
+  m_MaxValue: 20
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -2628,7 +2629,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2898,7 +2899,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1687032304
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2916,10 +2917,10 @@ RectTransform:
   m_Father: {fileID: 859047956}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -316, y: -20}
-  m_SizeDelta: {x: -722.7759, y: -168.2527}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 228, y: -20}
+  m_SizeDelta: {x: 365.22412, y: 243.7473}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1687032305
 MonoBehaviour:
@@ -2971,6 +2972,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac9023dfbdcea494e9a9bebcae66b188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _settingsPanel: {fileID: 1687032308}
+  _effectSlider: {fileID: 1539527149}
+  _musicSlider: {fileID: 1109863993}
+  _backButton: {fileID: 203382444}
 --- !u!114 &1687032308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3016,7 +3021,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3211,6 +3216,7 @@ GameObject:
   - component: {fileID: 1944438626}
   - component: {fileID: 1944438625}
   - component: {fileID: 1944438624}
+  - component: {fileID: 1944438627}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -3244,6 +3250,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50c0534d28b213e46bf8f7952c850147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _panelsList:
+  - PanelKey: 0
+    Panel: {fileID: 893823502}
+  - PanelKey: 1
+    Panel: {fileID: 1687032308}
 --- !u!114 &1944438625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3268,6 +3279,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31711186818e1e1459ddcee7d968345a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1944438627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1944438622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01d94ec157d6dec4f888cadb8916bc87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioMixer: {fileID: 24100000, guid: bb1a79c9cacc67b4b925b0d1124a80a0, type: 2}
+  _musicAsset:
+    m_AssetGUID: eafbfdd44b3531a478dbda2a21e54231
+    m_SubObjectName: 
+    m_SubObjectType: 
+  _musicSource: {fileID: 482094014}
 --- !u!1 &2069798716
 GameObject:
   m_ObjectHideFlags: 0

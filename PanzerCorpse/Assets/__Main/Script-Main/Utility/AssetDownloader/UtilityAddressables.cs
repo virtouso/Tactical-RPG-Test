@@ -12,7 +12,7 @@ public class UtilityAddressables : IUtilityAssetLoader
         UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<T>(address).Completed += callback;
     }
 
-    public void LoadAssetByAssetReference<T>(AssetReference assetReference, Action<AsyncOperationHandle<T>> callback)
+    public void LoadAssetByAssetReferenceAsync<T>(AssetReference assetReference, Action<AsyncOperationHandle<T>> callback)
     {
 
         assetReference.LoadAssetAsync<T>().Completed += callback;

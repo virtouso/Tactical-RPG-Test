@@ -11,7 +11,7 @@ public abstract class ViewModelBase : MonoBehaviour
 
 
 
-    private void Start()
+    protected virtual void Start()
     {
         BindDependencies();
     }

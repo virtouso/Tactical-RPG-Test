@@ -7,7 +7,7 @@ public interface IMenuUiManager
 
 
     void ShowPanel(PanelKeys panelKey, System.Action<object> action = null, object data = null);
-
+    public void ShowPreviousPanel();
 
 }
 
