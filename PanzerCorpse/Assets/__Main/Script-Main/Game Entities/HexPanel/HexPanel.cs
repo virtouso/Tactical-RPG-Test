@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HexPanel : MonoBehaviour
+public class HexPanel : HexPanelBase
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Transform _centerTransform;
+
+
+    public override FieldCoordinate FieldCoordinate { get; set; }
+
+    public override Vector3 Position
     {
-        
+        get => _centerTransform.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void SetPosition(Vector3 position)
     {
-        
+        transform.position = position;
     }
 }
