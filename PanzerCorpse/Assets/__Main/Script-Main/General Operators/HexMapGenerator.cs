@@ -64,7 +64,6 @@ public class HexMapGenerator : MonoBehaviour, IHexMapGenerator
                 HexPanelBase hexPanel = GameObject.Instantiate(_hexPrefab);
                 FieldCoordinate gridPos = new FieldCoordinate(x, y);
                 hexPanel.SetPosition(CalculateWorldPosition(gridPos));
-                //  hexPanel.parent = this.transform;
                 hexPanel.name = "Hexagon" + x + "|" + y;
             }
         }
@@ -95,10 +94,6 @@ public class HexMapGenerator : MonoBehaviour, IHexMapGenerator
 
 
 
-    private void Start()
-    {
-        StartCoroutine(GenerateHexGrid());
-    }
-
+ 
 
 }
