@@ -1187,7 +1187,7 @@ namespace Zenject
         void GetDecoratedInstances(
             IProvider provider, InjectContext context, List<object> buffer)
         {
-            // TODO:  This is flawed since it doesn't allow binding new decorators in subcontainers
+          
             var decoratorProvider = TryGetDecoratorProvider(context.BindingId.Type);
 
             if (decoratorProvider != null)

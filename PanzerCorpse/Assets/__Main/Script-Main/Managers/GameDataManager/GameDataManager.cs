@@ -24,6 +24,13 @@ public class GameDataManager : MonoBehaviour, IGameDataManager
         set => _playerData = value;
     }
 
+
+
+
+
+
+
+
     private GameState _gameState;
     public GameState GameState
     {
@@ -40,6 +47,20 @@ public class GameDataManager : MonoBehaviour, IGameDataManager
     }
 
 
+
+
+
+
+
+
+    public string GetPlayerSelectedMap()
+    {
+        string selectedMap = GameState.SelectedMap;
+
+        if (string.IsNullOrEmpty(selectedMap))
+            return SceneNames.JungleThemeScene;
+        return selectedMap;
+    }
 
 
 

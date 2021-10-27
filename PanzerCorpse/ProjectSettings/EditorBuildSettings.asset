@@ -11,5 +11,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/__Main/Scenes/SinglePlayerLogic.unity
     guid: f31992c4cf8d1ab4b944d1732e41418b
+  - enabled: 1
+    path: Assets/__Main/Scenes/Theme Additive Maps/Jungle.unity
+    guid: 984a8c7e54fe69d448b686abe710fbd9
+  - enabled: 1
+    path: Assets/__Main/Scenes/Theme Additive Maps/Desert.unity
+    guid: 7ba2e8facbeebb74286723d8289717ba
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 243d4f2ac194e8348b58cc47f28731f5, type: 2}

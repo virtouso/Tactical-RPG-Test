@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AiOpponent : BaseOpponent
+public interface IUtilityMatchQueries
 {
-  
+
 }

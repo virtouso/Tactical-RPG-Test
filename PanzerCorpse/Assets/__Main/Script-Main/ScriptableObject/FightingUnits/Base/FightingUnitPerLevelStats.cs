@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class FightingUnitPerLevelStats : MonoBehaviour
+public class FightingUnitPerLevelStats
 {
     public int DamageAmount;
     public int HealthAmount;

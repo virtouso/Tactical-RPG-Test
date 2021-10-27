@@ -183,7 +183,7 @@ namespace UniRx
                     destroyTrigger = GetOrAddDestroyTrigger(gameObject);
                 }
 
-                // fast compare path
+               
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     var isDestroyed = destroyTrigger.IsActivated

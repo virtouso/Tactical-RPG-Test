@@ -10,7 +10,7 @@ public class RootPanel : PanelBase
 
     public void SinglePlayerButtonPressed()
     {
-        //todo setup some settings
+        //TODO: setup some settings
         SceneManager.LoadScene(SceneNames.SinglePlayerLogicScene);
 
     }
@@ -27,7 +27,7 @@ public class RootPanel : PanelBase
 
     public void ExitButtonPressed()
     {
-        //todo you can ask that player is sure by popup
+        //TODO: you can ask that player is sure by popup
         Application.Quit();
     }
 

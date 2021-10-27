@@ -166,7 +166,7 @@ namespace Zenject
             }
 
 #if !(UNITY_WSA && ENABLE_DOTNET)
-            // TODO: Is it possible to do this on WSA?
+        
 
             if (isContractOpenGenericType)
             {
