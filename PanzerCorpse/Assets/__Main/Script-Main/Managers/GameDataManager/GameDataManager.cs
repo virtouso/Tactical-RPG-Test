@@ -28,9 +28,6 @@ public class GameDataManager : MonoBehaviour, IGameDataManager
 
 
 
-
-
-
     private GameState _gameState;
     public GameState GameState
     {
@@ -38,27 +35,27 @@ public class GameDataManager : MonoBehaviour, IGameDataManager
         {
             if (_gameState == null)
             {
-                _gameState = _utilitySerializer.Deserialize<GameState>(_utilityFile.LoadString(PlayerPrefsGeneralKeys.GameState));
+                
+                if (!_utilityFile.KeyExist(PlayerPrefsGeneralKeys.GameState))
+                {
+                    _gameState = new GameState(SceneNames.DesertThemeScene);
+                }
+                else
+                {
+                    string serializedGameState = _utilityFile.LoadString(PlayerPrefsGeneralKeys.GameState);
+                    _gameState = _utilitySerializer.Deserialize<GameState>(serializedGameState);
+                }
             }
             return _gameState;
-
         }
         set => _gameState = value;
     }
 
 
 
-
-
-
-
-
     public string GetPlayerSelectedMap()
     {
         string selectedMap = GameState.SelectedMap;
-
-        if (string.IsNullOrEmpty(selectedMap))
-            return SceneNames.JungleThemeScene;
         return selectedMap;
     }
 

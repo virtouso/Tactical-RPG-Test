@@ -8,28 +8,21 @@ public class HexMapGenerator : MonoBehaviour, IHexMapGenerator
     [Inject] private HexPanelBase _hexPrefab;
 
     [SerializeField] private FieldCoordinate _fieldSize;
-    [Tooltip("dont touch it. these are from blender")]
-    [SerializeField] private Vector2 _hexSize;
+
+    [Tooltip("dont touch it. these are from blender")] [SerializeField]
+    private Vector2 _hexSize;
+
     [SerializeField] private float _gap;
-
-
 
 
     private Vector3 _startPos;
 
     public IEnumerator GenerateHexGrid()
     {
-        yield return new WaitForSeconds(1f);
         AddPanelsGap();
         CalculateStartPosition();
-        StartCoroutine(CreateGrid());
+        yield return StartCoroutine(CreateGrid());
     }
-
-
-
-
-
-
 
 
     #region private functions
@@ -53,14 +46,13 @@ public class HexMapGenerator : MonoBehaviour, IHexMapGenerator
     }
 
 
-
     private IEnumerator CreateGrid()
     {
         for (int y = 0; y < _fieldSize.Y; y++)
         {
             for (int x = 0; x < _fieldSize.X; x++)
             {
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.05f);
                 HexPanelBase hexPanel = GameObject.Instantiate(_hexPrefab);
                 FieldCoordinate gridPos = new FieldCoordinate(x, y);
                 hexPanel.SetPosition(CalculateWorldPosition(gridPos));
@@ -68,9 +60,6 @@ public class HexMapGenerator : MonoBehaviour, IHexMapGenerator
             }
         }
     }
-
-
-
 
     #endregion
 
@@ -88,12 +77,5 @@ public class HexMapGenerator : MonoBehaviour, IHexMapGenerator
         return new Vector3(x, 0, z);
     }
 
-
     #endregion
-
-
-
-
- 
-
 }

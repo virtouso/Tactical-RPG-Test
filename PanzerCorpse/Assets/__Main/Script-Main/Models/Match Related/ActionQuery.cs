@@ -7,12 +7,12 @@ public class ActionQuery
 {
     public ActionType ActionType;
     public FieldCoordinate Goal;
-    public FightingUnitMonoBase FightingUnit;
+    public FieldCoordinate Current;
 
-    public ActionQuery(ActionType actionType, FieldCoordinate goal, FightingUnitMonoBase fightingUnit)
+    public ActionQuery(ActionType actionType, FieldCoordinate current, FieldCoordinate  goal)
     {
         ActionType = actionType;
         Goal = goal;
-        FightingUnit = fightingUnit;
+        Current = current;
     }
 }
