@@ -30,11 +30,18 @@ here is a simple video that shows how game is running:
 
 
 #### Opponent And Ai
-- - *Opponent* is a high level class that can implement *AIOpponent* or *OnlineOpponent*. *ApplyAction* function can have different implementations. for current we only have ai
+-  *Opponent* is a high level class that can implement *AIOpponent* or *OnlineOpponent*. *ApplyAction* function can have different implementations. for current we only have ai
 
 
 
-- best approaches for making 
+##### best approaches for making AI For turn based games are
+ - Minimax: as state space is to big, recursive minimax simply cause overflow. also making itrative version is challenging and we cant add enemy class or difficulty level.
+ - Data Driven: time consuming for a test project to define possible rules but for AI with series of action works great.
+ - Goal Oriented Action Planning. also great but needs some effort to make a planner integrated with such space.
+ - Utility Theorem also great that on different conditions gives score to the actions and selects action with highest score. its time consuming to select best multipliers.
+ 
+ - Chain Of Responsiblity: its a design pattern rather than being a technique for Ai. list of actions are defined and ai agent selects the first action that suits the condition. 
+ there are different implementations for this design pattern but its a very simple version. we can make different classes of opponents by just changing the order of these *condition-actions*
 
 
 ## Conventions
