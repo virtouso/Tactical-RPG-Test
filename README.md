@@ -3,7 +3,7 @@
 ## General Explanations
 
 ### Conventions:
-# there are many rules for naming and formating the code but i used rider/resharper default conventions
+- there are many rules for naming and formating the code but i used rider/resharper default conventions
 
 
 
