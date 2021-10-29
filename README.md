@@ -2,14 +2,39 @@
 
 ## General Explanations
 
-## How Features Implemented
+here is a simple video that shows how game is running:
 
-### GameFlow Management
 
-### Game Rules And GameState
+### How Features Implemented
 
-### Opponent Ai
+#### Game Scene Mangement
+- there is only one *GamePlayLogic* scene that all logic of offline match is imlemented in there
+- theme scenes are added additively to the *logic scene*  to have different theme maps
+- right now we have  *Desert* and *Jungle* maps
+- 
 
+#### GameFlow Management
+- there is *GameStateManager* that handles the state of the game. there is a *GameState* class that holdes state of the match all needed data to run the match is in there.
+- any input of player is just a query to *GameState* and UI and Match Logic are seperated.
+
+
+
+#### Game Data Management
+
+- State of the whole game is wrapped in *GameState* model. things like what settings has player selected in the game
+- player progress like experience and level is in *PlayerData*  class and deserializes to the class from file to be used
+- above classes are serializable and *IFileUtility* as different implemetations like encrypted version for devices nd row version for the editor and development
+
+#### Game Rules And GameState
+- there is a class type named *ActionQuery* these are the actions sent to the *IUtilityMatchQueries* and functions of the class decide that the input is valid or not and apply it to the *MatchState*
+
+
+#### Opponent And Ai
+- - *Opponent* is a high level class that can implement *AIOpponent* or *OnlineOpponent*. *ApplyAction* function can have different implementations. for current we only have ai
+
+
+
+- best approaches for making 
 
 
 ## Conventions
