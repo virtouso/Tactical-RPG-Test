@@ -8,5 +8,5 @@ public interface IGameDataManager
     GameState GameState { get; set; }
 
     string GetPlayerSelectedMap();
-    public Model<List<TankProgress>> GetTanksProgress();
+ 
 }

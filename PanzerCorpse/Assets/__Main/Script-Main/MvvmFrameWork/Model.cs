@@ -15,4 +15,8 @@ public class Model<T>
     }
 
 
+    public Model(T data)
+    {
+        _data = data;
+    }
 }

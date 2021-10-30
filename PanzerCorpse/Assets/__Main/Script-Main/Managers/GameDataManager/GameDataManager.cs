@@ -14,9 +14,20 @@ public class GameDataManager : MonoBehaviour, IGameDataManager
     {
         get
         {
+
             if (_playerData == null)
             {
-                _playerData = _utilitySerializer.Deserialize<PlayerData>(_utilityFile.LoadString(PlayerPrefsGeneralKeys.PlayerDate));
+
+                if (_utilityFile.KeyExist(PlayerPrefsGeneralKeys.PlayerDate))
+                {
+                    _playerData =
+                        _utilitySerializer.Deserialize<PlayerData>(
+                            _utilityFile.LoadString(PlayerPrefsGeneralKeys.PlayerDate));
+                }
+                else
+                {
+                    _playerData = new PlayerData();
+                }
             }
 
             return _playerData;
@@ -58,10 +69,7 @@ public class GameDataManager : MonoBehaviour, IGameDataManager
     }
 
 
-    public Model<List<TankProgress>> GetTanksProgress()
-    {
-        return _playerData.PlayerProgress.OwnedTanks;
-    }
+
 
 
 

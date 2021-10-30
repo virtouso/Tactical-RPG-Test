@@ -7,7 +7,7 @@ public class GamePlayScenePrefabInstaller : MonoInstaller
     [SerializeField] private FightingUnitsList _fightingUnitsListReference;
     [SerializeField] private HexPanel _hexPanelPrefab;
     [SerializeField] private HealthBarViewModel _healthBarPrefab;
-
+    [SerializeField] private UnitInitialPlacementConfig _placementConfig;
 
     public override void InstallBindings()
     {
@@ -20,12 +20,11 @@ public class GamePlayScenePrefabInstaller : MonoInstaller
         Container.Bind<TowerBase>().WithId("Opponent").To<Tower>()
             .FromInstance(_fightingUnitsListReference.enemyTowerBase).AsCached();
 
-        Container.Bind<FightingUnitConfigBase>().WithId(FightingUnitNamesEnum.MouseTank).To<MouseTankConfig>()
-            .FromScriptableObject(_fightingUnitsListReference.FightingUnits[FightingUnitNamesEnum.MouseTank])
+        Container.Bind<IFightingUnitsList>().To<FightingUnitsList>().FromScriptableObject(_fightingUnitsListReference)
             .AsSingle();
 
-        Container.Bind<FightingUnitConfigBase>().WithId(FightingUnitNamesEnum.TigerTank).To<TigerTankConfig>()
-            .FromScriptableObject(_fightingUnitsListReference.FightingUnits[FightingUnitNamesEnum.TigerTank])
-            .AsSingle();
+        Container.Bind<IUnitInitialPlacementConfig>().To<UnitInitialPlacementConfig>()
+            .FromScriptableObject(_placementConfig).AsSingle();
+
     }
 }

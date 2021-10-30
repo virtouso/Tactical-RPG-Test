@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e143b922f747f9d40bcdbfb1de78eb55, type: 3}
   m_Name: Tiger Tank Config
   m_EditorClassIdentifier: 
-  Name: Tiger Tank
+  Name: 1
   DisplaySprite: {fileID: 0}
-  GameObject: {fileID: 0}
+  GameObject: {fileID: 7244280440355606384, guid: e35c3e5d653d0544eb5b0c287d4d1213, type: 3}
   Stats:
   - DamageAmount: 20
     HealthAmount: 40
-    MovingUnitsInATurn: 3
+    MovingUnitsInTurn: 3
   - DamageAmount: 25
     HealthAmount: 50
-    MovingUnitsInATurn: 3
+    MovingUnitsInTurn: 3
   - DamageAmount: 30
     HealthAmount: 60
-    MovingUnitsInATurn: 3
+    MovingUnitsInTurn: 3

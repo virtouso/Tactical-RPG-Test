@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 
 [CreateAssetMenu(fileName = "Fighting Units List", menuName = "Config/Fighting Units/Tanks/Fighting Units List")]
-public class FightingUnitsList : ScriptableObject
+public class FightingUnitsList : ScriptableObject,IFightingUnitsList
 {
     [SerializeField] private List<FightingUnitConfigBase> _fightingUnitsList;
 
@@ -14,7 +14,7 @@ public class FightingUnitsList : ScriptableObject
 
     public Dictionary<FightingUnitNamesEnum, FightingUnitConfigBase> FightingUnits
     {
-        set => _fightingUnits = value;
+      
         get
         {
             if (_fightingUnits == null)
@@ -34,4 +34,11 @@ public class FightingUnitsList : ScriptableObject
 
      public Tower playerTowerBase;
     public Tower enemyTowerBase;
+
+    [SerializeField] private Material _playerMaterial;
+    public Material PlayerMaterial => _playerMaterial;
+    
+    [SerializeField] private Material _opponentMaterial;
+    public Material OpponentMaterial => _opponentMaterial;
+
 }

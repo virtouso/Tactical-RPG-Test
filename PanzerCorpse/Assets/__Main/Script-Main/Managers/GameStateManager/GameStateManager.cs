@@ -7,15 +7,14 @@ using Zenject;
 
 public class GameStateManager : MonoBehaviour, IGameStateManager
 {
-
-  
-    [Inject] private IUtilityMatchGeneral _generalMatchUtility;
+//    [Inject] private IUtilityMatchGeneral _generalMatchUtility;
     [Inject] private IUtilityMatchQueries _matchQueryUtility;
-
+    [Inject] private IFightingUnitsList _fightingUnitsList;
     [Inject] private IGameDataManager _gameDataManager;
     [Inject] private IHexMapGenerator _hexMapGenerator;
     [Inject] private IGamePlayCamera _gamePlayCamera;
     [Inject] private IUtilityMatchQueries _matchState;
+    [Inject] private IUnitInitialPlacementConfig _initialPlacementConfig;
 
     [Inject(Id = "Player")] private TowerBase _playerTowerBase;
     [Inject(Id = "Opponent")] private TowerBase _enemyTowerBase;
@@ -81,12 +80,45 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
 
     private IEnumerator GeneratePlayerUnits()
     {
+        yield return new WaitForSeconds(0.1f);
 
+        var dataList = _gameDataManager.PlayerData.PlayerProgress.OwnedTanks.Data;
+        for (int i = 0; i < dataList.Count; i++)
+        {
+            int xPosition= _matchState.MatchModel.Board.GetLength(0) - _initialPlacementConfig.IndexCoordinates[i].X;
+            int yPosition = (_matchState.MatchModel.Board.GetLength(1) / 2) +
+                             _initialPlacementConfig.IndexCoordinates[i].Y;
+            HexPanelBase selectedPanel = _matchQueryUtility.MatchModel.Board[xPosition, yPosition];
+            var tankConfig = _fightingUnitsList.FightingUnits[dataList[i].TankId];
+            FightingUnitMonoBase tankInstance = Instantiate(tankConfig.GameObject);
+            tankInstance.Init(tankConfig.Stats[dataList[i].TankLevel],
+                new FieldCoordinate(xPosition, yPosition),
+                selectedPanel.Position,
+                _fightingUnitsList.PlayerMaterial,
+                Vector3.left);
+            _matchState.MatchModel.Players[MatchPlayerType.Player].FightingUnits.Add(tankInstance);
+        }
     }
 
     private IEnumerator GenerateOpponentUnits()
     {
+        yield return new WaitForSeconds(0.1f);
 
+        var dataList = _gameDataManager.PlayerData.PlayerProgress.OwnedTanks.Data;
+        for (int i = 0; i < dataList.Count; i++)
+        {
+            int xPosition = 0 + _initialPlacementConfig.IndexCoordinates[i].X;
+            int yPosition = (_matchState.MatchModel.Board.GetLength(1) / 2) + _initialPlacementConfig.IndexCoordinates[i].Y;
+            HexPanelBase selectedPanel = _matchQueryUtility.MatchModel.Board[xPosition, yPosition];
+            var tankConfig = _fightingUnitsList.FightingUnits[dataList[i].TankId];
+            FightingUnitMonoBase tankInstance = Instantiate(tankConfig.GameObject);
+            tankInstance.Init(tankConfig.Stats[dataList[i].TankLevel],
+                new FieldCoordinate(xPosition, yPosition),
+                selectedPanel.Position,
+                _fightingUnitsList.OpponentMaterial,
+                Vector3.right);
+            _matchState.MatchModel.Players[MatchPlayerType.Opponent].FightingUnits.Add(tankInstance);
+        }
     }
 
     #endregion

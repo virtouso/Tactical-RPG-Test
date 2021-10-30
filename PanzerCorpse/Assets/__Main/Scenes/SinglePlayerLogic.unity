@@ -1267,3 +1267,4 @@ MonoBehaviour:
   _fightingUnitsListReference: {fileID: 11400000, guid: 9e168bff969a4e44c801e8029e9e46a1, type: 2}
   _hexPanelPrefab: {fileID: 830644793219893128, guid: 02eb105e6ea2494478b81818f5c27b29, type: 3}
   _healthBarPrefab: {fileID: 74958917}
+  _placementConfig: {fileID: 11400000, guid: 7414eab8c3bde2a4d8da1ccab71a6a67, type: 2}

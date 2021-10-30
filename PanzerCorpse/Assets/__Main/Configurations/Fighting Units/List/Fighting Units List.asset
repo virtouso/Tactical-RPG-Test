@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d2e8e0f77748c45b433bb14d20ce3b, type: 3}
   m_Name: Fighting Units List
   m_EditorClassIdentifier: 
-  FightingUnits:
-  - {fileID: 11400000, guid: d33de45ef2181984c80e57becc559517, type: 2}
+  _fightingUnitsList:
   - {fileID: 11400000, guid: d8eecc980049a3849a7ceb2802816d04, type: 2}
+  - {fileID: 11400000, guid: d33de45ef2181984c80e57becc559517, type: 2}
+  playerTowerBase: {fileID: 122372841424844519, guid: 2b2e371cf443e5340812d89888098114, type: 3}
+  enemyTowerBase: {fileID: 6829588730792438358, guid: a8e43ca348868b746b543e973e12308c, type: 3}
+  _playerMaterial: {fileID: 2100000, guid: 003e97c1ddf8c0241baca7dbb52fadd3, type: 2}
+  _opponentMaterial: {fileID: 2100000, guid: fab372b64e92782428b356a1178ab0c8, type: 2}

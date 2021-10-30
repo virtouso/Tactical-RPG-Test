@@ -9,5 +9,5 @@ public class FightingUnitPerLevelStats
 {
     public int DamageAmount;
     public int HealthAmount;
-    [FormerlySerializedAs("MovingUnitsInATurn")] public int MovingUnitsInTurn;
+   public int MovingUnitsInTurn;
 }

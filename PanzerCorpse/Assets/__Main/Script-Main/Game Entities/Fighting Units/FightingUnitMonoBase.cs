@@ -6,7 +6,7 @@ public abstract class FightingUnitMonoBase : MonoBehaviour
 {
     public FightingUnitPerLevelStats InitialStats;
     public FightingUnitCurrentStats CurrentState;
-
+    [SerializeField] private MeshRenderer _body;
 
     public FieldCoordinate FieldCoordinate;
 
@@ -14,13 +14,17 @@ public abstract class FightingUnitMonoBase : MonoBehaviour
     [SerializeField] private Animator _animator;
 
 
-    public void Init(FightingUnitPerLevelStats config, FightingUnitCurrentStats currentStats,
-        FieldCoordinate coordinate, Vector3 position)
+    public void Init(FightingUnitPerLevelStats config,
+        FieldCoordinate coordinate, Vector3 position, Material bodyMaterial, Vector3 lookDirection)
     {
         InitialStats = config;
-        CurrentState = currentStats;
+        CurrentState = new FightingUnitCurrentStats(new Model<int>(config.DamageAmount),
+            new Model<int>(config.HealthAmount),
+            new Model<int>(config.MovingUnitsInTurn));
         FieldCoordinate = coordinate;
         transform.position = position;
+        _body.material = bodyMaterial;
+        transform.rotation = Quaternion.Euler(lookDirection);
     }
 
 
