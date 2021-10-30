@@ -1,9 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
+using UnityEditor;
 using UnityEngine;
+using Zenject;
 
 public class UtilityMatchQueries : IUtilityMatchQueries
 {
+    [Inject] private IUtilityMatchGeneral _utilityMatchGeneral;
+    
     private MatchModel _matchModel;
 
     public MatchModel MatchModel
@@ -20,23 +26,67 @@ public class UtilityMatchQueries : IUtilityMatchQueries
 
     public MatchModel InitGameStateFields(MatchModel matchModel)
     {
+        // game initial data is filled in multi steps. no need for this
         throw new System.NotImplementedException();
     }
 
     public FieldCoordinate GetTowerPosition(MatchPlayerType matchPlayerType)
     {
-        throw new System.NotImplementedException();
+        return _matchModel.Players[matchPlayerType].TowerBase.FieldCoordinate;
     }
 
-    public List<FieldCoordinate> GetInitialUnitPosition(MatchPlayerType matchPlayerType)
+   
+
+    public bool CheckActionIsValid(ActionQuery actionQuery)
     {
-        throw new System.NotImplementedException();
+        switch (actionQuery.ActionType)
+        {
+            case ActionType.Move:
+                return CheckMoveActionIsValid(actionQuery);
+
+                break;
+            case ActionType.Shoot:
+
+                return CheckAttackActionIsValid(actionQuery);
+                break;
+        }
+
+        return false;
     }
 
-    public bool CheckMoveIsValid(ActionQuery actionQuery)
+    private bool CheckMoveActionIsValid(ActionQuery actionQuery)
     {
-        throw new System.NotImplementedException();
+        FightingUnitMonoBase selectedPlayerUnit = null;
+        foreach (var item in _matchModel.Players[MatchPlayerType.Player].FightingUnits)
+        {
+            if (item.FieldCoordinate == actionQuery.Current)
+                selectedPlayerUnit = item;
+        }
+
+        if (selectedPlayerUnit == null)
+            return false;
+
+
+        FightingUnitMonoBase selectedOpponentUnit = null;
+        foreach (var item in _matchModel.Players[MatchPlayerType.Opponent].FightingUnits)
+        {
+            if (item.FieldCoordinate == actionQuery.Goal)
+                selectedOpponentUnit = item;
+        }
+
+        if (actionQuery.Goal == _matchModel.Players[MatchPlayerType.Opponent].TowerBase.FieldCoordinate)
+            return false;
+
+        if (selectedOpponentUnit == null)
+            return true;
+
+        if (_utilityMatchGeneral.CalculateDistanceBetween2Coordinates(actionQuery.Current, actionQuery.Goal) >
+            selectedPlayerUnit.InitialStats.MovingUnitsInTurn)
+            return false;
+
+        return true;
     }
+
 
     public List<ActionQuery> ListOfLegitMovesForCoordinate(FieldCoordinate coordinate)
     {
@@ -45,7 +95,33 @@ public class UtilityMatchQueries : IUtilityMatchQueries
 
     public MatchPlayerType CheckMatchIsFinished()
     {
-        throw new System.NotImplementedException();
+        if (_matchModel.Players[MatchPlayerType.Player].TowerBase.TowerCurrentStats.Health.Data <= 0)
+            return MatchPlayerType.Opponent;
+        if (_matchModel.Players[MatchPlayerType.Opponent].TowerBase.TowerCurrentStats.Health.Data <= 0)
+            return MatchPlayerType.Player;
+
+        bool playerAllUnitsDead = true;
+        foreach (var unit in _matchModel.Players[MatchPlayerType.Player].FightingUnits)
+        {
+            if (unit.CurrentState.HealthAmount.Data > 0)
+                playerAllUnitsDead = false;
+        }
+
+        if (playerAllUnitsDead)
+            return MatchPlayerType.Opponent;
+        
+        bool opponentAllUnitsDead = true;
+        foreach (var unit in _matchModel.Players[MatchPlayerType.Opponent].FightingUnits)
+        {
+            if (unit.CurrentState.HealthAmount.Data > 0)
+                opponentAllUnitsDead = false;
+        }
+        
+        if (opponentAllUnitsDead)
+            return MatchPlayerType.Player;
+        
+
+        return MatchPlayerType.None;
     }
 
     public MatchModel ApplyMove(ActionQuery actionQuery)
@@ -53,20 +129,51 @@ public class UtilityMatchQueries : IUtilityMatchQueries
         throw new System.NotImplementedException();
     }
 
-    public MatchModel UpdateTurnState()
+    public void UpdateTurnState()
     {
-        throw new System.NotImplementedException();
-    }
+        _matchModel.Players[_matchModel.Turn.Data].CurrentPermittedMoves--;
 
-
-
-
-    #region Utility
-
-    private void InitMatchModel()
-    {
+        if (_matchModel.Players[_matchModel.Turn.Data].CurrentPermittedMoves <= 0)
+        {
+            _matchModel.Turn.Data =  ~_matchModel.Turn.Data;
+            _matchModel.Players[_matchModel.Turn.Data].CurrentPermittedMoves =
+                _matchModel.NumberOfPermittedMovesInOneTurn;
+        }
         
     }
 
+
+
+    #region Sub Utility
+
+    private bool CheckAttackActionIsValid(ActionQuery actionQuery)
+    {
+        FightingUnitMonoBase selectedPlayerUnit = null;
+        foreach (var item in _matchModel.Players[MatchPlayerType.Player].FightingUnits)
+        {
+            if (item.FieldCoordinate == actionQuery.Current)
+                selectedPlayerUnit = item;
+        }
+
+        if (selectedPlayerUnit == null)
+            return false;
+
+        FightingUnitMonoBase selectedOpponentUnit = null;
+        foreach (var item in _matchModel.Players[MatchPlayerType.Opponent].FightingUnits)
+        {
+            if (item.FieldCoordinate == actionQuery.Goal)
+                selectedOpponentUnit = item;
+        }
+
+        if (actionQuery.Goal == _matchModel.Players[MatchPlayerType.Opponent].TowerBase.FieldCoordinate)
+            return true;
+
+        if (selectedOpponentUnit == null)
+            return false;
+
+        return true;
+    }
+
     #endregion
+   
 }

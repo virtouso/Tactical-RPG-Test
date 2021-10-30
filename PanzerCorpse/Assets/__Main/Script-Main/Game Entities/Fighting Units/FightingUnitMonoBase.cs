@@ -24,7 +24,7 @@ public abstract class FightingUnitMonoBase : MonoBehaviour
         FieldCoordinate = coordinate;
         transform.position = position;
         _body.material = bodyMaterial;
-        transform.rotation = Quaternion.Euler(lookDirection);
+        transform.rotation = Quaternion.LookRotation(lookDirection,Vector3.up);
     }
 
 

@@ -9,7 +9,7 @@ public class MatchPlayer
     public int Score;
     public TowerBase TowerBase;
     public List<FightingUnitMonoBase> FightingUnits;
-
+    public int CurrentPermittedMoves;
 
  
     public MatchPlayer(MatchPlayerType playerType, string name, int score, TowerBase towerBase, List<FightingUnitMonoBase> fightingUnits)

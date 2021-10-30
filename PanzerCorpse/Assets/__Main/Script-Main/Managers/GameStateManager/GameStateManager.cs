@@ -58,9 +58,13 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
         yield return new WaitForSeconds(0.1f);
         int xPosition = _matchState.MatchModel.Board.GetLength(0) - 1;
         int yPosition = _matchState.MatchModel.Board.GetLength(1) / 2;
+        FieldCoordinate selectedCoordinate = new FieldCoordinate(xPosition, yPosition);
         Vector3 placedPosition = _matchState.MatchModel.Board[xPosition, yPosition].Position;
-        _matchState.MatchModel.Players[MatchPlayerType.Player].TowerBase =
-            Instantiate(_playerTowerBase, placedPosition, Quaternion.identity);
+        
+        TowerBase tower=   Instantiate(_playerTowerBase, placedPosition, Quaternion.identity);
+        tower.Init(placedPosition,selectedCoordinate,new TowerCurrentStats(new Model<int>(100)));
+        _matchState.MatchModel.Players[MatchPlayerType.Player].TowerBase = tower;
+
     }
 
     private IEnumerator PlayCameraStartAnimation()
@@ -73,9 +77,11 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
         yield return new WaitForSeconds(0.1f);
         int xPosition = 0;
         int yPosition = _matchState.MatchModel.Board.GetLength(1) / 2;
+        FieldCoordinate selectedCoordinate = new FieldCoordinate(xPosition, yPosition);
         Vector3 placedPosition = _matchState.MatchModel.Board[xPosition, yPosition].Position;
-        _matchState.MatchModel.Players[MatchPlayerType.Player].TowerBase =
-            Instantiate(_enemyTowerBase, placedPosition, Quaternion.identity);
+        TowerBase tower = Instantiate(_enemyTowerBase, placedPosition, Quaternion.identity);
+        tower.Init(placedPosition, selectedCoordinate, new TowerCurrentStats(new Model<int>(100)));
+        _matchState.MatchModel.Players[MatchPlayerType.Player].TowerBase = tower;
     }
 
     private IEnumerator GeneratePlayerUnits()
@@ -85,9 +91,9 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
         var dataList = _gameDataManager.PlayerData.PlayerProgress.OwnedTanks.Data;
         for (int i = 0; i < dataList.Count; i++)
         {
-            int xPosition= _matchState.MatchModel.Board.GetLength(0) - _initialPlacementConfig.IndexCoordinates[i].X;
+            int xPosition = _matchState.MatchModel.Board.GetLength(0) - _initialPlacementConfig.IndexCoordinates[i].X;
             int yPosition = (_matchState.MatchModel.Board.GetLength(1) / 2) +
-                             _initialPlacementConfig.IndexCoordinates[i].Y;
+                            _initialPlacementConfig.IndexCoordinates[i].Y;
             HexPanelBase selectedPanel = _matchQueryUtility.MatchModel.Board[xPosition, yPosition];
             var tankConfig = _fightingUnitsList.FightingUnits[dataList[i].TankId];
             FightingUnitMonoBase tankInstance = Instantiate(tankConfig.GameObject);
@@ -108,7 +114,8 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
         for (int i = 0; i < dataList.Count; i++)
         {
             int xPosition = 0 + _initialPlacementConfig.IndexCoordinates[i].X;
-            int yPosition = (_matchState.MatchModel.Board.GetLength(1) / 2) + _initialPlacementConfig.IndexCoordinates[i].Y;
+            int yPosition = (_matchState.MatchModel.Board.GetLength(1) / 2) +
+                            _initialPlacementConfig.IndexCoordinates[i].Y;
             HexPanelBase selectedPanel = _matchQueryUtility.MatchModel.Board[xPosition, yPosition];
             var tankConfig = _fightingUnitsList.FightingUnits[dataList[i].TankId];
             FightingUnitMonoBase tankInstance = Instantiate(tankConfig.GameObject);
