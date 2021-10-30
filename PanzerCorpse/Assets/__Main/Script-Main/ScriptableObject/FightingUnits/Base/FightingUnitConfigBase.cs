@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class FightingUnitConfigBase : ScriptableObject
 {
-    public string Name;
+    public FightingUnitNamesEnum Name;
     public Sprite DisplaySprite;
     public FightingUnitMonoBase GameObject;
     public FightingUnitPerLevelStats[] Stats;

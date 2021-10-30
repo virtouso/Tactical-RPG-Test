@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class FightingUnitMonoBase : MonoBehaviour
 {
     public FightingUnitPerLevelStats InitialStats;
-    public FightingUnitPerLevelStats CurrentState;
+    public FightingUnitCurrentStats CurrentState;
 
 
     public FieldCoordinate FieldCoordinate;
@@ -14,17 +14,14 @@ public abstract class FightingUnitMonoBase : MonoBehaviour
     [SerializeField] private Animator _animator;
 
 
-
-    public void Init(FightingUnitPerLevelStats config, FieldCoordinate coordinate, Vector3 position)
+    public void Init(FightingUnitPerLevelStats config, FightingUnitCurrentStats currentStats,
+        FieldCoordinate coordinate, Vector3 position)
     {
         InitialStats = config;
-        CurrentState = config;
+        CurrentState = currentStats;
         FieldCoordinate = coordinate;
         transform.position = position;
     }
-
-
-
 
 
     public abstract IEnumerator PlayAttack();
@@ -34,9 +31,5 @@ public abstract class FightingUnitMonoBase : MonoBehaviour
     public abstract void StopMoveAnimation();
 
 
-
-
     public abstract IEnumerator Move(Vector3 startPosition, Vector3 endPosition, float speed);
-
-
 }

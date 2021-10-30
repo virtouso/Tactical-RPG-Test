@@ -26,8 +26,6 @@ public class GameDataManager : MonoBehaviour, IGameDataManager
 
 
 
-
-
     private GameState _gameState;
     public GameState GameState
     {
@@ -60,7 +58,10 @@ public class GameDataManager : MonoBehaviour, IGameDataManager
     }
 
 
-
+    public Model<List<TankProgress>> GetTanksProgress()
+    {
+        return _playerData.PlayerProgress.OwnedTanks;
+    }
 
 
 

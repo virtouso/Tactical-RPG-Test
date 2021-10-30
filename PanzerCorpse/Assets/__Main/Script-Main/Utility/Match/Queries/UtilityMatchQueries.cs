@@ -4,9 +4,21 @@ using UnityEngine;
 
 public class UtilityMatchQueries : IUtilityMatchQueries
 {
-    
-    public GameState GameState { get; }
-    public GameState InitGameStateFields(GameState gameState)
+    private MatchModel _matchModel;
+
+    public MatchModel MatchModel
+    {
+        get
+        {
+            if (_matchModel == null)
+                _matchModel = new MatchModel();
+            return _matchModel;
+        }
+        
+        
+    }
+
+    public MatchModel InitGameStateFields(MatchModel matchModel)
     {
         throw new System.NotImplementedException();
     }
@@ -21,28 +33,40 @@ public class UtilityMatchQueries : IUtilityMatchQueries
         throw new System.NotImplementedException();
     }
 
-    public bool CheckMoveIsValid(ActionQuery actionQuery, GameState gameState)
+    public bool CheckMoveIsValid(ActionQuery actionQuery)
     {
         throw new System.NotImplementedException();
     }
 
-    public List<ActionQuery> ListOfLegitMovesForCoordinate(FieldCoordinate coordinate, GameState gameState)
+    public List<ActionQuery> ListOfLegitMovesForCoordinate(FieldCoordinate coordinate)
     {
         throw new System.NotImplementedException();
     }
 
-    public MatchPlayerType CheckMatchIsFinished(GameState gameState)
+    public MatchPlayerType CheckMatchIsFinished()
     {
         throw new System.NotImplementedException();
     }
 
-    public GameState ApplyMove(ActionQuery actionQuery, GameState gameState)
+    public MatchModel ApplyMove(ActionQuery actionQuery)
     {
         throw new System.NotImplementedException();
     }
 
-    public GameState UpdateTurnState()
+    public MatchModel UpdateTurnState()
     {
         throw new System.NotImplementedException();
     }
+
+
+
+
+    #region Utility
+
+    private void InitMatchModel()
+    {
+        
+    }
+
+    #endregion
 }

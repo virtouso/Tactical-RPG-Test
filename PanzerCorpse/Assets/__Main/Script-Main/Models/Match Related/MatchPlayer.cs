@@ -7,14 +7,15 @@ public class MatchPlayer
     public MatchPlayerType PlayerType;
     public string Name;
     public int Score;
-    public ITower Tower;
+    public TowerBase TowerBase;
     public List<FightingUnitMonoBase> FightingUnits;
 
-    public MatchPlayer(MatchPlayerType playerType, string name, int score, List<FightingUnitMonoBase> fightingUnits)
+    public MatchPlayer(MatchPlayerType playerType, string name, int score, TowerBase towerBase, List<FightingUnitMonoBase> fightingUnits)
     {
         PlayerType = playerType;
         Name = name;
         Score = score;
+        TowerBase = towerBase;
         FightingUnits = fightingUnits;
     }
 }

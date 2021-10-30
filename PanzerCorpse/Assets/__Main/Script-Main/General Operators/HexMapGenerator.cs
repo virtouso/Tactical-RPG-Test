@@ -5,8 +5,10 @@ using Zenject;
 
 public class HexMapGenerator : MonoBehaviour, IHexMapGenerator
 {
-    [Inject] private HexPanelBase _hexPrefab;
+    private HexPanelBase[,] _hexGrid;
+    public HexPanelBase[,] HexGrid => _hexGrid;
 
+    [Inject] private HexPanelBase _hexPrefab;
     [SerializeField] private FieldCoordinate _fieldSize;
 
     [Tooltip("dont touch it. these are from blender")] [SerializeField]
@@ -48,6 +50,7 @@ public class HexMapGenerator : MonoBehaviour, IHexMapGenerator
 
     private IEnumerator CreateGrid()
     {
+        _hexGrid = new HexPanel[_fieldSize.X, _fieldSize.Y];
         for (int y = 0; y < _fieldSize.Y; y++)
         {
             for (int x = 0; x < _fieldSize.X; x++)
@@ -56,7 +59,9 @@ public class HexMapGenerator : MonoBehaviour, IHexMapGenerator
                 HexPanelBase hexPanel = GameObject.Instantiate(_hexPrefab);
                 FieldCoordinate gridPos = new FieldCoordinate(x, y);
                 hexPanel.SetPosition(CalculateWorldPosition(gridPos));
+                hexPanel.FieldCoordinate = gridPos;
                 hexPanel.name = "Hexagon" + x + "|" + y;
+                _hexGrid[x, y] = hexPanel;
             }
         }
     }

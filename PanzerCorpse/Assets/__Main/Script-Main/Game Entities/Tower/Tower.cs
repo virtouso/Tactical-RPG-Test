@@ -2,16 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tower : MonoBehaviour,ITower
+public class Tower : TowerBase
 {
-    public void Init(Vector3 position, FieldCoordinate coordinate)
+    public override void Init(Vector3 position, FieldCoordinate coordinate, TowerCurrentStats initStats)
     {
         transform.position = position;
         _fieldCoordinate = coordinate;
+        _towerCurrentStats = initStats;
     }
 
     public Vector3 Position => transform.position;
 
     private FieldCoordinate _fieldCoordinate;
     public FieldCoordinate FieldCoordinate => FieldCoordinate;
+    private TowerCurrentStats _towerCurrentStats;
+
+    public TowerCurrentStats TowerCurrentStats
+    {
+        get => _towerCurrentStats;
+        set => _towerCurrentStats = value;
+    }
 }
