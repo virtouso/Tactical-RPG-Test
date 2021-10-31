@@ -47,6 +47,7 @@ here is a simple video that shows how game is running:
 ## Conventions
 - there are many rules for naming and formating the code but i used rider/resharper default conventions
 - there is good use of oop and classes are short
+- used fail-fast approach and tried dont placing any exception-handler or null checking to be able to solve problem fast.
 
 ## Design Patterns 
 #### Dependency Injection

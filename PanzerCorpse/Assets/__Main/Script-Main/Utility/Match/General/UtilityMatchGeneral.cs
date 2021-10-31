@@ -15,4 +15,9 @@ public class UtilityMatchGeneral : IUtilityMatchGeneral
     {
         return Mathf.Abs(source.X - destination.X) + Mathf.Abs(source.Y- destination.Y);
     }
+
+    public bool Check2CoordinatesAreEqual(FieldCoordinate source, FieldCoordinate destination)
+    {
+        return source.X == destination.X && source.Y == destination.Y;
+    }
 }
