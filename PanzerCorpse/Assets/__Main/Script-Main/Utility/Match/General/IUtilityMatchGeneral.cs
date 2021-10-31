@@ -10,4 +10,6 @@ public interface IUtilityMatchGeneral
     // could use operator overriding but using such function is more understandable
     public bool Check2CoordinatesAreEqual(FieldCoordinate source, FieldCoordinate destination);
 
+    
+    
 }

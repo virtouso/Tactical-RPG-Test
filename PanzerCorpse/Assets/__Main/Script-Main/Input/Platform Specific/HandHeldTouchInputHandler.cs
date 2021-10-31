@@ -1,18 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HandHeldTouchInputHandler : MonoBehaviour
+public class HandHeldTouchInputHandler :InputHandlerBase
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public override Vector3 PointerPosition => throw new NotImplementedException();
 
-    // Update is called once per frame
-    void Update()
+    public override Action PointerClicked
     {
-        
+        get => throw new NotImplementedException();
+        set => throw new NotImplementedException();
     }
 }

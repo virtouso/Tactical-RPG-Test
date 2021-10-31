@@ -2,17 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputHandlerBase : MonoBehaviour
+public abstract class InputHandlerBase : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public abstract Vector3 PointerPosition { get; }
+    public abstract System.Action PointerClicked { get; set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  
 }

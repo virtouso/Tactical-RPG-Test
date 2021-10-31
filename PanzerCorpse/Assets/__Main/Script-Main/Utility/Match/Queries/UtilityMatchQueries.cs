@@ -27,6 +27,20 @@ public class UtilityMatchQueries : IUtilityMatchQueries
     }
 
 
+    public void RemoveDeadUnityFromList()
+    {
+        foreach (var playerUnit in _matchModel.Players[MatchPlayerType.Player].FightingUnits)
+        {
+            if (playerUnit.CurrentState.HealthAmount.Data <= 0)
+                _matchModel.Players[MatchPlayerType.Player].FightingUnits.Remove(playerUnit);
+        }
+
+        foreach (var opponentUnit in _matchModel.Players[MatchPlayerType.Opponent].FightingUnits)
+        {
+            if (opponentUnit.CurrentState.HealthAmount.Data <= 0)
+                _matchModel.Players[MatchPlayerType.Opponent].FightingUnits.Remove(opponentUnit);
+        }
+    }
 
     public FieldCoordinate GetTowerPosition(MatchPlayerType matchPlayerType)
     {
@@ -49,7 +63,7 @@ public class UtilityMatchQueries : IUtilityMatchQueries
         }
 
         //prefer to fail fast instead of ignore bugs
-        throw new UnityException();
+        throw new NotImplementedException();
     }
 
 
@@ -58,7 +72,7 @@ public class UtilityMatchQueries : IUtilityMatchQueries
         FightingUnitMonoBase selectedPlayerUnit = null;
         foreach (var item in _matchModel.Players[MatchPlayerType.Player].FightingUnits)
         {
-            if (item.FieldCoordinate == coordinate)
+            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(item.FieldCoordinate.Data, coordinate))
                 selectedPlayerUnit = item;
         }
 
@@ -82,7 +96,7 @@ public class UtilityMatchQueries : IUtilityMatchQueries
             bool thereIsFriendlyInHex = false;
             foreach (var friendlyUnit in _matchModel.Players[MatchPlayerType.Player].FightingUnits)
             {
-                if (_utilityMatchGeneral.Check2CoordinatesAreEqual(friendlyUnit.FieldCoordinate,
+                if (_utilityMatchGeneral.Check2CoordinatesAreEqual(friendlyUnit.FieldCoordinate.Data,
                     hexPanel.FieldCoordinate))
                     thereIsFriendlyInHex = true;
             }
@@ -93,18 +107,18 @@ public class UtilityMatchQueries : IUtilityMatchQueries
             // check there is enemy unit or tower in that hex or not.
             if (_utilityMatchGeneral.Check2CoordinatesAreEqual(
                 _matchModel.Players[MatchPlayerType.Opponent].TowerBase.FieldCoordinate, hexPanel.FieldCoordinate))
-                possibleQueries.Add(new ActionQuery(ActionType.Shoot, coordinate, hexPanel.FieldCoordinate));
+                possibleQueries.Add(new ActionQuery(ActionType.Shoot, coordinate, hexPanel.FieldCoordinate,MatchPlayerType.None));
 
             foreach (var enemyUnit in _matchModel.Players[MatchPlayerType.Opponent].FightingUnits)
             {
-                if (_utilityMatchGeneral.Check2CoordinatesAreEqual(enemyUnit.FieldCoordinate, hexPanel.FieldCoordinate))
-                    possibleQueries.Add(new ActionQuery(ActionType.Shoot, coordinate, enemyUnit.FieldCoordinate));
+                if (_utilityMatchGeneral.Check2CoordinatesAreEqual(enemyUnit.FieldCoordinate.Data,
+                    hexPanel.FieldCoordinate))
+                    possibleQueries.Add(new ActionQuery(ActionType.Shoot, coordinate, enemyUnit.FieldCoordinate.Data,MatchPlayerType.None));
             }
 
-            possibleQueries.Add(new ActionQuery(ActionType.Move, coordinate, hexPanel.FieldCoordinate));
+            possibleQueries.Add(new ActionQuery(ActionType.Move, coordinate, hexPanel.FieldCoordinate,MatchPlayerType.None));
         }
-
-
+        
         return possibleQueries;
     }
 
@@ -142,18 +156,36 @@ public class UtilityMatchQueries : IUtilityMatchQueries
     public void ApplyMove(ActionQuery actionQuery)
     {
         FightingUnitMonoBase selectedFriendlyUnit = null;
-        foreach (var friendlyUnit in _matchModel.Players[MatchPlayerType.Player].FightingUnits)
+        foreach (var friendlyUnit in _matchModel.Players[actionQuery.From ].FightingUnits)
         {
-            if (actionQuery.Current == friendlyUnit.FieldCoordinate)
+            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(actionQuery.Current, friendlyUnit.FieldCoordinate.Data))
                 selectedFriendlyUnit = friendlyUnit;
+        }
+
+        FightingUnitMonoBase selectedEnemyUnit = null;
+        foreach (var enemyUnit in _matchModel.Players[~actionQuery.From].FightingUnits)
+        {
+            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(actionQuery.Current, enemyUnit.FieldCoordinate.Data))
+                selectedEnemyUnit = enemyUnit;
         }
         
         switch (actionQuery.ActionType)
         {
             case ActionType.Move:
-                selectedFriendlyUnit.FieldCoordinate = actionQuery.Goal;
+                selectedFriendlyUnit.FieldCoordinate.Data = actionQuery.Goal;
                 break;
             case ActionType.Shoot:
+                if (selectedEnemyUnit == null)
+                {
+                    _matchModel.Players[~actionQuery.From].TowerBase.TowerCurrentStats.Health.Data-= 
+                      selectedFriendlyUnit.CurrentState.DamageAmount.Data;
+                }
+                else
+                {
+                    selectedEnemyUnit.CurrentState.HealthAmount.Data -=
+                        selectedFriendlyUnit.CurrentState.DamageAmount.Data;
+                }
+
                 break;
         }
     }
@@ -178,7 +210,7 @@ public class UtilityMatchQueries : IUtilityMatchQueries
         FightingUnitMonoBase selectedPlayerUnit = null;
         foreach (var item in _matchModel.Players[MatchPlayerType.Player].FightingUnits)
         {
-            if (item.FieldCoordinate == actionQuery.Current)
+            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(item.FieldCoordinate.Data, actionQuery.Current))
                 selectedPlayerUnit = item;
         }
 
@@ -188,7 +220,7 @@ public class UtilityMatchQueries : IUtilityMatchQueries
         FightingUnitMonoBase selectedOpponentUnit = null;
         foreach (var item in _matchModel.Players[MatchPlayerType.Opponent].FightingUnits)
         {
-            if (item.FieldCoordinate == actionQuery.Goal)
+            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(item.FieldCoordinate.Data, actionQuery.Goal))
                 selectedOpponentUnit = item;
         }
 
@@ -206,18 +238,26 @@ public class UtilityMatchQueries : IUtilityMatchQueries
         FightingUnitMonoBase selectedPlayerUnit = null;
         foreach (var item in _matchModel.Players[MatchPlayerType.Player].FightingUnits)
         {
-            if (item.FieldCoordinate == actionQuery.Current)
+            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(item.FieldCoordinate.Data, actionQuery.Current))
                 selectedPlayerUnit = item;
         }
 
         if (selectedPlayerUnit == null)
             return false;
 
+        if (_matchModel.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate == actionQuery.Goal)
+            return false;
 
+        foreach (var item in _matchModel.Players[MatchPlayerType.Player].FightingUnits)
+        {
+            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(item.FieldCoordinate.Data, actionQuery.Goal))
+                return false;
+        }
+        
         FightingUnitMonoBase selectedOpponentUnit = null;
         foreach (var item in _matchModel.Players[MatchPlayerType.Opponent].FightingUnits)
         {
-            if (item.FieldCoordinate == actionQuery.Goal)
+            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(item.FieldCoordinate.Data, actionQuery.Goal))
                 selectedOpponentUnit = item;
         }
 

@@ -7,7 +7,9 @@ using Zenject;
 
 public class GameStateManager : MonoBehaviour, IGameStateManager
 {
-//    [Inject] private IUtilityMatchGeneral _generalMatchUtility;
+
+    public bool PlayerCanPlay => _matchQueryUtility.MatchModel.Turn.Data == MatchPlayerType.Player; 
+    
     [Inject] private IUtilityMatchQueries _matchQueryUtility;
     [Inject] private IFightingUnitsList _fightingUnitsList;
     [Inject] private IGameDataManager _gameDataManager;
@@ -19,6 +21,8 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     [Inject(Id = "Player")] private TowerBase _playerTowerBase;
     [Inject(Id = "Opponent")] private TowerBase _enemyTowerBase;
 
+    
+    
     #region Main Utility
 
     private void StartMatch()
@@ -109,7 +113,6 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     private IEnumerator GenerateOpponentUnits()
     {
         yield return new WaitForSeconds(0.1f);
-
         var dataList = _gameDataManager.PlayerData.PlayerProgress.OwnedTanks.Data;
         for (int i = 0; i < dataList.Count; i++)
         {
@@ -130,7 +133,32 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
 
     #endregion
 
+    #region InputHandlers
+    
+    // i know its better to place  public functions on top of class
+    // but as public stuf are included in interface  and these are managed in region, its ok!
+    public void PlayerCleared()
+    {
+        
+    }
 
+    public void PlayerSelectedOrigin(FieldCoordinate coordinate)
+    {
+        
+    }
+
+
+    public void PlayerSelectedWholeMove(ActionQuery actionQuery)
+    {
+        
+    }
+
+    
+
+    #endregion
+    
+    
+    
     #region Unity Callbacks
 
     private void Start()
@@ -139,4 +167,6 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     }
 
     #endregion
+
+  
 }

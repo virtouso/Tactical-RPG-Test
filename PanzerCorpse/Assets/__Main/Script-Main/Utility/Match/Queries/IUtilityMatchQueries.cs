@@ -4,12 +4,12 @@ using UnityEngine;
 
 public interface IUtilityMatchQueries
 {
-    
     MatchModel MatchModel { get; }
+    void RemoveDeadUnityFromList();
     FieldCoordinate GetTowerPosition(MatchPlayerType matchPlayerType);
     bool CheckActionIsValid(ActionQuery actionQuery);
     List<ActionQuery> ListOfLegitMovesForCoordinate(FieldCoordinate coordinate);
     MatchPlayerType CheckMatchIsFinished();
-   void ApplyMove(ActionQuery actionQuery);
+    void ApplyMove(ActionQuery actionQuery);
     void UpdateTurnState();
 }

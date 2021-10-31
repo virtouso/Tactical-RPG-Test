@@ -8,7 +8,7 @@ public class ThereIsEnemyUnitInMyTowerRangeAndIHaveUnitOnItRange : ConditionActi
 {
     public override ActionQuery Execute(MatchModel matchState)
     {
-        throw new System.NotImplementedException();
+      
     }
 }
 

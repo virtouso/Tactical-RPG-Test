@@ -14,10 +14,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerTypes:
   - AiType: 0
-    OrderedConditionActionList: []
+    OrderedConditionActionList:
+    - {fileID: 11400000, guid: 99968f2f1bf9c924ba3fe43f1cdac3bc, type: 2}
+    - {fileID: 11400000, guid: 840caf2609dc5d848817e3363be211b9, type: 2}
+    - {fileID: 11400000, guid: 42ae44bb7e9d0bd41813cdacfd33555f, type: 2}
+    - {fileID: 11400000, guid: 0b764d07454194e40a76430d942f915d, type: 2}
+    - {fileID: 11400000, guid: 2f2d75dcfd99cd44393409b8c291644c, type: 2}
+    - {fileID: 11400000, guid: 448066ea8037ac248ace81470b0e3d68, type: 2}
+    - {fileID: 11400000, guid: 2eb7a7fa2b003b949ab1e1d4f38ce05f, type: 2}
   - AiType: 1
-    OrderedConditionActionList: []
+    OrderedConditionActionList:
+    - {fileID: 11400000, guid: 840caf2609dc5d848817e3363be211b9, type: 2}
+    - {fileID: 11400000, guid: 99968f2f1bf9c924ba3fe43f1cdac3bc, type: 2}
+    - {fileID: 11400000, guid: 2f2d75dcfd99cd44393409b8c291644c, type: 2}
+    - {fileID: 11400000, guid: 0b764d07454194e40a76430d942f915d, type: 2}
+    - {fileID: 11400000, guid: 448066ea8037ac248ace81470b0e3d68, type: 2}
+    - {fileID: 11400000, guid: 2eb7a7fa2b003b949ab1e1d4f38ce05f, type: 2}
   - AiType: 2
-    OrderedConditionActionList: []
+    OrderedConditionActionList:
+    - {fileID: 11400000, guid: 2f2d75dcfd99cd44393409b8c291644c, type: 2}
+    - {fileID: 11400000, guid: 0b764d07454194e40a76430d942f915d, type: 2}
+    - {fileID: 11400000, guid: 840caf2609dc5d848817e3363be211b9, type: 2}
+    - {fileID: 11400000, guid: 99968f2f1bf9c924ba3fe43f1cdac3bc, type: 2}
+    - {fileID: 11400000, guid: 448066ea8037ac248ace81470b0e3d68, type: 2}
+    - {fileID: 11400000, guid: 2eb7a7fa2b003b949ab1e1d4f38ce05f, type: 2}
   - AiType: 3
-    OrderedConditionActionList: []
+    OrderedConditionActionList:
+    - {fileID: 11400000, guid: 448066ea8037ac248ace81470b0e3d68, type: 2}
+    - {fileID: 11400000, guid: 2eb7a7fa2b003b949ab1e1d4f38ce05f, type: 2}

@@ -1,18 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WindowsInputHandler : MonoBehaviour
+public class WindowsInputHandler : InputHandlerBase
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    
+    public override Vector3 PointerPosition => Input.mousePosition;
+    public override Action PointerClicked { get; set; }
+  
 
-    // Update is called once per frame
-    void Update()
+
+    private void Update()
     {
         
+        if (Input.GetMouseButtonDown(0))
+            PointerClicked?.Invoke();
     }
 }

@@ -8,7 +8,7 @@ public abstract class FightingUnitMonoBase : MonoBehaviour
     public FightingUnitCurrentStats CurrentState;
     [SerializeField] private MeshRenderer _body;
 
-    public FieldCoordinate FieldCoordinate;
+    public Model<FieldCoordinate> FieldCoordinate;
 
 
     [SerializeField] private Animator _animator;
@@ -21,10 +21,10 @@ public abstract class FightingUnitMonoBase : MonoBehaviour
         CurrentState = new FightingUnitCurrentStats(new Model<int>(config.DamageAmount),
             new Model<int>(config.HealthAmount),
             new Model<int>(config.MovingUnitsInTurn));
-        FieldCoordinate = coordinate;
+        FieldCoordinate = new Model<FieldCoordinate>(coordinate);
         transform.position = position;
         _body.material = bodyMaterial;
-        transform.rotation = Quaternion.LookRotation(lookDirection,Vector3.up);
+        transform.rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
     }
 
 
