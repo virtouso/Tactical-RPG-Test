@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Codice.Client.BaseCommands;
@@ -11,6 +12,7 @@ using Zenject;
 public class GameStateManager : MonoBehaviour, IGameStateManager
 {
     public bool PlayerCanPlay => _matchQueryUtility.MatchModel.Turn.Data == MatchPlayerType.Player;
+    public System.Action<MatchPlayerType> OnTurnUpdate { get; set; }
 
     [Inject] private IUtilityMatchQueries _matchQueryUtility;
     [Inject] private IFightingUnitsList _fightingUnitsList;
@@ -36,6 +38,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
             .SelectMany(GenerateOpponentTower)
             .SelectMany(GeneratePlayerUnits)
             .SelectMany(GenerateOpponentUnits)
+            .SelectMany(UpdateTurn(true))
             .Subscribe();
     }
 
@@ -145,6 +148,47 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
         
     }
 
+    private void ClearBoardColors()
+    {
+        throw new NotImplementedException();
+    }
+
+
+    private IEnumerator UpdateTurn(bool isInitial)
+    {
+        MatchPlayerType currentTurn = MatchPlayerType.None;
+        if (isInitial)
+        {
+            _matchQueryUtility.MatchModel.Turn.Data =(MatchPlayerType) UnityEngine.Random.Range(0, 1);
+            
+           currentTurn = _matchQueryUtility.MatchModel.Turn.Data;
+            _matchQueryUtility.MatchModel.Players[currentTurn].CurrentPermittedMoves =
+                _matchQueryUtility.MatchModel.NumberOfPermittedMovesInOneTurn;
+            
+            OnTurnUpdate?.Invoke( _matchQueryUtility.MatchModel.Turn.Data);
+        }
+        else
+        {
+          currentTurn = _matchQueryUtility.MatchModel.Turn.Data;
+            
+            _matchQueryUtility.MatchModel.Players[currentTurn].CurrentPermittedMoves--;
+
+            if (_matchQueryUtility.MatchModel.Players[currentTurn].CurrentPermittedMoves <= 0)
+            {
+                _matchQueryUtility.MatchModel.Turn.Data = ~ _matchQueryUtility.MatchModel.Turn.Data;
+
+                _matchQueryUtility.MatchModel.Players[currentTurn].CurrentPermittedMoves =
+                    _matchQueryUtility.MatchModel.NumberOfPermittedMovesInOneTurn;
+                OnTurnUpdate?.Invoke( _matchQueryUtility.MatchModel.Turn.Data);
+
+            }
+            
+            
+        }
+
+        yield return new WaitForSeconds(0.1f);
+    }
+    
     #endregion
 
     #region InputHandlers
@@ -153,6 +197,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     // but as public stuf are included in interface  and these are managed in region, its ok!
     public void PlayerCleared()
     {
+        ClearBoardColors();
     }
 
     public void PlayerSelectedOrigin(FieldCoordinate coordinate)
@@ -160,10 +205,13 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     }
 
 
-    public void PlayerSelectedWholeMove(ActionQuery actionQuery)
+    public void SelectedWholeMoveByPlayers(ActionQuery actionQuery)
     {
+        
     }
 
+   
+    
     #endregion
 
 

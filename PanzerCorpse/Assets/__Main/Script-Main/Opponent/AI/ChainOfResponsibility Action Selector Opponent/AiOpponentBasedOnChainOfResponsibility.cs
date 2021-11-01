@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class AiOpponentBasedOnChainOfResponsibility : BaseOpponent
 {
     [SerializeField] private ConditionActionList _condtionsList;
-    public override ActionQuery ApplyAction(GameState gameState)
+    [Inject] private AiTypes _aiType;
+    public override ActionQuery ApplyAction(MatchModel matchModel)
     {
-        throw new System.NotImplementedException();
+       
+        
     }
 }

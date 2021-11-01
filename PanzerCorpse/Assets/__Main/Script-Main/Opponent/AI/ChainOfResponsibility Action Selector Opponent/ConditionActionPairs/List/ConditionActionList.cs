@@ -7,5 +7,22 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ConditionActionList", menuName = "Config/Condition Action/List")]
 public class ConditionActionList : ScriptableObject
 {
-    public List<AiTypeConditionActionListPair> PlayerTypes;
+[SerializeField]    private List<AiTypeConditionActionListPair> PlayerTypes;
+
+public Dictionary<AiTypes, ConditionActionBase> _actionsDictionary
+{
+    get
+    {
+        
+    }
+    
+}
+
+public ActionQuery SelectBestAction(AiTypes aiType)
+{
+    
+}
+
+
+
 }

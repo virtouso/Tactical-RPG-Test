@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using tmpro
+using TMPro;
 public class TurnPopup : MonoBehaviour,ITurnPopup
 {
-    [SerializeField] private text _turnText;
-    [SerializeField] private Text _moveNumberText;
+    [SerializeField] private TextMeshProUGUI _turnText;
+    [SerializeField] private TextMeshProUGUI _moveNumberText;
 
     [SerializeField] private float _stayAliveTime; 
     

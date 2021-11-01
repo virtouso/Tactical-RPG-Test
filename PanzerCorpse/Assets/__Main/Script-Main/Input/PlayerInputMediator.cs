@@ -69,6 +69,11 @@ public class PlayerInputMediator : MonoBehaviour
         _cachedQuery = new ActionQuery(ActionType.Move, null, null,MatchPlayerType.Player);
         _inputHandler.PointerClicked += OnPointerClicked;
         _camera = Camera.main;
+        
+        _playerCleared+=  _gameStateManager.PlayerCleared;
+        _playerSelectedOrigin += _gameStateManager.PlayerSelectedOrigin;
+        _playerSelectedWholeAction += _gameStateManager.PlayerSelectedWholeMove;
+
     }
 
     private void Update()

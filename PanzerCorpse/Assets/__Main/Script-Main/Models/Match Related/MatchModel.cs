@@ -10,7 +10,7 @@ public class MatchModel
     public readonly int NumberOfPermittedMovesInOneTurn;
     public MatchModel()
     {
-        Turn = new Model<MatchPlayerType>(MatchPlayerType.Player);
+        Turn = new Model<MatchPlayerType>(MatchPlayerType.None);
         Players = new Dictionary<MatchPlayerType, MatchPlayer>(2);
         Players.Add(MatchPlayerType.Player,
             new MatchPlayer(MatchPlayerType.Player, "Not Init", 0, null, new List<FightingUnitMonoBase>()));

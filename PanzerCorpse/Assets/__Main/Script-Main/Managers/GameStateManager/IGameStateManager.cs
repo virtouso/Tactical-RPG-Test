@@ -13,8 +13,8 @@ public interface IGameStateManager
   void PlayerSelectedOrigin(FieldCoordinate coordinate);
 
 
-  void PlayerSelectedWholeMove(ActionQuery actionQuery);
-
+  void SelectedWholeMoveByPlayers(ActionQuery actionQuery);
+  System.Action<MatchPlayerType> OnTurnUpdate { get; set; }
 
 
 
