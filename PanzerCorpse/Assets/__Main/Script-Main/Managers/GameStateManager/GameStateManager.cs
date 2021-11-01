@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using Codice.Client.BaseCommands;
 using ModestTree;
 using UniRx;
@@ -11,8 +12,11 @@ using Zenject;
 
 public class GameStateManager : MonoBehaviour, IGameStateManager
 {
-    public bool PlayerCanPlay => _matchQueryUtility.MatchModel.Turn.Data == MatchPlayerType.Player;
+    public bool PlayerCanPlay => _matchQueryUtility.MatchModel.Turn.Data == MatchPlayerType.Player && !_updatingUi;
+
     public System.Action<MatchPlayerType> OnTurnUpdate { get; set; }
+    public System.Action<bool> ActionFinished { get; }
+    public System.Action<MatchPlayerType> OnGameFinished { get; }
 
     [Inject] private IUtilityMatchQueries _matchQueryUtility;
     [Inject] private IFightingUnitsList _fightingUnitsList;
@@ -22,9 +26,13 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     [Inject] private IUtilityMatchQueries _matchState;
     [Inject] private IUnitInitialPlacementConfig _initialPlacementConfig;
     [Inject] private HealthBarViewModel.Factory _healthBarFactory;
+    [Inject] private IMatchGeneralSettings _matchGeneralSettings;
     [Inject(Id = "Player")] private TowerBase _playerTowerBase;
     [Inject(Id = "Opponent")] private TowerBase _enemyTowerBase;
-   [SerializeField] private Transform _healthBarParent;
+
+
+    [SerializeField] private Transform _healthBarParent;
+    private bool _updatingUi;
 
     #region Main Utility
 
@@ -115,7 +123,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
                 _fightingUnitsList.PlayerMaterial,
                 Vector3.left);
             _matchState.MatchModel.Players[MatchPlayerType.Player].FightingUnits.Add(tankInstance);
-            AddHealthBarToUnit(tankInstance.CurrentState.HealthAmount ,tankInstance.transform);
+            AddHealthBarToUnit(tankInstance.CurrentState.HealthAmount, tankInstance.transform);
         }
     }
 
@@ -137,20 +145,39 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
                 _fightingUnitsList.OpponentMaterial,
                 Vector3.right);
             _matchState.MatchModel.Players[MatchPlayerType.Opponent].FightingUnits.Add(tankInstance);
-            AddHealthBarToUnit(tankInstance.CurrentState.HealthAmount ,tankInstance.transform);
+            AddHealthBarToUnit(tankInstance.CurrentState.HealthAmount, tankInstance.transform);
         }
     }
 
     private void AddHealthBarToUnit(Model<int> initialHealth, Transform referenceTransform)
     {
-       IHealthBarViewModel healthInstance = _healthBarFactory.Create();
-        healthInstance.Init(initialHealth, referenceTransform,_healthBarParent);
-        
+        IHealthBarViewModel healthInstance = _healthBarFactory.Create();
+        healthInstance.Init(initialHealth, referenceTransform, _healthBarParent);
     }
 
     private void ClearBoardColors()
     {
-        throw new NotImplementedException();
+        foreach (var item in _matchState.MatchModel.Board)
+        {
+            item.UpdateMaterial(_matchGeneralSettings.NormalMaterial);
+        }
+    }
+
+    private void ColorizeValidMoves(List<ActionQuery> validActions)
+    {
+        foreach (var item in validActions)
+        {
+            if (item.ActionType == ActionType.Shoot)
+            {
+                var currentHexPanel = _matchQueryUtility.MatchModel.Board[item.Goal.X, item.Goal.Y];
+                currentHexPanel.UpdateMaterial(_matchGeneralSettings.AttackMaterial);
+            }
+            else if (item.ActionType == ActionType.Move)
+            {
+                var currentHexPanel = _matchQueryUtility.MatchModel.Board[item.Goal.X, item.Goal.Y];
+                currentHexPanel.UpdateMaterial(_matchGeneralSettings.MoveMaterial);
+            }
+        }
     }
 
 
@@ -159,18 +186,18 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
         MatchPlayerType currentTurn = MatchPlayerType.None;
         if (isInitial)
         {
-            _matchQueryUtility.MatchModel.Turn.Data =(MatchPlayerType) UnityEngine.Random.Range(0, 1);
-            
-           currentTurn = _matchQueryUtility.MatchModel.Turn.Data;
+            _matchQueryUtility.MatchModel.Turn.Data = (MatchPlayerType)UnityEngine.Random.Range(0, 1);
+
+            currentTurn = _matchQueryUtility.MatchModel.Turn.Data;
             _matchQueryUtility.MatchModel.Players[currentTurn].CurrentPermittedMoves =
                 _matchQueryUtility.MatchModel.NumberOfPermittedMovesInOneTurn;
-            
-            OnTurnUpdate?.Invoke( _matchQueryUtility.MatchModel.Turn.Data);
+
+            OnTurnUpdate?.Invoke(_matchQueryUtility.MatchModel.Turn.Data);
         }
         else
         {
-          currentTurn = _matchQueryUtility.MatchModel.Turn.Data;
-            
+            currentTurn = _matchQueryUtility.MatchModel.Turn.Data;
+
             _matchQueryUtility.MatchModel.Players[currentTurn].CurrentPermittedMoves--;
 
             if (_matchQueryUtility.MatchModel.Players[currentTurn].CurrentPermittedMoves <= 0)
@@ -179,16 +206,13 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
 
                 _matchQueryUtility.MatchModel.Players[currentTurn].CurrentPermittedMoves =
                     _matchQueryUtility.MatchModel.NumberOfPermittedMovesInOneTurn;
-                OnTurnUpdate?.Invoke( _matchQueryUtility.MatchModel.Turn.Data);
-
+                OnTurnUpdate?.Invoke(_matchQueryUtility.MatchModel.Turn.Data);
             }
-            
-            
         }
 
         yield return new WaitForSeconds(0.1f);
     }
-    
+
     #endregion
 
     #region InputHandlers
@@ -202,15 +226,71 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
 
     public void PlayerSelectedOrigin(FieldCoordinate coordinate)
     {
+        var validMoves = _matchState.ListOfLegitMovesForCoordinate(coordinate);
+        if (validMoves == null)
+        {
+            ActionFinished?.Invoke(false);
+            ClearBoardColors();
+            return;
+        }
+
+        ColorizeValidMoves(validMoves);
     }
 
 
     public void SelectedWholeMoveByPlayers(ActionQuery actionQuery)
     {
-        
+        bool moveIsValid = _matchQueryUtility.CheckActionIsValid(actionQuery);
+
+        if (!moveIsValid)
+        {
+            ActionFinished?.Invoke(false);
+            ClearBoardColors();
+            return;
+        }
+
+        _updatingUi = true;
+        ApplyMoveCoroutine(actionQuery).SelectMany((query) => Observable.FromCoroutine(EmptyWait)).SelectMany(RemoveDeadUnits()).SelectMany(CheckMatchIsFinished()).SelectMany((winner) =>
+        {
+            if (winner == MatchPlayerType.None)
+            {
+                StartCoroutine(UpdateTurn(false));
+            }
+            else
+            {
+                OnGameFinished?.Invoke(winner);
+            }
+
+            return Observable.Return(true);
+        }).SelectMany((result) =>
+        {
+            _updatingUi = false;
+            return Observable.Return(_updatingUi);
+        }).Subscribe();
     }
 
-   
+    private IObservable<ActionQuery> ApplyMoveCoroutine(ActionQuery action)
+    {
+        _matchQueryUtility.ApplyMove(action);
+        return Observable.Return(action);
+    }
+
+    private IObservable<bool> RemoveDeadUnits()
+    {
+        _matchQueryUtility.RemoveDeadUnityFromList();
+        return Observable.Return(true);
+    }
+
+    private IObservable<MatchPlayerType> CheckMatchIsFinished()
+    {
+        MatchPlayerType result = _matchQueryUtility.CheckMatchIsFinished();
+        return Observable.Return(result);
+    }
+
+    private IEnumerator EmptyWait()
+    {
+        yield return new WaitForSeconds(3f);
+    }
     
     #endregion
 

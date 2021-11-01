@@ -16,5 +16,6 @@ public class GamePlaySceneInstaller : MonoInstaller
         Container.Bind<IGamePlayUiManager>().To<GamePlayUiManager>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<BaseAudioManager>().To<GamePlaySceneAudioManager>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<IOpponentManager>().To<OpponentManager>().FromComponentsInHierarchy().AsSingle();
+       
     }
 }

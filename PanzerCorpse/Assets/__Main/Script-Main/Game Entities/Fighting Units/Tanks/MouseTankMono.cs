@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class MouseTankMono : FightingUnitMonoBase
 {
-    public override IEnumerator PlayAttack()
+    protected override IEnumerator PlayAttack()
     {
         throw new System.NotImplementedException();
     }
 
-    public override void PlayMoveAnimation()
+    protected override IEnumerator PlayGetDamage()
     {
         throw new System.NotImplementedException();
     }
 
-    public override void StopMoveAnimation()
+    protected override IEnumerator PlayDeath()
     {
         throw new System.NotImplementedException();
     }
 
-    public override IEnumerator Move(Vector3 startPosition, Vector3 endPosition, float speed)
+   protected override IEnumerator Move(Vector3 startPosition, Vector3 endPosition, float speed)
     {
         throw new System.NotImplementedException();
     }

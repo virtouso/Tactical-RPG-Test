@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public abstract class FightingUnitMonoBase : MonoBehaviour
 {
     public FightingUnitPerLevelStats InitialStats;
     public FightingUnitCurrentStats CurrentState;
     [SerializeField] private MeshRenderer _body;
-
+    [SerializeField] private GameObject _deathEffect;
+    [SerializeField] private GameObject _takeDamageEffect;
+    [SerializeField] private GameObject _shootEffect;
+    [Inject] private IMatchGeneralSettings _generalSettings;
+    [Inject] private IUtilityMatchQueries _queryUtility;
     public Model<FieldCoordinate> FieldCoordinate;
 
 
@@ -28,12 +33,34 @@ public abstract class FightingUnitMonoBase : MonoBehaviour
     }
 
 
-    public abstract IEnumerator PlayAttack();
+    protected abstract IEnumerator PlayAttack();
+    protected abstract IEnumerator PlayGetDamage();
+    protected abstract IEnumerator PlayDeath();
 
+    protected abstract IEnumerator Move(Vector3 startPosition, Vector3 endPosition, float speed);
 
-    public abstract void PlayMoveAnimation();
-    public abstract void StopMoveAnimation();
+    private void OnCoordinateChange(FieldCoordinate coord)
+    {
+        Vector3 destination = _queryUtility.GetHexPanelPosition(coord);
+        StartCoroutine(Move(transform.position, destination, _generalSettings.UnitsMoveSpeed));
+    }
 
+    public void OnAttack()
+    {
+        StartCoroutine(PlayAttack());
+    }
 
-    public abstract IEnumerator Move(Vector3 startPosition, Vector3 endPosition, float speed);
+    private void OnGetDamage(int health)
+    {
+        if (health > 0)
+            StartCoroutine(PlayGetDamage());
+        else
+            StartCoroutine(PlayDeath());
+    }
+
+    private void Start()
+    {
+        FieldCoordinate.Action += OnCoordinateChange;
+        CurrentState.HealthAmount.Action += OnGetDamage;
+    }
 }

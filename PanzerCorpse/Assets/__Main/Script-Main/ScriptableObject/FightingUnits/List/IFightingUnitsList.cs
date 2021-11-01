@@ -5,7 +5,8 @@ using UnityEngine;
 public interface IFightingUnitsList 
 {
      Dictionary<FightingUnitNamesEnum, FightingUnitConfigBase> FightingUnits { get; }
-     public Material OpponentMaterial { get; }
-     public Material PlayerMaterial { get; }
+     Material OpponentMaterial { get; }
+     Material PlayerMaterial { get; }
+    
      
 }

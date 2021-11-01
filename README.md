@@ -11,7 +11,7 @@ here is a simple video that shows how game is running:
 - there is only one *GamePlayLogic* scene that all logic of offline match is imlemented in there
 - theme scenes are added additively to the *logic scene*  to have different theme maps
 - right now we have  *Desert* and *Jungle* maps
-- 
+
 
 #### GameFlow Management
 - there is *GameStateManager* that handles the state of the game. there is a *GameState* class that holdes state of the match all needed data to run the match is in there.
@@ -49,6 +49,7 @@ here is a simple video that shows how game is running:
 - there is good use of oop and classes are short
 - used fail-fast approach and tried dont placing any exception-handler or null checking to be able to solve problem fast.
 - seperated assemblies to seperate team or programmer codes form other plugins
+- basically functions that return null are bad but i used many times. but its not bad by fail-fast approach.
 
 ## Design Patterns 
 #### Dependency Injection

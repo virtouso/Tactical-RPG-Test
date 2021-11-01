@@ -41,4 +41,6 @@ public class FightingUnitsList : ScriptableObject,IFightingUnitsList
     [SerializeField] private Material _opponentMaterial;
     public Material OpponentMaterial => _opponentMaterial;
 
+  
+    
 }

@@ -72,7 +72,7 @@ public class PlayerInputMediator : MonoBehaviour
         
         _playerCleared+=  _gameStateManager.PlayerCleared;
         _playerSelectedOrigin += _gameStateManager.PlayerSelectedOrigin;
-        _playerSelectedWholeAction += _gameStateManager.PlayerSelectedWholeMove;
+        _playerSelectedWholeAction += _gameStateManager.SelectedWholeMoveByPlayers;
 
     }
 

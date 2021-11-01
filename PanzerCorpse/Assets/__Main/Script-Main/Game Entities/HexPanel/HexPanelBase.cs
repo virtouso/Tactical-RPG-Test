@@ -10,6 +10,8 @@ public abstract class HexPanelBase : MonoBehaviour
 
     public abstract void SetPosition(Vector3 position);
 
+    public abstract void UpdateMaterial(Material newMaterial);
+
 }
 
 

@@ -1651,6 +1651,7 @@ GameObject:
   - component: {fileID: 7244280440355476982}
   - component: {fileID: 7244280440355606384}
   - component: {fileID: 3207846556957244879}
+  - component: {fileID: -764029148327169572}
   m_Layer: 0
   m_Name: TigerTank
   m_TagString: Untagged
@@ -1712,9 +1713,6 @@ MonoBehaviour:
     HealthAmount: 0
     MovingUnitsInTurn: 0
   _body: {fileID: 7244280440353707806}
-  FieldCoordinate:
-    X: 0
-    Y: 0
   _animator: {fileID: 3207846556957244879}
 --- !u!95 &3207846556957244879
 Animator:
@@ -1735,6 +1733,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-764029148327169572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7244280440355637718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
 --- !u!1 &7244280440355637720
 GameObject:
   m_ObjectHideFlags: 0
