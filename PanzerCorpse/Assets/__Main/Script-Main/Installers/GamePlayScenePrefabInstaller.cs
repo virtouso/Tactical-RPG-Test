@@ -4,15 +4,17 @@ using Zenject;
 
 public class GamePlayScenePrefabInstaller : MonoInstaller
 {
+    
     [SerializeField] private FightingUnitsList _fightingUnitsListReference;
     [SerializeField] private HexPanel _hexPanelPrefab;
     [SerializeField] private HealthBarViewModel _healthBarPrefab;
     [SerializeField] private UnitInitialPlacementConfig _placementConfig;
-
+    [SerializeField] private Transform _healthBarCanvas;
     public override void InstallBindings()
     {
         Container.Bind<HexPanelBase>().To<HexPanel>().FromInstance(_hexPanelPrefab).AsSingle();
-        Container.Bind<IHealthBarViewModel>().To<HealthBarViewModel>().FromInstance(_healthBarPrefab).AsSingle();
+      //  Container.Bind<IHealthBarViewModel>().To<HealthBarViewModel>().FromMethod(GenerateHealthBar).AsTransient();
+      Container.BindFactory<HealthBarViewModel, HealthBarViewModel.Factory>().FromComponentInNewPrefab(_healthBarPrefab).AsTransient();
 
 
         Container.Bind<TowerBase>().WithId("Player").To<Tower>()
@@ -27,4 +29,12 @@ public class GamePlayScenePrefabInstaller : MonoInstaller
             .FromScriptableObject(_placementConfig).AsSingle();
 
     }
+
+
+    private HealthBarViewModel GenerateHealthBar()
+    {
+        return Instantiate(_healthBarPrefab,_healthBarCanvas);
+    }
+    
+    
 }

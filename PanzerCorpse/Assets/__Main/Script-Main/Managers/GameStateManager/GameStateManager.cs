@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Codice.Client.BaseCommands;
+using ModestTree;
 using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using Zenject;
 
 public class GameStateManager : MonoBehaviour, IGameStateManager
 {
+    public bool PlayerCanPlay => _matchQueryUtility.MatchModel.Turn.Data == MatchPlayerType.Player;
 
-    public bool PlayerCanPlay => _matchQueryUtility.MatchModel.Turn.Data == MatchPlayerType.Player; 
-    
     [Inject] private IUtilityMatchQueries _matchQueryUtility;
     [Inject] private IFightingUnitsList _fightingUnitsList;
     [Inject] private IGameDataManager _gameDataManager;
@@ -17,12 +19,11 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     [Inject] private IGamePlayCamera _gamePlayCamera;
     [Inject] private IUtilityMatchQueries _matchState;
     [Inject] private IUnitInitialPlacementConfig _initialPlacementConfig;
-
+    [Inject] private HealthBarViewModel.Factory _healthBarFactory;
     [Inject(Id = "Player")] private TowerBase _playerTowerBase;
     [Inject(Id = "Opponent")] private TowerBase _enemyTowerBase;
+   [SerializeField] private Transform _healthBarParent;
 
-    
-    
     #region Main Utility
 
     private void StartMatch()
@@ -64,11 +65,13 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
         int yPosition = _matchState.MatchModel.Board.GetLength(1) / 2;
         FieldCoordinate selectedCoordinate = new FieldCoordinate(xPosition, yPosition);
         Vector3 placedPosition = _matchState.MatchModel.Board[xPosition, yPosition].Position;
-        
-        TowerBase tower=   Instantiate(_playerTowerBase, placedPosition, Quaternion.identity);
-        tower.Init(placedPosition,selectedCoordinate,new TowerCurrentStats(new Model<int>(100)));
+
+        TowerBase tower = Instantiate(_playerTowerBase, placedPosition, Quaternion.identity);
+        var stats = new TowerCurrentStats(new Model<int>(100));
+        tower.Init(placedPosition, selectedCoordinate, stats);
         _matchState.MatchModel.Players[MatchPlayerType.Player].TowerBase = tower;
 
+        AddHealthBarToUnit(stats.Health, tower.transform);
     }
 
     private IEnumerator PlayCameraStartAnimation()
@@ -84,8 +87,10 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
         FieldCoordinate selectedCoordinate = new FieldCoordinate(xPosition, yPosition);
         Vector3 placedPosition = _matchState.MatchModel.Board[xPosition, yPosition].Position;
         TowerBase tower = Instantiate(_enemyTowerBase, placedPosition, Quaternion.identity);
-        tower.Init(placedPosition, selectedCoordinate, new TowerCurrentStats(new Model<int>(100)));
+        var stats = new TowerCurrentStats(new Model<int>(100));
+        tower.Init(placedPosition, selectedCoordinate, stats);
         _matchState.MatchModel.Players[MatchPlayerType.Player].TowerBase = tower;
+        AddHealthBarToUnit(stats.Health, tower.transform);
     }
 
     private IEnumerator GeneratePlayerUnits()
@@ -107,6 +112,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
                 _fightingUnitsList.PlayerMaterial,
                 Vector3.left);
             _matchState.MatchModel.Players[MatchPlayerType.Player].FightingUnits.Add(tankInstance);
+            AddHealthBarToUnit(tankInstance.CurrentState.HealthAmount ,tankInstance.transform);
         }
     }
 
@@ -128,37 +134,39 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
                 _fightingUnitsList.OpponentMaterial,
                 Vector3.right);
             _matchState.MatchModel.Players[MatchPlayerType.Opponent].FightingUnits.Add(tankInstance);
+            AddHealthBarToUnit(tankInstance.CurrentState.HealthAmount ,tankInstance.transform);
         }
+    }
+
+    private void AddHealthBarToUnit(Model<int> initialHealth, Transform referenceTransform)
+    {
+       IHealthBarViewModel healthInstance = _healthBarFactory.Create();
+        healthInstance.Init(initialHealth, referenceTransform,_healthBarParent);
+        
     }
 
     #endregion
 
     #region InputHandlers
-    
+
     // i know its better to place  public functions on top of class
     // but as public stuf are included in interface  and these are managed in region, its ok!
     public void PlayerCleared()
     {
-        
     }
 
     public void PlayerSelectedOrigin(FieldCoordinate coordinate)
     {
-        
     }
 
 
     public void PlayerSelectedWholeMove(ActionQuery actionQuery)
     {
-        
     }
 
-    
-
     #endregion
-    
-    
-    
+
+
     #region Unity Callbacks
 
     private void Start()
@@ -167,6 +175,4 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     }
 
     #endregion
-
-  
 }

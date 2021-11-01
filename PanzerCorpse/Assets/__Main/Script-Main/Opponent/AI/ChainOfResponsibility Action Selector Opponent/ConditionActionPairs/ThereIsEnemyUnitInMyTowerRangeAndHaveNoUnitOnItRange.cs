@@ -36,7 +36,7 @@ public class ThereIsEnemyUnitInMyTowerRangeAndHaveNoUnitOnItRange : ConditionAct
         if (myNearUnitToEnemy == null) return null;
 
         return new ActionQuery(ActionType.Shoot, myNearUnitToEnemy.FieldCoordinate.Data,
-            nearPlayerUnitToMyTower.FieldCoordinate.Data);
+            nearPlayerUnitToMyTower.FieldCoordinate.Data,MatchPlayerType.Opponent);
 
 
     }

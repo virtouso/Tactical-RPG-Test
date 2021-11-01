@@ -5,6 +5,8 @@ public class GamePlaySceneInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
+        Container.Bind<ITurnPopup>().To<TurnPopup>().FromComponentsInHierarchy().AsSingle();
+        Container.Bind<InputHandlerBase>().To<WindowsInputHandler>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<IGamePlayCamera>().To<GamePlayCamera>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<IHexMapGenerator>().To<HexMapGenerator>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<IGamePlayMainManager>().To<GamePlayMainManager>().FromComponentsInHierarchy().AsSingle();

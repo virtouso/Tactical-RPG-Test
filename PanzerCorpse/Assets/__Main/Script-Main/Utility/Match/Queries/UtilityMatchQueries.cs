@@ -190,6 +190,38 @@ public class UtilityMatchQueries : IUtilityMatchQueries
         }
     }
 
+    public bool CheckCoordinateIsInsideBoard(FieldCoordinate coordinate)
+    {
+        bool insideX = coordinate.X >= 0 && coordinate.X < _matchModel.Board.GetLength(0);
+        bool insideY = coordinate.Y >= 0 && coordinate.Y < _matchModel.Board.GetLength(1);
+
+        return insideX && insideY;
+    }
+
+    public bool CheckHexPanelIsMasked(FieldCoordinate coordinate)
+    {
+        if (_utilityMatchGeneral.Check2CoordinatesAreEqual(coordinate,
+            _matchModel.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate)) return true;
+        
+        if (_utilityMatchGeneral.Check2CoordinatesAreEqual(coordinate,
+            _matchModel.Players[MatchPlayerType.Opponent].TowerBase.FieldCoordinate)) return true;
+
+        foreach (var item in _matchModel.Players[MatchPlayerType.Player].FightingUnits)
+        {
+            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(item.FieldCoordinate.Data, coordinate))
+                return true;
+        }
+
+        foreach (var item in _matchModel.Players[MatchPlayerType.Opponent].FightingUnits)
+        {
+            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(item.FieldCoordinate.Data, coordinate))
+                return true;
+        }
+        
+        
+        return false;
+    }
+
     public void UpdateTurnState()
     {
         _matchModel.Players[_matchModel.Turn.Data].CurrentPermittedMoves--;

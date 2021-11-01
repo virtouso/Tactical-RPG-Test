@@ -15,8 +15,9 @@ public class Tower : TowerBase
 
     private FieldCoordinate _fieldCoordinate;
     public FieldCoordinate FieldCoordinate => FieldCoordinate;
+    
+    
     private TowerCurrentStats _towerCurrentStats;
-
     public TowerCurrentStats TowerCurrentStats
     {
         get => _towerCurrentStats;

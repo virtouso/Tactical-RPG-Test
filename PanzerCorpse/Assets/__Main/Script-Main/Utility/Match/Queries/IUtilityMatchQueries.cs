@@ -11,5 +11,9 @@ public interface IUtilityMatchQueries
     List<ActionQuery> ListOfLegitMovesForCoordinate(FieldCoordinate coordinate);
     MatchPlayerType CheckMatchIsFinished();
     void ApplyMove(ActionQuery actionQuery);
+
+    bool CheckCoordinateIsInsideBoard(FieldCoordinate coordinate);
+    
+    bool CheckHexPanelIsMasked(FieldCoordinate coordinate);
     void UpdateTurnState();
 }

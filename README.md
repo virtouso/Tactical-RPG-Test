@@ -48,6 +48,7 @@ here is a simple video that shows how game is running:
 - there are many rules for naming and formating the code but i used rider/resharper default conventions
 - there is good use of oop and classes are short
 - used fail-fast approach and tried dont placing any exception-handler or null checking to be able to solve problem fast.
+- seperated assemblies to seperate team or programmer codes form other plugins
 
 ## Design Patterns 
 #### Dependency Injection
@@ -80,3 +81,10 @@ its a great tool for making sequential events and making web requests and corout
 ### Other:
 - environment and tanks 3d models assets
 - addressables to manage memory and asset loading
+
+
+## Things Could be better
+#### including a localization plugin(is its not a complete simulation its ignored).can simply write a component to read value of current language reference to a key(guid) and update it or implement an interface and implement different languages(not good idea, causes discrepancy) 
+#### make shared functionality in some function  in seperate functions to have more DRY code.
+#### could use pooling but as object get instantiate at the start and there are not too many, it was not needed.
+#### tanks and towers are not injected so they are not accessible to DI framework

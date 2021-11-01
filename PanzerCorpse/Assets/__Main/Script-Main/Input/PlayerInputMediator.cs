@@ -66,7 +66,7 @@ public class PlayerInputMediator : MonoBehaviour
 
     private void Start()
     {
-        _cachedQuery = new ActionQuery(ActionType.Move, null, null);
+        _cachedQuery = new ActionQuery(ActionType.Move, null, null,MatchPlayerType.Player);
         _inputHandler.PointerClicked += OnPointerClicked;
         _camera = Camera.main;
     }

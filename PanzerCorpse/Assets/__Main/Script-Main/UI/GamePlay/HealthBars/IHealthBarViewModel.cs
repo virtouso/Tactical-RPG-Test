@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IHealthBarViewModel
 {
-    public void Init(Model<int> currentHealth, Transform referenceEntity);
+    public abstract void Init(Model<int> currentHealth, Transform referenceEntity,Transform parent);
 }
