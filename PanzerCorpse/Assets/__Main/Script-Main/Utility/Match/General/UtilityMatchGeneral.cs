@@ -18,6 +18,7 @@ public class UtilityMatchGeneral : IUtilityMatchGeneral
 
     public bool Check2CoordinatesAreEqual(FieldCoordinate source, FieldCoordinate destination)
     {
+        
         return source.X == destination.X && source.Y == destination.Y;
     }
 

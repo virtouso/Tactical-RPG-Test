@@ -7,7 +7,7 @@ using UnityEngine;
     menuName = "Config/Condition Action/ThereIsEnemyUnitInMyTowerRangeAndIHaveUnitOnItRange")]
 public class ThereIsEnemyUnitInMyTowerRangeAndIHaveUnitOnItRange : ConditionActionBase
 {
-    public override ActionQuery Execute(MatchModel matchState)
+    public override ActionQuery Execute(MatchModel matchState,IUtilityMatchGeneral generalMatchUtility,IUtilityMatchQueries queryMatchUtility)
     {
         FightingUnitMonoBase enemyNearMyTower = null;
 
@@ -15,7 +15,7 @@ public class ThereIsEnemyUnitInMyTowerRangeAndIHaveUnitOnItRange : ConditionActi
         List<FightingUnitMonoBase> enemyUnits = matchState.Players[MatchPlayerType.Player].FightingUnits;
         foreach (var item in enemyUnits)
         {
-            int distance = _generalMatchUtility.CalculateDistanceBetween2Coordinates(
+            int distance = generalMatchUtility.CalculateDistanceBetween2Coordinates(
                 myTower.FieldCoordinate, item.FieldCoordinate.Data);
             if (distance < item.CurrentState.MovingUntsInTurn.Data)
             {
@@ -30,11 +30,11 @@ public class ThereIsEnemyUnitInMyTowerRangeAndIHaveUnitOnItRange : ConditionActi
         List<FightingUnitMonoBase> myUnits = matchState.Players[MatchPlayerType.Opponent].FightingUnits;
 
         FightingUnitMonoBase myNearestUnitToEnemy = myUnits[0];
-        int minDistance = _generalMatchUtility.CalculateDistanceBetween2Coordinates(
+        int minDistance = generalMatchUtility.CalculateDistanceBetween2Coordinates(
             myNearestUnitToEnemy.FieldCoordinate.Data, enemyNearMyTower.FieldCoordinate.Data);
         foreach (var item in myUnits)
         {
-            int distance = _generalMatchUtility.CalculateDistanceBetween2Coordinates(
+            int distance = generalMatchUtility.CalculateDistanceBetween2Coordinates(
                 enemyNearMyTower.FieldCoordinate.Data,
                 item.FieldCoordinate.Data);
             if (distance < minDistance)
@@ -45,7 +45,7 @@ public class ThereIsEnemyUnitInMyTowerRangeAndIHaveUnitOnItRange : ConditionActi
         }
 
 
-        FieldCoordinate destination = _generalMatchUtility.MoveToDestination(
+        FieldCoordinate destination = generalMatchUtility.MoveToDestination(
             myNearestUnitToEnemy.CurrentState.MovingUntsInTurn.Data,
             myNearestUnitToEnemy.FieldCoordinate.Data, enemyNearMyTower.FieldCoordinate.Data);
 
@@ -53,9 +53,9 @@ public class ThereIsEnemyUnitInMyTowerRangeAndIHaveUnitOnItRange : ConditionActi
         {
             for (int j = destination.Y - 1; j < destination.Y + 1; j++)
             {
-                bool inField = _queryMatchUtility.CheckCoordinateIsInsideBoard(new FieldCoordinate(i, j));
+                bool inField = queryMatchUtility.CheckCoordinateIsInsideBoard(new FieldCoordinate(i, j));
                 if (!inField) continue;
-                bool isMasked = _queryMatchUtility.CheckHexPanelIsMasked(new FieldCoordinate(i, j));
+                bool isMasked = queryMatchUtility.CheckHexPanelIsMasked(new FieldCoordinate(i, j));
                 if (isMasked) continue;
                 return new ActionQuery(ActionType.Move, myNearestUnitToEnemy.FieldCoordinate.Data,
                     new FieldCoordinate(i, j), MatchPlayerType.Opponent);

@@ -7,7 +7,7 @@ using UnityEngine;
     menuName = "Config/Condition Action/ThereIsEnemyUnitInRangeOfOneOfMyUnits")]
 public class ThereIsEnemyUnitInRangeOfOneOfMyUnits : ConditionActionBase
 {
-    public override ActionQuery Execute(MatchModel matchState)
+    public override ActionQuery Execute(MatchModel matchState,IUtilityMatchGeneral generalMatchUtility,IUtilityMatchQueries queryMatchUtility)
     {
         foreach (var myUnit in matchState.Players[MatchPlayerType.Opponent].FightingUnits)
         {
@@ -16,7 +16,7 @@ public class ThereIsEnemyUnitInRangeOfOneOfMyUnits : ConditionActionBase
                 FieldCoordinate playerUnitCoord = playerUnit.FieldCoordinate.Data;
                 FieldCoordinate myUnitCoord = myUnit.FieldCoordinate.Data;
 
-                int distance = _generalMatchUtility.CalculateDistanceBetween2Coordinates(playerUnitCoord, myUnitCoord);
+                int distance = generalMatchUtility.CalculateDistanceBetween2Coordinates(playerUnitCoord, myUnitCoord);
                 if (distance <= myUnit.CurrentState.MovingUntsInTurn.Data)
                 {
                     return new ActionQuery(ActionType.Shoot,myUnitCoord,playerUnitCoord,MatchPlayerType.Opponent);

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ModestTree;
 using UnityEngine;
 
 public abstract class TowerBase : MonoBehaviour
@@ -7,15 +8,19 @@ public abstract class TowerBase : MonoBehaviour
     [SerializeField] private GameObject _damageEffect;
     [SerializeField] private GameObject _destroyEffect;
     
+    [SerializeField] private AudioSource _damageSound;
+    [SerializeField] private AudioSource _destroySound;
+    
     public abstract void Init(Vector3 position, FieldCoordinate coordinate, TowerCurrentStats initStats);
 
     public Vector3 Position { get; }
     public FieldCoordinate FieldCoordinate { get; }
+
     public TowerCurrentStats TowerCurrentStats { get; set; }
 
 
 
-    private void OnGetDamage(int health)
+    protected void OnGetDamage(int health)
     {
         if (health > 0)
             StartCoroutine(ApplyDamage());
@@ -38,9 +43,6 @@ public abstract class TowerBase : MonoBehaviour
     }
 
 
-    private void Start()
-    {
-        TowerCurrentStats.Health.Action += OnGetDamage;
-    }
     
+   
 }

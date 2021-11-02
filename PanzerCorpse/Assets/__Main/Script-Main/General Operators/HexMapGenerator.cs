@@ -55,7 +55,7 @@ public class HexMapGenerator : MonoBehaviour, IHexMapGenerator
         {
             for (int x = 0; x < _fieldSize.X; x++)
             {
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSeconds(0.005f);
                 HexPanelBase hexPanel = GameObject.Instantiate(_hexPrefab);
                 FieldCoordinate gridPos = new FieldCoordinate(x, y);
                 hexPanel.SetPosition(CalculateWorldPosition(gridPos));

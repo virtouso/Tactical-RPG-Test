@@ -19,8 +19,11 @@ public class PlayerInputMediator : MonoBehaviour
     private Action _playerCleared;
     private Action<FieldCoordinate> _playerSelectedOrigin;
     private Action<ActionQuery> _playerSelectedWholeAction;
+
     private void OnPointerClicked()
     {
+        if (!_gameStateManager.PlayerCanPlay) return;
+        Debug.Log("pointer clicked called");
         HexPanelBase selectedPanel = SelectHexPanelUnderMouse();
         if (selectedPanel == null)
         {
@@ -30,12 +33,12 @@ public class PlayerInputMediator : MonoBehaviour
         }
         else
         {
-            if (_cachedQuery.Current == null && _cachedQuery.Goal== null)
+            if (_cachedQuery.Current == null && _cachedQuery.Goal == null)
             {
                 _cachedQuery.Current = selectedPanel.FieldCoordinate;
                 _playerSelectedOrigin.Invoke(selectedPanel.FieldCoordinate);
             }
-            else if (_cachedQuery.Current != null && _cachedQuery.Goal== null)
+            else if (_cachedQuery.Current != null && _cachedQuery.Goal == null)
             {
                 _cachedQuery.Goal = selectedPanel.FieldCoordinate;
                 _playerSelectedWholeAction.Invoke(_cachedQuery);
@@ -43,9 +46,7 @@ public class PlayerInputMediator : MonoBehaviour
                 _cachedQuery.Current = null;
                 _cachedQuery.Goal = null;
             }
-            
         }
-        
     }
 
 
@@ -56,7 +57,8 @@ public class PlayerInputMediator : MonoBehaviour
         Ray ray = _camera.ScreenPointToRay(_inputHandler.PointerPosition);
         bool hitPanel = Physics.Raycast(ray, out RaycastHit hit, _panelLayerMask);
         if (!hitPanel) return null;
-        return hit.transform.GetComponent<HexPanelBase>();
+        var result= hit.collider.transform.parent.GetComponent<HexPanel>();
+        return result;
     }
 
     #endregion
@@ -66,21 +68,16 @@ public class PlayerInputMediator : MonoBehaviour
 
     private void Start()
     {
-        _cachedQuery = new ActionQuery(ActionType.Move, null, null,MatchPlayerType.Player);
+        _cachedQuery = new ActionQuery(ActionType.Move, null, null, MatchPlayerType.Player);
         _inputHandler.PointerClicked += OnPointerClicked;
         _camera = Camera.main;
-        
-        _playerCleared+=  _gameStateManager.PlayerCleared;
+        _playerCleared += _gameStateManager.PlayerCleared;
         _playerSelectedOrigin += _gameStateManager.PlayerSelectedOrigin;
         _playerSelectedWholeAction += _gameStateManager.SelectedWholeMoveByPlayers;
-
     }
 
     private void Update()
     {
-        if (_gameStateManager.PlayerCanPlay is false)
-            return;
-      
     }
 
     #endregion

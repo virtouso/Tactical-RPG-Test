@@ -32,14 +32,14 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
 
 
     [SerializeField] private Transform _healthBarParent;
-    private bool _updatingUi;
+    private bool _updatingUi = true;
 
     #region Main Utility
 
     private void StartMatch()
     {
         StartCoroutine(PlayCameraStartAnimation());
-
+        _updatingUi = true;
         Observable.FromCoroutine(LoadThemeScene)
             .SelectMany(GenerateField)
             .SelectMany(GeneratePlayerTower)
@@ -47,7 +47,18 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
             .SelectMany(GeneratePlayerUnits)
             .SelectMany(GenerateOpponentUnits)
             .SelectMany(UpdateTurn(true))
+            .SelectMany((result) =>
+            {
+                _updatingUi = false;
+                return Observable.Return(_updatingUi);
+            }).SelectMany((result) =>
+            {
+                Debug.Log("something");
+                var test = _matchQueryUtility.MatchModel;
+                return Observable.Return(true);
+            })
             .Subscribe();
+        
     }
 
     #endregion
@@ -100,7 +111,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
         TowerBase tower = Instantiate(_enemyTowerBase, placedPosition, Quaternion.identity);
         var stats = new TowerCurrentStats(new Model<int>(100));
         tower.Init(placedPosition, selectedCoordinate, stats);
-        _matchState.MatchModel.Players[MatchPlayerType.Player].TowerBase = tower;
+        _matchState.MatchModel.Players[MatchPlayerType.Opponent].TowerBase = tower;
         AddHealthBarToUnit(stats.Health, tower.transform);
     }
 
@@ -186,7 +197,8 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
         MatchPlayerType currentTurn = MatchPlayerType.None;
         if (isInitial)
         {
-            _matchQueryUtility.MatchModel.Turn.Data = (MatchPlayerType)UnityEngine.Random.Range(0, 1);
+            _matchQueryUtility.MatchModel.Turn.Data =
+                MatchPlayerType.Player; //(MatchPlayerType)UnityEngine.Random.Range(0, 1);
 
             currentTurn = _matchQueryUtility.MatchModel.Turn.Data;
             _matchQueryUtility.MatchModel.Players[currentTurn].CurrentPermittedMoves =
@@ -250,23 +262,24 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
         }
 
         _updatingUi = true;
-        ApplyMoveCoroutine(actionQuery).SelectMany((query) => Observable.FromCoroutine(EmptyWait)).SelectMany(RemoveDeadUnits()).SelectMany(CheckMatchIsFinished()).SelectMany((winner) =>
-        {
-            if (winner == MatchPlayerType.None)
+        ApplyMoveCoroutine(actionQuery).SelectMany((query) => Observable.FromCoroutine(EmptyWait))
+            .SelectMany(RemoveDeadUnits()).SelectMany(CheckMatchIsFinished()).SelectMany((winner) =>
             {
-                StartCoroutine(UpdateTurn(false));
-            }
-            else
-            {
-                OnGameFinished?.Invoke(winner);
-            }
+                if (winner == MatchPlayerType.None)
+                {
+                    StartCoroutine(UpdateTurn(false));
+                }
+                else
+                {
+                    OnGameFinished?.Invoke(winner);
+                }
 
-            return Observable.Return(true);
-        }).SelectMany((result) =>
-        {
-            _updatingUi = false;
-            return Observable.Return(_updatingUi);
-        }).Subscribe();
+                return Observable.Return(true);
+            }).SelectMany((result) =>
+            {
+                _updatingUi = false;
+                return Observable.Return(_updatingUi);
+            }).Subscribe();
     }
 
     private IObservable<ActionQuery> ApplyMoveCoroutine(ActionQuery action)
@@ -291,7 +304,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     {
         yield return new WaitForSeconds(3f);
     }
-    
+
     #endregion
 
 

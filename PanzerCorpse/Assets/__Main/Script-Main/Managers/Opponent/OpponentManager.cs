@@ -15,6 +15,7 @@ public class OpponentManager :MonoBehaviour, IOpponentManager
 
     private void CheckMyTurn(MatchPlayerType playerTurn)
     {
+        if (playerTurn != MatchPlayerType.Opponent) return;
         ActionQuery opponentSelectedAction = _opponent.ApplyAction(_utilityMatchQueries.MatchModel);
         _gameStateManager.SelectedWholeMoveByPlayers(opponentSelectedAction);
         

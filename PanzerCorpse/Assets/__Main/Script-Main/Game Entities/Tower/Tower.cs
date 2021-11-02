@@ -23,4 +23,19 @@ public class Tower : TowerBase
         get => _towerCurrentStats;
         set => _towerCurrentStats = value;
     }
+    
+    
+    
+    private void Start()
+    {
+        StartCoroutine(StartDelayed());
+    }
+
+    private IEnumerator StartDelayed()
+    {
+        yield return new  WaitForEndOfFrame();
+        TowerCurrentStats.Health.Action += OnGetDamage;
+
+    }
+    
 }

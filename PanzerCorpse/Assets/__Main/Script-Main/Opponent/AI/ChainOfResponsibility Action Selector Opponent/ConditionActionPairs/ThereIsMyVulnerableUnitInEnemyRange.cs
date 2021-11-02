@@ -7,7 +7,7 @@ using UnityEngine;
     menuName = "Config/Condition Action/ThereIsMyVulnerableUnityInEnemyRange")]
 public class ThereIsMyVulnerableUnitInEnemyRange : ConditionActionBase
 {
-    public override ActionQuery Execute(MatchModel matchState)
+    public override ActionQuery Execute(MatchModel matchState,IUtilityMatchGeneral generalMatchUtility,IUtilityMatchQueries queryMatchUtility)
     {
         var myUnits = matchState.Players[MatchPlayerType.Opponent].FightingUnits;
         var enemyUnits = matchState.Players[MatchPlayerType.Player].FightingUnits;
@@ -20,7 +20,7 @@ public class ThereIsMyVulnerableUnitInEnemyRange : ConditionActionBase
             {
                 bool myUnitIsVulnerable =
                     myUnit.CurrentState.HealthAmount.Data <= enemyUnit.CurrentState.DamageAmount.Data;
-                bool inRange = _generalMatchUtility.CalculateDistanceBetween2Coordinates(
+                bool inRange = generalMatchUtility.CalculateDistanceBetween2Coordinates(
                     myUnit.FieldCoordinate.Data, enemyUnit.FieldCoordinate.Data
                 ) <= enemyUnit.CurrentState.MovingUntsInTurn.Data;
 
@@ -42,13 +42,13 @@ public class ThereIsMyVulnerableUnitInEnemyRange : ConditionActionBase
         {
             for (int j = myVulnerableUnit.FieldCoordinate.Data.Y-3; j < myVulnerableUnit.FieldCoordinate.Data.X+3; j++)
             {
-                int newDistance = _generalMatchUtility.CalculateDistanceBetween2Coordinates(
+                int newDistance = generalMatchUtility.CalculateDistanceBetween2Coordinates(
                     selectedEnemyUnit.FieldCoordinate.Data, new FieldCoordinate(i,j));
 
                 bool stillInDanger = newDistance <= selectedEnemyUnit.CurrentState.MovingUntsInTurn.Data;
 
-                bool hexInBoard = _queryMatchUtility.CheckCoordinateIsInsideBoard(new FieldCoordinate(i, j));
-                bool hexMasked = _queryMatchUtility.CheckHexPanelIsMasked(new FieldCoordinate(i, j));
+                bool hexInBoard = queryMatchUtility.CheckCoordinateIsInsideBoard(new FieldCoordinate(i, j));
+                bool hexMasked = queryMatchUtility.CheckHexPanelIsMasked(new FieldCoordinate(i, j));
 
                 if (!stillInDanger && hexInBoard && !hexMasked)
                 {

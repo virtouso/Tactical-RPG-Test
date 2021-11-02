@@ -12,7 +12,7 @@ public class GamePlayUiManager : MonoBehaviour, IGamePlayUiManager
 
     private void ShowTurnPopUp(MatchPlayerType matchPlayer)
     {
-        _turnPopup.ShowTurnMessage(matchPlayer,_utilityMatchQueries.MatchModel.NumberOfPermittedMovesInOneTurn);
+      StartCoroutine(  _turnPopup.ShowTurnMessage(matchPlayer,_utilityMatchQueries.MatchModel.NumberOfPermittedMovesInOneTurn));
     }
 
     private void ShowFinalMessage(MatchPlayerType matchPlayer)

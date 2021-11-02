@@ -7,11 +7,11 @@ using UnityEngine;
 public class ThereIsEnemyTowerInRangeOfOneOfMyUnits : ConditionActionBase
 {
     // could cache to variables to make lines shorter.
-    public override ActionQuery Execute(MatchModel matchState)
+    public override ActionQuery Execute(MatchModel matchState,IUtilityMatchGeneral generalMatchUtility,IUtilityMatchQueries queryMatchUtility)
     {
         foreach (var item in matchState.Players[MatchPlayerType.Opponent].FightingUnits)
         {
-            int distanceToTower = _generalMatchUtility.
+            int distanceToTower = generalMatchUtility.
                 CalculateDistanceBetween2Coordinates(item.FieldCoordinate.Data
                 , matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate);
 

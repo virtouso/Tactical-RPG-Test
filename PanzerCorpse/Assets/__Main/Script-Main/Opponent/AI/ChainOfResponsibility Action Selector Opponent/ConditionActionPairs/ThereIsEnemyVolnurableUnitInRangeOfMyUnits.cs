@@ -7,7 +7,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ThereIsEnemyVolnurableUnitInRangeOfMyUnits", menuName = "Config/Condition Action/ThereIsEnemyVolnurableUnitInRangeOfMyUnits")]
 public class ThereIsEnemyVolnurableUnitInRangeOfMyUnits : ConditionActionBase
 {
-    public override ActionQuery Execute(MatchModel matchState)
+    public override ActionQuery Execute(MatchModel matchState,IUtilityMatchGeneral generalMatchUtility,IUtilityMatchQueries queryMatchUtility)
     {
         var enemyUnits = matchState.Players[MatchPlayerType.Player].FightingUnits;
         var myUnits = matchState.Players[MatchPlayerType.Opponent].FightingUnits;
@@ -16,7 +16,7 @@ public class ThereIsEnemyVolnurableUnitInRangeOfMyUnits : ConditionActionBase
         {
             foreach (var myUnit in myUnits)
             {
-                int distance = _generalMatchUtility.CalculateDistanceBetween2Coordinates
+                int distance = generalMatchUtility.CalculateDistanceBetween2Coordinates
                     (enemyUnit.FieldCoordinate.Data,myUnit.FieldCoordinate.Data);
 
                 bool inRange = distance <= myUnit.CurrentState.MovingUntsInTurn.Data;

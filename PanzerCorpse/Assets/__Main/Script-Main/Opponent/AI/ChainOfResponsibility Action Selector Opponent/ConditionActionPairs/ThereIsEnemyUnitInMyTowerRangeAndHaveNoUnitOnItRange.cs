@@ -7,12 +7,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ThereIsEnemyUnitInMyTowerRangeAndHaveNoUnitOnItRange", menuName = "Config/Condition Action/ThereIsEnemyUnitInMyTowerRangeAndHaveNoUnitOnItRange")]
 public class ThereIsEnemyUnitInMyTowerRangeAndHaveNoUnitOnItRange : ConditionActionBase
 {
-    public override ActionQuery Execute(MatchModel matchState)
+    public override ActionQuery Execute(MatchModel matchState,IUtilityMatchGeneral generalMatchUtility,IUtilityMatchQueries queryMatchUtility)
     {
         FightingUnitMonoBase nearPlayerUnitToMyTower=null;
         foreach (var item in matchState.Players[MatchPlayerType.Player].FightingUnits)
         {
-            if (_generalMatchUtility.CalculateDistanceBetween2Coordinates
+            if (generalMatchUtility.CalculateDistanceBetween2Coordinates
             (matchState.Players[MatchPlayerType.Opponent].TowerBase.FieldCoordinate,
                 item.FieldCoordinate.Data) <= item.CurrentState.MovingUntsInTurn.Data)
                 nearPlayerUnitToMyTower = item;
@@ -24,7 +24,7 @@ public class ThereIsEnemyUnitInMyTowerRangeAndHaveNoUnitOnItRange : ConditionAct
 
         foreach (var item in matchState.Players[MatchPlayerType.Opponent].FightingUnits )
         {
-            if (_generalMatchUtility.CalculateDistanceBetween2Coordinates(
+            if (generalMatchUtility.CalculateDistanceBetween2Coordinates(
                     item.FieldCoordinate.Data, nearPlayerUnitToMyTower.FieldCoordinate.Data) <
                 item.CurrentState.MovingUntsInTurn.Data)
             {

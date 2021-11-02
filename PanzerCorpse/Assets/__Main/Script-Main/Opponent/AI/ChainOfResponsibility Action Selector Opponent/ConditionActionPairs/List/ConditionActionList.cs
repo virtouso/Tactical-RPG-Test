@@ -19,6 +19,7 @@ public class ConditionActionList : ScriptableObject
         {
             if (_actionsDictionary == null)
             {
+                _actionsDictionary = new Dictionary<AiTypes, ConditionActionBase[]>(_playerTypes.Count);
                 foreach (var item in  _playerTypes)
                 {
                     _actionsDictionary.Add(item.AiType, item.OrderedConditionActionList);
@@ -29,11 +30,11 @@ public class ConditionActionList : ScriptableObject
         }
     }
 
-    public ActionQuery SelectBestAction(AiTypes aiType,MatchModel matchState)
+    public ActionQuery SelectBestAction(AiTypes aiType,MatchModel matchState,IUtilityMatchGeneral generalMatchUtility,IUtilityMatchQueries queryMatchUtility)
     {
         foreach (var item in ActionsDictionary[aiType])
         {
-            var result = item.Execute(matchState);
+            var result = item.Execute(matchState,generalMatchUtility,queryMatchUtility);
             if (result != null)
                 return result;
         }

@@ -8,15 +8,15 @@ using UnityEngine;
     menuName = "Config/Condition Action/NoConditionMoveNearestUnitToEnemyTowerOrShootIfAUnitHasItInItsRange")]
 public class NoConditionMoveNearestUnitToEnemyTowerOrShootIfAUnitHasItInItsRange : ConditionActionBase
 {
-    public override ActionQuery Execute(MatchModel matchState)
+    public override ActionQuery Execute(MatchModel matchState,IUtilityMatchGeneral generalMatchUtility,IUtilityMatchQueries queryMatchUtility)
     {
         var myUnits = matchState.Players[MatchPlayerType.Opponent].FightingUnits;
         FightingUnitMonoBase nearestUnit = myUnits[0];
-        int nearestDistance = _generalMatchUtility.CalculateDistanceBetween2Coordinates(myUnits[0].FieldCoordinate.Data,
+        int nearestDistance = generalMatchUtility.CalculateDistanceBetween2Coordinates(myUnits[0].FieldCoordinate.Data,
             matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate);
         foreach (var item in myUnits)
         {
-            int distance = _generalMatchUtility.CalculateDistanceBetween2Coordinates(item.FieldCoordinate.Data,
+            int distance = generalMatchUtility.CalculateDistanceBetween2Coordinates(item.FieldCoordinate.Data,
                 matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate);
 
             if (distance < nearestDistance)
@@ -32,7 +32,7 @@ public class NoConditionMoveNearestUnitToEnemyTowerOrShootIfAUnitHasItInItsRange
         else
         {
             FieldCoordinate destination =
-                _generalMatchUtility.MoveToDestination(nearestUnit.CurrentState.MovingUntsInTurn.Data,
+                generalMatchUtility.MoveToDestination(nearestUnit.CurrentState.MovingUntsInTurn.Data,
                     nearestUnit.FieldCoordinate.Data,
                     matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate);
             
@@ -40,9 +40,9 @@ public class NoConditionMoveNearestUnitToEnemyTowerOrShootIfAUnitHasItInItsRange
             {
                 for (int j = destination.Y - 1; j < destination.Y + 1; j++)
                 {
-                    bool inField = _queryMatchUtility.CheckCoordinateIsInsideBoard(new FieldCoordinate(i, j));
+                    bool inField = queryMatchUtility.CheckCoordinateIsInsideBoard(new FieldCoordinate(i, j));
                     if (!inField) continue;
-                    bool isMasked = _queryMatchUtility.CheckHexPanelIsMasked(new FieldCoordinate(i, j));
+                    bool isMasked = queryMatchUtility.CheckHexPanelIsMasked(new FieldCoordinate(i, j));
                     if (isMasked) continue;
                     return new ActionQuery(ActionType.Move, nearestUnit.FieldCoordinate.Data,
                         new FieldCoordinate(i, j), MatchPlayerType.Opponent);
