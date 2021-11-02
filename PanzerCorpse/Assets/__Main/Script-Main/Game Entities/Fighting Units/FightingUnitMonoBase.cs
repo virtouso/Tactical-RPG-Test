@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 public abstract class FightingUnitMonoBase : MonoBehaviour
@@ -8,11 +9,17 @@ public abstract class FightingUnitMonoBase : MonoBehaviour
     public FightingUnitPerLevelStats InitialStats;
     public FightingUnitCurrentStats CurrentState;
     [SerializeField] private MeshRenderer _body;
-    [SerializeField] private GameObject _deathEffect;
-    [SerializeField] private GameObject _takeDamageEffect;
-    [SerializeField] private GameObject _shootEffect;
-    [Inject] private IMatchGeneralSettings _generalSettings;
+    [SerializeField] protected GameObject DeathEffect;
+    [SerializeField] protected GameObject TakeDamageEffect;
+    [SerializeField] protected GameObject ShootEffect;
+    [SerializeField] protected AudioSource MoveSound;
+    [SerializeField] protected AudioSource DamageSound;
+    [SerializeField] protected AudioSource DeathSound;
+    [SerializeField] protected AudioSource ShootSound;
+
+    [Inject] protected IMatchGeneralSettings GeneralSettings;
     [Inject] private IUtilityMatchQueries _queryUtility;
+    [Inject] protected IUtilityMatchGeneral GeneralMatchUtility;
     public Model<FieldCoordinate> FieldCoordinate;
 
 
@@ -33,7 +40,7 @@ public abstract class FightingUnitMonoBase : MonoBehaviour
     }
 
 
-    protected abstract IEnumerator PlayAttack();
+    protected abstract IEnumerator PlayAttack(Vector3 goal);
     protected abstract IEnumerator PlayGetDamage();
     protected abstract IEnumerator PlayDeath();
 
@@ -42,12 +49,12 @@ public abstract class FightingUnitMonoBase : MonoBehaviour
     private void OnCoordinateChange(FieldCoordinate coord)
     {
         Vector3 destination = _queryUtility.GetHexPanelPosition(coord);
-        StartCoroutine(Move(transform.position, destination, _generalSettings.UnitsMoveSpeed));
+        StartCoroutine(Move(transform.position, destination, GeneralSettings.UnitsMoveSpeed));
     }
 
-    public void OnAttack()
+    public void OnAttack(Vector3 goal)
     {
-        StartCoroutine(PlayAttack());
+        StartCoroutine(PlayAttack(goal));
     }
 
     private void OnGetDamage(int health)

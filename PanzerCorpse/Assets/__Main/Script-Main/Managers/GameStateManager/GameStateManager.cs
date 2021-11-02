@@ -16,7 +16,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
 
     public System.Action<MatchPlayerType> OnTurnUpdate { get; set; }
     public System.Action<bool> ActionFinished { get; }
-    public System.Action<MatchPlayerType> OnGameFinished { get; }
+    public System.Action<MatchPlayerType> OnGameFinished { get; set; }
 
     [Inject] private IUtilityMatchQueries _matchQueryUtility;
     [Inject] private IFightingUnitsList _fightingUnitsList;

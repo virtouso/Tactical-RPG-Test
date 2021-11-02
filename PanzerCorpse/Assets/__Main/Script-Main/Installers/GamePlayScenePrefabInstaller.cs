@@ -10,9 +10,12 @@ public class GamePlayScenePrefabInstaller : MonoInstaller
     [SerializeField] private UnitInitialPlacementConfig _placementConfig;
     [SerializeField] private Transform _healthBarCanvas;
     [SerializeField] private MatchGeneralSettings _matchGeneralSettings;
-
+    [SerializeField] private TurnPopup _turnPopup;
+    [SerializeField] private EndPopup _endPopup;
     public override void InstallBindings()
     {
+        Container.Bind<IEndPopup>().To<EndPopup>().FromInstance(_endPopup);
+        Container.Bind<ITurnPopup>().To<TurnPopup>().FromInstance(_turnPopup);
         Container.Bind<HexPanelBase>().To<HexPanel>().FromInstance(_hexPanelPrefab).AsSingle();
         Container.BindFactory<HealthBarViewModel, HealthBarViewModel.Factory>()
             .FromComponentInNewPrefab(_healthBarPrefab).AsTransient();

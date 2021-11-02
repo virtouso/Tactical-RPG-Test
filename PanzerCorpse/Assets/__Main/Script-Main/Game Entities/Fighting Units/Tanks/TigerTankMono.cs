@@ -4,24 +4,46 @@ using UnityEngine;
 
 public class TigerTankMono : FightingUnitMonoBase
 {
-    protected override IEnumerator PlayAttack()
+    protected override IEnumerator PlayAttack(Vector3 goal)
     {
-        throw new System.NotImplementedException();
+        ShootEffect.SetActive(true);
+        ShootSound.Play();
+        yield return new WaitForSeconds(1f);
+        ShootEffect.SetActive(false);
     }
 
     protected override IEnumerator PlayGetDamage()
     {
-        throw new System.NotImplementedException();
+        TakeDamageEffect.SetActive(true);
+        DamageSound.Play();
+        yield return new WaitForSeconds(1f);
+        ShootEffect.SetActive(false);
     }
 
    protected override IEnumerator PlayDeath()
     {
-        throw new System.NotImplementedException();
+        DeathEffect.SetActive(true);
+        DeathSound.Play();
+        yield return new WaitForSeconds(1f);
+        DeathEffect.SetActive(false);
+        gameObject.SetActive(false);
     }
 
 
    protected override IEnumerator Move(Vector3 startPosition, Vector3 endPosition, float speed)
     {
-        throw new System.NotImplementedException();
+        MoveSound.Play();
+        float timer = 0;
+
+        Vector3 direction = (endPosition - transform.position).normalized;
+        transform.rotation = Quaternion.LookRotation(direction,Vector3.up);
+        while (timer <= 1)
+        {
+            yield return new WaitForEndOfFrame();
+            transform.position = GeneralMatchUtility.CalculateLine(startPosition,endPosition,timer);
+            timer += GeneralSettings.UnitsMoveSpeed;
+        }
+
+        MoveSound.Stop();
     }
 }

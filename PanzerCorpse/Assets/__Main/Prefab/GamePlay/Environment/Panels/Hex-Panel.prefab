@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _centerTransform: {fileID: 4619009651627206287}
-  _meshRenderer: {fileID: 0}
+  _meshRenderer: {fileID: 7145987998368897703}
 --- !u!114 &-6337925211929324418
 MonoBehaviour:
   m_ObjectHideFlags: 0

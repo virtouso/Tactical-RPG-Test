@@ -191,16 +191,19 @@ public class UtilityMatchQueries : IUtilityMatchQueries
                 selectedFriendlyUnit.FieldCoordinate.Data = actionQuery.Goal;
                 break;
             case ActionType.Shoot:
-                selectedEnemyUnit.OnAttack();
                 if (selectedEnemyUnit == null)
                 {
                     _matchModel.Players[~actionQuery.From].TowerBase.TowerCurrentStats.Health.Data -=
                         selectedFriendlyUnit.CurrentState.DamageAmount.Data;
+                  selectedFriendlyUnit.OnAttack(    _matchModel.Players[~actionQuery.From].TowerBase.transform.position);
+
                 }
                 else
                 {
                     selectedEnemyUnit.CurrentState.HealthAmount.Data -=
                         selectedFriendlyUnit.CurrentState.DamageAmount.Data;
+                   selectedFriendlyUnit.OnAttack(selectedEnemyUnit.transform.position);
+
                 }
 
                 break;
