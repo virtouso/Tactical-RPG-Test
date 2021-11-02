@@ -15,7 +15,7 @@ public interface IGameStateManager
 
   void SelectedWholeMoveByPlayers(ActionQuery actionQuery);
   System.Action<MatchPlayerType> OnTurnUpdate { get; set; }
-  System.Action<bool> ActionFinished { get; }
+  System.Action<bool, MatchPlayerType> ActionFinished { get; set; }
   System.Action<MatchPlayerType> OnGameFinished { get;set; }
 
 

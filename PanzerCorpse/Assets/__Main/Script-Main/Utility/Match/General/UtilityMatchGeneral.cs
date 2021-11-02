@@ -18,7 +18,6 @@ public class UtilityMatchGeneral : IUtilityMatchGeneral
 
     public bool Check2CoordinatesAreEqual(FieldCoordinate source, FieldCoordinate destination)
     {
-        
         return source.X == destination.X && source.Y == destination.Y;
     }
 
@@ -80,6 +79,11 @@ public class UtilityMatchGeneral : IUtilityMatchGeneral
     public Vector3 CalculateLine(Vector3 start, Vector3 end, float t)
     {
         return Vector3.Lerp(start, end, t);
+    }
+
+    public MatchPlayerType SwitchPlayers(MatchPlayerType currentPlayer)
+    {
+        return ~(currentPlayer ^ MatchPlayerType.Both);
     }
 
     public static Vector2 CalculateBezier2d(Vector2 start, Vector2 control, Vector2 end, float t)

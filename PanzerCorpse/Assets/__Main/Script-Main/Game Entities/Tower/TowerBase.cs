@@ -14,9 +14,9 @@ public abstract class TowerBase : MonoBehaviour
     public abstract void Init(Vector3 position, FieldCoordinate coordinate, TowerCurrentStats initStats);
 
     public Vector3 Position { get; }
-    public FieldCoordinate FieldCoordinate { get; }
+    public abstract FieldCoordinate FieldCoordinate { get; }
 
-    public TowerCurrentStats TowerCurrentStats { get; set; }
+    public abstract TowerCurrentStats TowerCurrentStats { get; set; }
 
 
 

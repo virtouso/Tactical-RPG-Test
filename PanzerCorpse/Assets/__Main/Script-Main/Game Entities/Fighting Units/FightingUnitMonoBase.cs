@@ -16,6 +16,7 @@ public abstract class FightingUnitMonoBase : MonoBehaviour
     [SerializeField] protected AudioSource DamageSound;
     [SerializeField] protected AudioSource DeathSound;
     [SerializeField] protected AudioSource ShootSound;
+    [SerializeField] private Animator _animator;
 
     [Inject] protected IMatchGeneralSettings GeneralSettings;
     [Inject] private IUtilityMatchQueries _queryUtility;
@@ -23,7 +24,6 @@ public abstract class FightingUnitMonoBase : MonoBehaviour
     public Model<FieldCoordinate> FieldCoordinate;
 
 
-    [SerializeField] private Animator _animator;
 
 
     public void Init(FightingUnitPerLevelStats config,

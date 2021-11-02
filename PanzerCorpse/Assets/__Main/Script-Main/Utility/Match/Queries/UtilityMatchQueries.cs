@@ -50,20 +50,57 @@ public class UtilityMatchQueries : IUtilityMatchQueries
 
     public bool CheckActionIsValid(ActionQuery actionQuery)
     {
-        switch (actionQuery.ActionType)
+        bool sameCurrentAndDestination =
+            _utilityMatchGeneral.Check2CoordinatesAreEqual(actionQuery.Current, actionQuery.Goal);
+        if (sameCurrentAndDestination)
+            return false;
+
+        bool currentInsideBoard = CheckCoordinateIsInsideBoard(actionQuery.Current);
+        if (!currentInsideBoard) return false;
+
+        bool destinationInsideBoard = CheckCoordinateIsInsideBoard(actionQuery.Goal);
+        if (!destinationInsideBoard) return false;
+
+        FightingUnitMonoBase selectedUnit = null;
+        foreach (var unit in _matchModel.Players[actionQuery.From].FightingUnits)
         {
-            case ActionType.Move:
-                return CheckMoveActionIsValid(actionQuery);
-
-                break;
-            case ActionType.Shoot:
-
-                return CheckAttackActionIsValid(actionQuery);
-                break;
+            bool thereIsUnit =
+                _utilityMatchGeneral.Check2CoordinatesAreEqual(unit.FieldCoordinate.Data, actionQuery.Current);
+            if (thereIsUnit)
+                selectedUnit = unit;
         }
 
-        //prefer to fail fast instead of ignore bugs
-        throw new NotImplementedException();
+        bool currentIsPlayerUnit = selectedUnit != null;
+        if (!currentIsPlayerUnit)
+            return false;
+
+
+        FightingUnitMonoBase goalUnit = null;
+        foreach (var unit in _matchModel.Players[actionQuery.From].FightingUnits)
+        {
+            bool thereIsUnit =
+                _utilityMatchGeneral.Check2CoordinatesAreEqual(unit.FieldCoordinate.Data, actionQuery.Goal);
+            if (thereIsUnit)
+                goalUnit = unit;
+        }
+
+        bool goalIsPlayerUnit = goalUnit != null;
+        if (goalIsPlayerUnit)
+            return false;
+
+        bool goalIsPlayerTower = _utilityMatchGeneral.Check2CoordinatesAreEqual(actionQuery.Goal,
+            _matchModel.Players[actionQuery.From].TowerBase.FieldCoordinate);
+
+        if (goalIsPlayerTower)
+            return false;
+        
+        int distance =
+            _utilityMatchGeneral.CalculateDistanceBetween2Coordinates(actionQuery.Current, actionQuery.Goal);
+        bool inRange = distance <= selectedUnit.CurrentState.MovingUntsInTurn.Data;
+        if (!inRange)
+            return false;
+        
+        return true;
     }
 
 
@@ -125,18 +162,6 @@ public class UtilityMatchQueries : IUtilityMatchQueries
         return possibleQueries;
     }
 
-    // public FightingUnitMonoBase GetPlayerUnitOnCoordinate(FieldCoordinate coordinate)
-    // {
-    //     var playerUnits = _matchModel.Players[MatchPlayerType.Player].FightingUnits;
-    //
-    //     foreach (var playerUnit in playerUnits)
-    //     {
-    //         if (playerUnit.FieldCoordinate.Data == coordinate)
-    //             return playerUnit;
-    //     }
-    //
-    //     return null;
-    // }
 
     public MatchPlayerType CheckMatchIsFinished()
     {
@@ -179,13 +204,30 @@ public class UtilityMatchQueries : IUtilityMatchQueries
         }
 
         FightingUnitMonoBase selectedEnemyUnit = null;
-        foreach (var enemyUnit in _matchModel.Players[~actionQuery.From].FightingUnits)
+        foreach (var enemyUnit in _matchModel.Players[_utilityMatchGeneral.SwitchPlayers(actionQuery.From)]
+            .FightingUnits)
         {
             if (_utilityMatchGeneral.Check2CoordinatesAreEqual(actionQuery.Current, enemyUnit.FieldCoordinate.Data))
                 selectedEnemyUnit = enemyUnit;
         }
 
-        switch (actionQuery.ActionType)
+
+        var enemyTower = _matchModel.Players[_utilityMatchGeneral.SwitchPlayers(actionQuery.From)].TowerBase;
+        TowerBase enemySelectedTower = null;
+        if (_utilityMatchGeneral.Check2CoordinatesAreEqual(actionQuery.Goal, enemyTower.FieldCoordinate))
+            enemySelectedTower = enemyTower;
+
+        ActionType action = ActionType.None;
+        if (selectedEnemyUnit == null && selectedEnemyUnit == null)
+        {
+            action = ActionType.Move;
+        }
+        else
+        {
+            action = ActionType.Shoot;
+        }
+            
+        switch (action)
         {
             case ActionType.Move:
                 selectedFriendlyUnit.FieldCoordinate.Data = actionQuery.Goal;
@@ -193,19 +235,21 @@ public class UtilityMatchQueries : IUtilityMatchQueries
             case ActionType.Shoot:
                 if (selectedEnemyUnit == null)
                 {
-                    _matchModel.Players[~actionQuery.From].TowerBase.TowerCurrentStats.Health.Data -=
+                    enemySelectedTower.TowerCurrentStats.Health.Data -=
                         selectedFriendlyUnit.CurrentState.DamageAmount.Data;
-                  selectedFriendlyUnit.OnAttack(    _matchModel.Players[~actionQuery.From].TowerBase.transform.position);
-
+                    selectedFriendlyUnit.OnAttack(enemySelectedTower.transform.position);
                 }
                 else
                 {
                     selectedEnemyUnit.CurrentState.HealthAmount.Data -=
                         selectedFriendlyUnit.CurrentState.DamageAmount.Data;
-                   selectedFriendlyUnit.OnAttack(selectedEnemyUnit.transform.position);
-
+                    selectedFriendlyUnit.OnAttack(selectedEnemyUnit.transform.position);
                 }
 
+                break;
+            
+            default:
+                throw new NotImplementedException();
                 break;
         }
     }
@@ -218,23 +262,23 @@ public class UtilityMatchQueries : IUtilityMatchQueries
         return insideX && insideY;
     }
 
-    public FightingUnitMonoBase FindUnitOnCoordinate(MatchPlayerType matchPlayerType,FieldCoordinate coord)
+    public FightingUnitMonoBase FindUnitOnCoordinate(MatchPlayerType matchPlayerType, FieldCoordinate coord)
     {
         foreach (var item in _matchModel.Players[matchPlayerType].FightingUnits)
         {
-            bool sameCoord = _utilityMatchGeneral.Check2CoordinatesAreEqual(item.FieldCoordinate.Data,coord);
+            bool sameCoord = _utilityMatchGeneral.Check2CoordinatesAreEqual(item.FieldCoordinate.Data, coord);
             return item;
         }
 
         return null;
     }
 
-    public TowerBase FindTowerOnCoordinate(MatchPlayerType matchPlayerType,FieldCoordinate coord)
+    public TowerBase FindTowerOnCoordinate(MatchPlayerType matchPlayerType, FieldCoordinate coord)
     {
         var tower = _matchModel.Players[matchPlayerType].TowerBase;
         bool sameCoord =
             _utilityMatchGeneral.Check2CoordinatesAreEqual(
-              tower.FieldCoordinate, coord);
+                tower.FieldCoordinate, coord);
         if (sameCoord)
             return tower;
         return null;
@@ -269,89 +313,15 @@ public class UtilityMatchQueries : IUtilityMatchQueries
         return _matchModel.Board[coord.X, coord.Y].Position;
     }
 
-    public void UpdateTurnState()
-    {
-        _matchModel.Players[_matchModel.Turn.Data].CurrentPermittedMoves--;
-
-        if (_matchModel.Players[_matchModel.Turn.Data].CurrentPermittedMoves <= 0)
-        {
-            _matchModel.Turn.Data = ~_matchModel.Turn.Data;
-            _matchModel.Players[_matchModel.Turn.Data].CurrentPermittedMoves =
-                _matchModel.NumberOfPermittedMovesInOneTurn;
-        }
-    }
-
-
-    #region Sub Utility
-
-    private bool CheckAttackActionIsValid(ActionQuery actionQuery)
-    {
-        FightingUnitMonoBase selectedPlayerUnit = null;
-        foreach (var item in _matchModel.Players[MatchPlayerType.Player].FightingUnits)
-        {
-            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(item.FieldCoordinate.Data, actionQuery.Current))
-                selectedPlayerUnit = item;
-        }
-
-        if (selectedPlayerUnit == null)
-            return false;
-
-        FightingUnitMonoBase selectedOpponentUnit = null;
-        foreach (var item in _matchModel.Players[MatchPlayerType.Opponent].FightingUnits)
-        {
-            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(item.FieldCoordinate.Data, actionQuery.Goal))
-                selectedOpponentUnit = item;
-        }
-
-        if (actionQuery.Goal == _matchModel.Players[MatchPlayerType.Opponent].TowerBase.FieldCoordinate)
-            return true;
-
-        if (selectedOpponentUnit == null)
-            return false;
-
-        return true;
-    }
-
-    private bool CheckMoveActionIsValid(ActionQuery actionQuery)
-    {
-        FightingUnitMonoBase selectedPlayerUnit = null;
-        foreach (var item in _matchModel.Players[MatchPlayerType.Player].FightingUnits)
-        {
-            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(item.FieldCoordinate.Data, actionQuery.Current))
-                selectedPlayerUnit = item;
-        }
-
-        if (selectedPlayerUnit == null)
-            return false;
-
-        if (_matchModel.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate == actionQuery.Goal)
-            return false;
-
-        foreach (var item in _matchModel.Players[MatchPlayerType.Player].FightingUnits)
-        {
-            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(item.FieldCoordinate.Data, actionQuery.Goal))
-                return false;
-        }
-
-        FightingUnitMonoBase selectedOpponentUnit = null;
-        foreach (var item in _matchModel.Players[MatchPlayerType.Opponent].FightingUnits)
-        {
-            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(item.FieldCoordinate.Data, actionQuery.Goal))
-                selectedOpponentUnit = item;
-        }
-
-        if (actionQuery.Goal == _matchModel.Players[MatchPlayerType.Opponent].TowerBase.FieldCoordinate)
-            return false;
-
-        if (selectedOpponentUnit == null)
-            return true;
-
-        if (_utilityMatchGeneral.CalculateDistanceBetween2Coordinates(actionQuery.Current, actionQuery.Goal) >
-            selectedPlayerUnit.InitialStats.MovingUnitsInTurn)
-            return false;
-
-        return true;
-    }
-
-    #endregion
+    // public void UpdateTurnState()
+    // {
+    //     _matchModel.Players[_matchModel.Turn.Data].CurrentPermittedMoves--;
+    //
+    //     if (_matchModel.Players[_matchModel.Turn.Data].CurrentPermittedMoves <= 0)
+    //     {
+    //         _matchModel.Turn.Data = ~_matchModel.Turn.Data;
+    //         _matchModel.Players[_matchModel.Turn.Data].CurrentPermittedMoves =
+    //             _matchModel.NumberOfPermittedMovesInOneTurn;
+    //     }
+    // }
 }

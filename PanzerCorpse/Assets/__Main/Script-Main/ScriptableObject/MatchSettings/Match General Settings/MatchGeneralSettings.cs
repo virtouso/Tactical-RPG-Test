@@ -10,8 +10,7 @@ public class MatchGeneralSettings : ScriptableObject, IMatchGeneralSettings
     public AiTypes MatchSelectedAiType => _matchSelectedAiType;
 
     [SerializeField] private float _unitsMoveSpeed;
-    public float UnitsMoveSpeed { get; }
-
+    public float UnitsMoveSpeed => _unitsMoveSpeed;
     [SerializeField] private Material _hexNormalMaterial;
     public Material NormalMaterial => _hexNormalMaterial;
     [SerializeField] private Material _hexAttackMaterial;

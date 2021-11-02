@@ -18,10 +18,10 @@ MonoBehaviour:
   Stats:
   - DamageAmount: 10
     HealthAmount: 30
-    MovingUnitsInTurn: 5
+    MovingUnitsInTurn: 3
   - DamageAmount: 12
     HealthAmount: 35
-    MovingUnitsInTurn: 5
+    MovingUnitsInTurn: 3
   - DamageAmount: 15
     HealthAmount: 40
-    MovingUnitsInTurn: 5
+    MovingUnitsInTurn: 3

@@ -19,4 +19,7 @@ public interface IUtilityMatchGeneral
     Vector3 CalculateBezier3d(Vector3 start, Vector3 control, Vector3 end, float t);
 
     Vector3 CalculateLine(Vector3 start,  Vector3 end, float t);
+
+    MatchPlayerType SwitchPlayers(MatchPlayerType currentPlayer);
+
 }

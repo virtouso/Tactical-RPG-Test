@@ -5,5 +5,6 @@ using UnityEngine;
 public enum ActionType
 {
     Move,
-    Shoot
+    Shoot,
+    None
 }

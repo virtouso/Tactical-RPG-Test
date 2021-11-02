@@ -9,7 +9,7 @@ public interface IUtilityMatchQueries
     FieldCoordinate GetTowerPosition(MatchPlayerType matchPlayerType);
     bool CheckActionIsValid(ActionQuery actionQuery);
     List<ActionQuery> ListOfLegitMovesForCoordinate(FieldCoordinate coordinate);
-  //  FightingUnitMonoBase GetPlayerUnitOnCoordinate(FieldCoordinate coordinate);
+
     MatchPlayerType CheckMatchIsFinished();
     void ApplyMove(ActionQuery actionQuery);
 
@@ -18,5 +18,5 @@ public interface IUtilityMatchQueries
     TowerBase FindTowerOnCoordinate(MatchPlayerType matchPlayerType,FieldCoordinate coord);
     bool CheckHexPanelIsMasked(FieldCoordinate coordinate);
     Vector3 GetHexPanelPosition(FieldCoordinate coord);
-    void UpdateTurnState();
+   
 }

@@ -13,12 +13,13 @@ public class Tower : TowerBase
 
     public Vector3 Position => transform.position;
 
+
     private FieldCoordinate _fieldCoordinate;
-    public FieldCoordinate FieldCoordinate => FieldCoordinate;
+    public override FieldCoordinate FieldCoordinate => _fieldCoordinate;
     
     
     private TowerCurrentStats _towerCurrentStats;
-    public TowerCurrentStats TowerCurrentStats
+    public override TowerCurrentStats TowerCurrentStats
     {
         get => _towerCurrentStats;
         set => _towerCurrentStats = value;

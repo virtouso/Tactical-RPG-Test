@@ -15,7 +15,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     public bool PlayerCanPlay => _matchQueryUtility.MatchModel.Turn.Data == MatchPlayerType.Player && !_updatingUi;
 
     public System.Action<MatchPlayerType> OnTurnUpdate { get; set; }
-    public System.Action<bool> ActionFinished { get; }
+    public System.Action<bool, MatchPlayerType> ActionFinished { get; set; }
     public System.Action<MatchPlayerType> OnGameFinished { get; set; }
 
     [Inject] private IUtilityMatchQueries _matchQueryUtility;
@@ -23,7 +23,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     [Inject] private IGameDataManager _gameDataManager;
     [Inject] private IHexMapGenerator _hexMapGenerator;
     [Inject] private IGamePlayCamera _gamePlayCamera;
-    [Inject] private IUtilityMatchQueries _matchState;
+    [Inject] private IUtilityMatchGeneral _matchGeneralUtility;
     [Inject] private IUnitInitialPlacementConfig _initialPlacementConfig;
     [Inject] private HealthBarViewModel.Factory _healthBarFactory;
     [Inject] private IMatchGeneralSettings _matchGeneralSettings;
@@ -53,7 +53,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
                 return Observable.Return(_updatingUi);
             }).SelectMany((result) =>
             {
-                Debug.Log("something");
+             
                 var test = _matchQueryUtility.MatchModel;
                 return Observable.Return(true);
             })
@@ -76,22 +76,22 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     private IEnumerator GenerateField()
     {
         yield return StartCoroutine(_hexMapGenerator.GenerateHexGrid());
-        _matchState.MatchModel.Board = _hexMapGenerator.HexGrid;
+        _matchQueryUtility.MatchModel.Board = _hexMapGenerator.HexGrid;
     }
 
 
     private IEnumerator GeneratePlayerTower()
     {
         yield return new WaitForSeconds(0.1f);
-        int xPosition = _matchState.MatchModel.Board.GetLength(0) - 1;
-        int yPosition = _matchState.MatchModel.Board.GetLength(1) / 2;
+        int xPosition = _matchQueryUtility.MatchModel.Board.GetLength(0) - 1;
+        int yPosition = _matchQueryUtility.MatchModel.Board.GetLength(1) / 2;
         FieldCoordinate selectedCoordinate = new FieldCoordinate(xPosition, yPosition);
-        Vector3 placedPosition = _matchState.MatchModel.Board[xPosition, yPosition].Position;
+        Vector3 placedPosition = _matchQueryUtility.MatchModel.Board[xPosition, yPosition].Position;
 
         TowerBase tower = Instantiate(_playerTowerBase, placedPosition, Quaternion.identity);
         var stats = new TowerCurrentStats(new Model<int>(100));
         tower.Init(placedPosition, selectedCoordinate, stats);
-        _matchState.MatchModel.Players[MatchPlayerType.Player].TowerBase = tower;
+        _matchQueryUtility.MatchModel.Players[MatchPlayerType.Player].TowerBase = tower;
 
         AddHealthBarToUnit(stats.Health, tower.transform);
     }
@@ -105,13 +105,13 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     {
         yield return new WaitForSeconds(0.1f);
         int xPosition = 0;
-        int yPosition = _matchState.MatchModel.Board.GetLength(1) / 2;
+        int yPosition = _matchQueryUtility.MatchModel.Board.GetLength(1) / 2;
         FieldCoordinate selectedCoordinate = new FieldCoordinate(xPosition, yPosition);
-        Vector3 placedPosition = _matchState.MatchModel.Board[xPosition, yPosition].Position;
+        Vector3 placedPosition = _matchQueryUtility.MatchModel.Board[xPosition, yPosition].Position;
         TowerBase tower = Instantiate(_enemyTowerBase, placedPosition, Quaternion.identity);
         var stats = new TowerCurrentStats(new Model<int>(100));
         tower.Init(placedPosition, selectedCoordinate, stats);
-        _matchState.MatchModel.Players[MatchPlayerType.Opponent].TowerBase = tower;
+        _matchQueryUtility.MatchModel.Players[MatchPlayerType.Opponent].TowerBase = tower;
         AddHealthBarToUnit(stats.Health, tower.transform);
     }
 
@@ -122,8 +122,8 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
         var dataList = _gameDataManager.PlayerData.PlayerProgress.OwnedTanks.Data;
         for (int i = 0; i < dataList.Count; i++)
         {
-            int xPosition = _matchState.MatchModel.Board.GetLength(0) - _initialPlacementConfig.IndexCoordinates[i].X;
-            int yPosition = (_matchState.MatchModel.Board.GetLength(1) / 2) +
+            int xPosition = _matchQueryUtility.MatchModel.Board.GetLength(0) - _initialPlacementConfig.IndexCoordinates[i].X;
+            int yPosition = (_matchQueryUtility.MatchModel.Board.GetLength(1) / 2) +
                             _initialPlacementConfig.IndexCoordinates[i].Y;
             HexPanelBase selectedPanel = _matchQueryUtility.MatchModel.Board[xPosition, yPosition];
             var tankConfig = _fightingUnitsList.FightingUnits[dataList[i].TankId];
@@ -133,7 +133,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
                 selectedPanel.Position,
                 _fightingUnitsList.PlayerMaterial,
                 Vector3.left);
-            _matchState.MatchModel.Players[MatchPlayerType.Player].FightingUnits.Add(tankInstance);
+            _matchQueryUtility.MatchModel.Players[MatchPlayerType.Player].FightingUnits.Add(tankInstance);
             AddHealthBarToUnit(tankInstance.CurrentState.HealthAmount, tankInstance.transform);
         }
     }
@@ -145,7 +145,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
         for (int i = 0; i < dataList.Count; i++)
         {
             int xPosition = 0 + _initialPlacementConfig.IndexCoordinates[i].X;
-            int yPosition = (_matchState.MatchModel.Board.GetLength(1) / 2) +
+            int yPosition = (_matchQueryUtility.MatchModel.Board.GetLength(1) / 2) +
                             _initialPlacementConfig.IndexCoordinates[i].Y;
             HexPanelBase selectedPanel = _matchQueryUtility.MatchModel.Board[xPosition, yPosition];
             var tankConfig = _fightingUnitsList.FightingUnits[dataList[i].TankId];
@@ -155,7 +155,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
                 selectedPanel.Position,
                 _fightingUnitsList.OpponentMaterial,
                 Vector3.right);
-            _matchState.MatchModel.Players[MatchPlayerType.Opponent].FightingUnits.Add(tankInstance);
+            _matchQueryUtility.MatchModel.Players[MatchPlayerType.Opponent].FightingUnits.Add(tankInstance);
             AddHealthBarToUnit(tankInstance.CurrentState.HealthAmount, tankInstance.transform);
         }
     }
@@ -168,7 +168,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
 
     private void ClearBoardColors()
     {
-        foreach (var item in _matchState.MatchModel.Board)
+        foreach (var item in _matchQueryUtility.MatchModel.Board)
         {
             item.UpdateMaterial(_matchGeneralSettings.NormalMaterial);
         }
@@ -214,7 +214,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
 
             if (_matchQueryUtility.MatchModel.Players[currentTurn].CurrentPermittedMoves <= 0)
             {
-                _matchQueryUtility.MatchModel.Turn.Data = ~ _matchQueryUtility.MatchModel.Turn.Data;
+                _matchQueryUtility.MatchModel.Turn.Data = _matchGeneralUtility.SwitchPlayers(currentTurn);
 
                 _matchQueryUtility.MatchModel.Players[currentTurn].CurrentPermittedMoves =
                     _matchQueryUtility.MatchModel.NumberOfPermittedMovesInOneTurn;
@@ -238,10 +238,10 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
 
     public void PlayerSelectedOrigin(FieldCoordinate coordinate)
     {
-        var validMoves = _matchState.ListOfLegitMovesForCoordinate(coordinate);
+        var validMoves = _matchQueryUtility.ListOfLegitMovesForCoordinate(coordinate);
         if (validMoves == null)
         {
-            ActionFinished?.Invoke(false);
+            ActionFinished?.Invoke(false,MatchPlayerType.Player);
             ClearBoardColors();
             return;
         }
@@ -253,11 +253,11 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     public void SelectedWholeMoveByPlayers(ActionQuery actionQuery)
     {
         bool moveIsValid = _matchQueryUtility.CheckActionIsValid(actionQuery);
-
+        Debug.Log("Action Is valid::"+ moveIsValid);
+        ClearBoardColors();
         if (!moveIsValid)
         {
-            ActionFinished?.Invoke(false);
-            ClearBoardColors();
+            ActionFinished?.Invoke(false,actionQuery.From);
             return;
         }
 
