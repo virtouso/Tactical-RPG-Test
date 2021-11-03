@@ -1067,9 +1067,9 @@ MonoBehaviour:
     MovingUnitsInTurn: 0
   TimeKeepActionAlive: 1
   _body: {fileID: 4629743584200256458}
-  DeathEffect: {fileID: 8268496370379357309}
-  TakeDamageEffect: {fileID: 4559133094907638397}
-  ShootEffect: {fileID: 1357649940554289218}
+  DeathEffect: {fileID: 8268496370365555993}
+  TakeDamageEffect: {fileID: 4559133094889515801}
+  ShootEffect: {fileID: 1357649940573980964}
   MoveSound: {fileID: 1027138093212090335}
   DamageSound: {fileID: 2871027397636623576}
   DeathSound: {fileID: 6076991140936537468}
@@ -2667,11 +2667,19 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4629743584197962026}
     m_Modifications:
+    - target: {fileID: 100000, guid: 7c687a4414095c349a8ec5ac5f3cccb2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: 7c687a4414095c349a8ec5ac5f3cccb2, type: 3}
       propertyPath: m_Name
       value: ShootEffect
       objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: 7c687a4414095c349a8ec5ac5f3cccb2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 7c687a4414095c349a8ec5ac5f3cccb2, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -2748,19 +2756,23 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 19800002, guid: 7c687a4414095c349a8ec5ac5f3cccb2, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: 7c687a4414095c349a8ec5ac5f3cccb2, type: 3}
       propertyPath: scalingMode
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c687a4414095c349a8ec5ac5f3cccb2, type: 3}
+--- !u!198 &1357649940573980964 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19800002, guid: 7c687a4414095c349a8ec5ac5f3cccb2, type: 3}
+  m_PrefabInstance: {fileID: 1357649940554192614}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1357649940554583138 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400004, guid: 7c687a4414095c349a8ec5ac5f3cccb2, type: 3}
-  m_PrefabInstance: {fileID: 1357649940554192614}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1357649940554289218 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100004, guid: 7c687a4414095c349a8ec5ac5f3cccb2, type: 3}
   m_PrefabInstance: {fileID: 1357649940554192614}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4559133094907737309
@@ -2775,6 +2787,18 @@ PrefabInstance:
       value: DamageEffect
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: a4af0d82b00381c48bc30b65c57ba3f8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: a4af0d82b00381c48bc30b65c57ba3f8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: a4af0d82b00381c48bc30b65c57ba3f8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: a4af0d82b00381c48bc30b65c57ba3f8, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -2867,19 +2891,31 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 19800004, guid: a4af0d82b00381c48bc30b65c57ba3f8, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: a4af0d82b00381c48bc30b65c57ba3f8, type: 3}
       propertyPath: scalingMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: a4af0d82b00381c48bc30b65c57ba3f8, type: 3}
+      propertyPath: RotationModule.x.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: a4af0d82b00381c48bc30b65c57ba3f8, type: 3}
+      propertyPath: RotationModule.y.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4af0d82b00381c48bc30b65c57ba3f8, type: 3}
+--- !u!198 &4559133094889515801 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19800004, guid: a4af0d82b00381c48bc30b65c57ba3f8, type: 3}
+  m_PrefabInstance: {fileID: 4559133094907737309}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4559133094907866717 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: a4af0d82b00381c48bc30b65c57ba3f8, type: 3}
-  m_PrefabInstance: {fileID: 4559133094907737309}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4559133094907638397 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100000, guid: a4af0d82b00381c48bc30b65c57ba3f8, type: 3}
   m_PrefabInstance: {fileID: 4559133094907737309}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8268496370379324125
@@ -2894,6 +2930,18 @@ PrefabInstance:
       value: DestroyEffect
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: ac8564998262ae240850396a05244d72, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: ac8564998262ae240850396a05244d72, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: ac8564998262ae240850396a05244d72, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: ac8564998262ae240850396a05244d72, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -2986,18 +3034,22 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 19800004, guid: ac8564998262ae240850396a05244d72, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: ac8564998262ae240850396a05244d72, type: 3}
       propertyPath: scalingMode
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac8564998262ae240850396a05244d72, type: 3}
+--- !u!198 &8268496370365555993 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19800004, guid: ac8564998262ae240850396a05244d72, type: 3}
+  m_PrefabInstance: {fileID: 8268496370379324125}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8268496370379710557 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: ac8564998262ae240850396a05244d72, type: 3}
-  m_PrefabInstance: {fileID: 8268496370379324125}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8268496370379357309 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100000, guid: ac8564998262ae240850396a05244d72, type: 3}
   m_PrefabInstance: {fileID: 8268496370379324125}
   m_PrefabAsset: {fileID: 0}

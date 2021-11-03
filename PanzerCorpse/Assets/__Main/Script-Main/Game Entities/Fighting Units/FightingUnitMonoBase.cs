@@ -11,9 +11,9 @@ public abstract class FightingUnitMonoBase : MonoBehaviour
     
     [SerializeField] protected float TimeKeepActionAlive;
     [SerializeField] private MeshRenderer _body;
-    [SerializeField] protected GameObject DeathEffect;
-    [SerializeField] protected GameObject TakeDamageEffect;
-    [SerializeField] protected GameObject ShootEffect;
+    [SerializeField] protected ParticleSystem DeathEffect;
+    [SerializeField] protected  ParticleSystem TakeDamageEffect;
+    [SerializeField] protected ParticleSystem ShootEffect;
     [SerializeField] protected AudioSource MoveSound;
     [SerializeField] protected AudioSource DamageSound;
     [SerializeField] protected AudioSource DeathSound;

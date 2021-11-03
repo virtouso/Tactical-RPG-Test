@@ -3,7 +3,7 @@
 ## General Explanations
 
 here is a simple video that shows how game is running:
-
+https://youtu.be/MPgrugWhruU
 
 ### How Features Implemented
 

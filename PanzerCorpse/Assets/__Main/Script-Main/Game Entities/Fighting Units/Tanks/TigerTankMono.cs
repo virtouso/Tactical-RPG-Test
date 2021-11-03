@@ -6,28 +6,28 @@ public class TigerTankMono : FightingUnitMonoBase
 {
     protected override IEnumerator PlayAttack(Vector3 goal)
     {
-        ShootEffect.SetActive(true);
+        ShootEffect.Play();
         ShootSound.Play();
         Vector3 direction = goal - transform.position;
         transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
         yield return new WaitForSeconds(TimeKeepActionAlive);
-        ShootEffect.SetActive(false);
+        ShootEffect.Stop();
     }
 
     protected override IEnumerator PlayGetDamage()
     {
-        TakeDamageEffect.SetActive(true);
+        TakeDamageEffect.Play();
         DamageSound.Play();
         yield return new WaitForSeconds(TimeKeepActionAlive);
-        ShootEffect.SetActive(false);
+        ShootEffect.Stop();
     }
 
    protected override IEnumerator PlayDeath()
     {
-        DeathEffect.SetActive(true);
+        DeathEffect.Play();
         DeathSound.Play();
         yield return new WaitForSeconds(TimeKeepActionAlive);
-        DeathEffect.SetActive(false);
+        DeathEffect.Stop();
         gameObject.SetActive(false);
     }
 

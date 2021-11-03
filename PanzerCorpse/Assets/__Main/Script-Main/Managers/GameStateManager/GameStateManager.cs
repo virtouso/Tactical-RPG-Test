@@ -19,16 +19,13 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     public System.Action<MatchPlayerType> OnGameFinished { get; set; }
     [Inject] private IMapElementsGenerator _mapElementsGenerator;
     [Inject] private IUtilityMatchQueries _matchQueryUtility;
-    [Inject] private IFightingUnitsList _fightingUnitsList;
     [Inject] private IGameDataManager _gameDataManager;
     [Inject] private IHexMapGenerator _hexMapGenerator;
     [Inject] private IGamePlayCamera _gamePlayCamera;
     [Inject] private IUtilityMatchGeneral _matchGeneralUtility;
-    [Inject] private IUnitInitialPlacementConfig _initialPlacementConfig;
     [Inject] private HealthBarViewModel.Factory _healthBarFactory;
     [Inject] private IMatchGeneralSettings _matchGeneralSettings;
-    [Inject(Id = "Player")] private TowerBase _playerTowerBase;
-    [Inject(Id = "Opponent")] private TowerBase _enemyTowerBase;
+
     [SerializeField] private Transform _healthBarParent;
 
 
