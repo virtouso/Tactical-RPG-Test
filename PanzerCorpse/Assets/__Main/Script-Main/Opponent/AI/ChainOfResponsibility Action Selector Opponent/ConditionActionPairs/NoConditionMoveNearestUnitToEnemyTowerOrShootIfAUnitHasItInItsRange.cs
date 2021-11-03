@@ -10,21 +10,7 @@ public class NoConditionMoveNearestUnitToEnemyTowerOrShootIfAUnitHasItInItsRange
 {
     public override ActionQuery Execute(MatchModel matchState,IUtilityMatchGeneral generalMatchUtility,IUtilityMatchQueries queryMatchUtility)
     {
-        var myUnits = matchState.Players[MatchPlayerType.Opponent].FightingUnits;
-        FightingUnitMonoBase nearestUnit = myUnits[0];
-        int nearestDistance = generalMatchUtility.CalculateDistanceBetween2Coordinates(myUnits[0].FieldCoordinate.Data,
-            matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate);
-        foreach (var item in myUnits)
-        {
-            int distance = generalMatchUtility.CalculateDistanceBetween2Coordinates(item.FieldCoordinate.Data,
-                matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate);
-
-            if (distance < nearestDistance)
-            {
-                nearestDistance = distance;
-                nearestUnit = item;
-            }
-        }
+        var nearestUnit = FindMyNearestUnitToEnemyTower(matchState, generalMatchUtility, out var nearestDistance);
 
         if (nearestDistance <= nearestUnit.CurrentState.MovingUnitsInTurn.Data)
         {
@@ -53,5 +39,27 @@ public class NoConditionMoveNearestUnitToEnemyTowerOrShootIfAUnitHasItInItsRange
             
             throw new NotImplementedException();
         }
+    }
+
+    private static FightingUnitMonoBase FindMyNearestUnitToEnemyTower(MatchModel matchState,
+        IUtilityMatchGeneral generalMatchUtility, out int nearestDistance)
+    {
+        var myUnits = matchState.Players[MatchPlayerType.Opponent].FightingUnits;
+        FightingUnitMonoBase nearestUnit = myUnits[0];
+        nearestDistance = generalMatchUtility.CalculateDistanceBetween2Coordinates(myUnits[0].FieldCoordinate.Data,
+            matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate);
+        foreach (var item in myUnits)
+        {
+            int distance = generalMatchUtility.CalculateDistanceBetween2Coordinates(item.FieldCoordinate.Data,
+                matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate);
+
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestUnit = item;
+            }
+        }
+
+        return nearestUnit;
     }
 }

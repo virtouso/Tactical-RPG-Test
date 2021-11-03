@@ -204,8 +204,7 @@ public class UtilityMatchQueries : IUtilityMatchQueries
 
         if (opponentAllUnitsDead)
             return MatchPlayerType.Player;
-
-
+        
         return MatchPlayerType.None;
     }
 
@@ -329,15 +328,5 @@ public class UtilityMatchQueries : IUtilityMatchQueries
         return _matchModel.Board[coord.X, coord.Y].Position;
     }
 
-    // public void UpdateTurnState()
-    // {
-    //     _matchModel.Players[_matchModel.Turn.Data].CurrentPermittedMoves--;
-    //
-    //     if (_matchModel.Players[_matchModel.Turn.Data].CurrentPermittedMoves <= 0)
-    //     {
-    //         _matchModel.Turn.Data = ~_matchModel.Turn.Data;
-    //         _matchModel.Players[_matchModel.Turn.Data].CurrentPermittedMoves =
-    //             _matchModel.NumberOfPermittedMovesInOneTurn;
-    //     }
-    // }
+
 }

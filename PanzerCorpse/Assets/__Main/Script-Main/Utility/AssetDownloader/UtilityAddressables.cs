@@ -14,7 +14,6 @@ public class UtilityAddressables : IUtilityAssetLoader
 
     public void LoadAssetByAssetReferenceAsync<T>(AssetReference assetReference, Action<AsyncOperationHandle<T>> callback)
     {
-
         assetReference.LoadAssetAsync<T>().Completed += callback;
     }
 

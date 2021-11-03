@@ -38,10 +38,7 @@ public class SettingsPanel : PanelBase
 
     public override void Show(Action<object> action, object data)
     {
-
-
-
-
+        
     }
 
     public override void Hide()

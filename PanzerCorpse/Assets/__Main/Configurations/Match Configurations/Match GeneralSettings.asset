@@ -20,4 +20,4 @@ MonoBehaviour:
   _longWaitTime: 3
   _averageWaitTime: 1
   _shortWaitTime: 0.2
-  _towersInitialHealth: 0
+  _towersInitialHealth: 100

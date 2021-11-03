@@ -47,8 +47,7 @@ public class UtilityMatchGeneral : IUtilityMatchGeneral
                 path.Y += direction.Y;
             }
         }
-
-
+        
         return path;
     }
 

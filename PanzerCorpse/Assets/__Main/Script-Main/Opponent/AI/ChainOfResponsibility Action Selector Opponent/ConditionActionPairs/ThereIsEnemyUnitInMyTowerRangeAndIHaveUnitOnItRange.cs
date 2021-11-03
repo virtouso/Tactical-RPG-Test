@@ -9,40 +9,13 @@ public class ThereIsEnemyUnitInMyTowerRangeAndIHaveUnitOnItRange : ConditionActi
 {
     public override ActionQuery Execute(MatchModel matchState,IUtilityMatchGeneral generalMatchUtility,IUtilityMatchQueries queryMatchUtility)
     {
-        FightingUnitMonoBase enemyNearMyTower = null;
+        var enemyNearMyTower = GetEnemyNearMyTower(matchState, generalMatchUtility);
 
-        TowerBase myTower = matchState.Players[MatchPlayerType.Opponent].TowerBase;
-        List<FightingUnitMonoBase> enemyUnits = matchState.Players[MatchPlayerType.Player].FightingUnits;
-        foreach (var item in enemyUnits)
-        {
-            int distance = generalMatchUtility.CalculateDistanceBetween2Coordinates(
-                myTower.FieldCoordinate, item.FieldCoordinate.Data);
-            if (distance < item.CurrentState.MovingUnitsInTurn.Data)
-            {
-                enemyNearMyTower = item;
-                break;
-            }
-        }
-
-        if (enemyNearMyTower == null) return null;
+        if (enemyNearMyTower == null) 
+            return null;
 
 
-        List<FightingUnitMonoBase> myUnits = matchState.Players[MatchPlayerType.Opponent].FightingUnits;
-
-        FightingUnitMonoBase myNearestUnitToEnemy = myUnits[0];
-        int minDistance = generalMatchUtility.CalculateDistanceBetween2Coordinates(
-            myNearestUnitToEnemy.FieldCoordinate.Data, enemyNearMyTower.FieldCoordinate.Data);
-        foreach (var item in myUnits)
-        {
-            int distance = generalMatchUtility.CalculateDistanceBetween2Coordinates(
-                enemyNearMyTower.FieldCoordinate.Data,
-                item.FieldCoordinate.Data);
-            if (distance < minDistance)
-            {
-                myNearestUnitToEnemy = item;
-                minDistance = distance;
-            }
-        }
+        var myNearestUnitToEnemy = GetMyNearestUnitToSelectedEnemy(matchState, generalMatchUtility, enemyNearMyTower);
 
 
         FieldCoordinate destination = generalMatchUtility.MoveToDestination(
@@ -66,6 +39,46 @@ public class ThereIsEnemyUnitInMyTowerRangeAndIHaveUnitOnItRange : ConditionActi
         return null;
     }
 
+    private static FightingUnitMonoBase GetMyNearestUnitToSelectedEnemy(MatchModel matchState,
+        IUtilityMatchGeneral generalMatchUtility, FightingUnitMonoBase enemyNearMyTower)
+    {
+        List<FightingUnitMonoBase> myUnits = matchState.Players[MatchPlayerType.Opponent].FightingUnits;
 
- 
+        FightingUnitMonoBase myNearestUnitToEnemy = myUnits[0];
+        int minDistance = generalMatchUtility.CalculateDistanceBetween2Coordinates(
+            myNearestUnitToEnemy.FieldCoordinate.Data, enemyNearMyTower.FieldCoordinate.Data);
+        foreach (var item in myUnits)
+        {
+            int distance = generalMatchUtility.CalculateDistanceBetween2Coordinates(
+                enemyNearMyTower.FieldCoordinate.Data,
+                item.FieldCoordinate.Data);
+            if (distance < minDistance)
+            {
+                myNearestUnitToEnemy = item;
+                minDistance = distance;
+            }
+        }
+
+        return myNearestUnitToEnemy;
+    }
+
+    private static FightingUnitMonoBase GetEnemyNearMyTower(MatchModel matchState, IUtilityMatchGeneral generalMatchUtility)
+    {
+        FightingUnitMonoBase enemyNearMyTower = null;
+
+        TowerBase myTower = matchState.Players[MatchPlayerType.Opponent].TowerBase;
+        List<FightingUnitMonoBase> enemyUnits = matchState.Players[MatchPlayerType.Player].FightingUnits;
+        foreach (var item in enemyUnits)
+        {
+            int distance = generalMatchUtility.CalculateDistanceBetween2Coordinates(
+                myTower.FieldCoordinate, item.FieldCoordinate.Data);
+            if (distance < item.CurrentState.MovingUnitsInTurn.Data)
+            {
+                enemyNearMyTower = item;
+                break;
+            }
+        }
+
+        return enemyNearMyTower;
+    }
 }

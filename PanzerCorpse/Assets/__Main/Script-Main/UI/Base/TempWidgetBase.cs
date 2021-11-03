@@ -7,8 +7,6 @@ public abstract class TempWidgetBase : MonoBehaviour
 {
 
 
-
-
     public virtual void Show(float displayTime)
     {
         gameObject.SetActive(true);
@@ -17,8 +15,6 @@ public abstract class TempWidgetBase : MonoBehaviour
 
 
     }
-
-
 
 
     private IEnumerator Disappear(float displayTime)
