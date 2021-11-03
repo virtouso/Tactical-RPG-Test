@@ -8,7 +8,6 @@ public class PlayerInputMediator : MonoBehaviour
 {
     [Inject] private InputHandlerBase _inputHandler;
     [Inject] private IGameStateManager _gameStateManager;
-
     [SerializeField] private LayerMask _panelLayerMask;
     private Camera _camera;
 
@@ -54,8 +53,7 @@ public class PlayerInputMediator : MonoBehaviour
 
     private void OnMoveFinished(bool valid,MatchPlayerType playerType )
     {
-        _cachedQuery.Current = null;
-        _cachedQuery.Goal = null;
+      
     }
     
     
@@ -86,9 +84,7 @@ public class PlayerInputMediator : MonoBehaviour
         _gameStateManager.ActionFinished += OnMoveFinished;
     }
 
-    private void Update()
-    {
-    }
+
 
     #endregion
 }

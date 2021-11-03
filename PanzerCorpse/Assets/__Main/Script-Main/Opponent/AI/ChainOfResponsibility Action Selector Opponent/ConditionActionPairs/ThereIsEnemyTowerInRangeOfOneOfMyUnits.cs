@@ -15,7 +15,7 @@ public class ThereIsEnemyTowerInRangeOfOneOfMyUnits : ConditionActionBase
                 CalculateDistanceBetween2Coordinates(item.FieldCoordinate.Data
                 , matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate);
 
-            if (distanceToTower <= item.CurrentState.MovingUntsInTurn.Data)
+            if (distanceToTower <= item.CurrentState.MovingUnitsInTurn.Data)
                 return new ActionQuery(ActionType.Shoot, item.FieldCoordinate.Data,
                     matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate,MatchPlayerType.Opponent);
         }

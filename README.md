@@ -85,7 +85,8 @@ its a great tool for making sequential events and making web requests and corout
 
 
 ## Things Could be better
-#### including a localization plugin(is its not a complete simulation its ignored).can simply write a component to read value of current language reference to a key(guid) and update it or implement an interface and implement different languages(not good idea, causes discrepancy) 
-#### make shared functionality in some function  in seperate functions to have more DRY code.
-#### could use pooling but as object get instantiate at the start and there are not too many, it was not needed.
-#### tanks and towers are not injected so they are not accessible to DI framework
+- including a localization plugin(is its not a complete simulation its ignored).can simply write a component to read value of current language reference to a key(guid) and update it or implement an interface and implement different languages(not good idea, causes discrepancy) 
+- make shared functionality in some function  in seperate functions to have more DRY code.
+- could use pooling but as object get instantiate at the start and there are not too many, it was not needed.
+- tanks and towers are not injected so they are not accessible to DI framework.
+- could not find good audio effects but by just placing good audio files, they should work as there are audio sources on objects and they get called by events

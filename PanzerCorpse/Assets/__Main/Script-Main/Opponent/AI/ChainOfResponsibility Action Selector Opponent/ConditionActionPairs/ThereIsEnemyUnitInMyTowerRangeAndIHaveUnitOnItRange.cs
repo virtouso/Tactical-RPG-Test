@@ -17,7 +17,7 @@ public class ThereIsEnemyUnitInMyTowerRangeAndIHaveUnitOnItRange : ConditionActi
         {
             int distance = generalMatchUtility.CalculateDistanceBetween2Coordinates(
                 myTower.FieldCoordinate, item.FieldCoordinate.Data);
-            if (distance < item.CurrentState.MovingUntsInTurn.Data)
+            if (distance < item.CurrentState.MovingUnitsInTurn.Data)
             {
                 enemyNearMyTower = item;
                 break;
@@ -46,7 +46,7 @@ public class ThereIsEnemyUnitInMyTowerRangeAndIHaveUnitOnItRange : ConditionActi
 
 
         FieldCoordinate destination = generalMatchUtility.MoveToDestination(
-            myNearestUnitToEnemy.CurrentState.MovingUntsInTurn.Data,
+            myNearestUnitToEnemy.CurrentState.MovingUnitsInTurn.Data,
             myNearestUnitToEnemy.FieldCoordinate.Data, enemyNearMyTower.FieldCoordinate.Data);
 
         for (int i = destination.X - 1; i < destination.X + 1; i++)

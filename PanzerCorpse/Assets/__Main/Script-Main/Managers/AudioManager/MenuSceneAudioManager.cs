@@ -27,8 +27,6 @@ public class MenuSceneAudioManager : BaseAudioManager
     private void Start()
     {
         StartMusic();
-
-
     }
 
 

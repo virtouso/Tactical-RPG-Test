@@ -7,7 +7,7 @@ public abstract class TowerBase : MonoBehaviour
 {
     [SerializeField] private GameObject _damageEffect;
     [SerializeField] private GameObject _destroyEffect;
-    
+    [SerializeField] private float _timeKeepActionAlive;
     [SerializeField] private AudioSource _damageSound;
     [SerializeField] private AudioSource _destroySound;
     
@@ -29,16 +29,18 @@ public abstract class TowerBase : MonoBehaviour
     }
 
     private IEnumerator ApplyDamage()
-    {
+    { 
         _damageEffect.SetActive(true);
-        yield return new WaitForSeconds(2f);
+        _damageSound.Play();
+        yield return new WaitForSeconds(_timeKeepActionAlive);
         _damageEffect.SetActive(false);
     }
 
     private IEnumerator ApplyDestroy()
     {
         _destroyEffect.SetActive(true);
-        yield return new WaitForSeconds(2f);
+        _destroySound.Play();
+        yield return new WaitForSeconds(_timeKeepActionAlive);
         gameObject.SetActive(false);
     }
 

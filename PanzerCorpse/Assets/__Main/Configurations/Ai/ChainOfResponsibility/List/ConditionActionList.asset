@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa9a6e979e3105f4a841e6b583b6e1ed, type: 3}
   m_Name: ConditionActionList
   m_EditorClassIdentifier: 
-  PlayerTypes:
+  _playerTypes:
   - AiType: 0
     OrderedConditionActionList:
     - {fileID: 11400000, guid: 99968f2f1bf9c924ba3fe43f1cdac3bc, type: 2}
     - {fileID: 11400000, guid: 840caf2609dc5d848817e3363be211b9, type: 2}
     - {fileID: 11400000, guid: 42ae44bb7e9d0bd41813cdacfd33555f, type: 2}
-    - {fileID: 11400000, guid: 0b764d07454194e40a76430d942f915d, type: 2}
     - {fileID: 11400000, guid: 2f2d75dcfd99cd44393409b8c291644c, type: 2}
     - {fileID: 11400000, guid: 448066ea8037ac248ace81470b0e3d68, type: 2}
     - {fileID: 11400000, guid: 2eb7a7fa2b003b949ab1e1d4f38ce05f, type: 2}
@@ -33,7 +32,6 @@ MonoBehaviour:
   - AiType: 2
     OrderedConditionActionList:
     - {fileID: 11400000, guid: 2f2d75dcfd99cd44393409b8c291644c, type: 2}
-    - {fileID: 11400000, guid: 0b764d07454194e40a76430d942f915d, type: 2}
     - {fileID: 11400000, guid: 840caf2609dc5d848817e3363be211b9, type: 2}
     - {fileID: 11400000, guid: 99968f2f1bf9c924ba3fe43f1cdac3bc, type: 2}
     - {fileID: 11400000, guid: 448066ea8037ac248ace81470b0e3d68, type: 2}

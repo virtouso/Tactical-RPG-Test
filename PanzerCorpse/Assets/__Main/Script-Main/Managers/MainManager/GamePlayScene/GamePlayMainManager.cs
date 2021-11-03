@@ -5,9 +5,6 @@ using Zenject;
 
 public class GamePlayMainManager : MonoBehaviour, IGamePlayMainManager
 {
-
-  
-
-
+   
 
 }

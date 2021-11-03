@@ -6,7 +6,6 @@ public interface IGameDataManager
 {
     PlayerData PlayerData { get; set; }
     GameState GameState { get; set; }
-
     string GetPlayerSelectedMap();
  
 }

@@ -8,6 +8,8 @@ public abstract class FightingUnitMonoBase : MonoBehaviour
 {
     public FightingUnitPerLevelStats InitialStats;
     public FightingUnitCurrentStats CurrentState;
+    
+    [SerializeField] protected float TimeKeepActionAlive;
     [SerializeField] private MeshRenderer _body;
     [SerializeField] protected GameObject DeathEffect;
     [SerializeField] protected GameObject TakeDamageEffect;
@@ -18,12 +20,11 @@ public abstract class FightingUnitMonoBase : MonoBehaviour
     [SerializeField] protected AudioSource ShootSound;
     [SerializeField] private Animator _animator;
 
+
     [Inject] protected IMatchGeneralSettings GeneralSettings;
     [Inject] private IUtilityMatchQueries _queryUtility;
     [Inject] protected IUtilityMatchGeneral GeneralMatchUtility;
     public Model<FieldCoordinate> FieldCoordinate;
-
-
 
 
     public void Init(FightingUnitPerLevelStats config,

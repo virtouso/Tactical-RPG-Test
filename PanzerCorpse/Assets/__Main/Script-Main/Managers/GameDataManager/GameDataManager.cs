@@ -14,10 +14,8 @@ public class GameDataManager : MonoBehaviour, IGameDataManager
     {
         get
         {
-
             if (_playerData == null)
             {
-
                 if (_utilityFile.KeyExist(PlayerPrefsGeneralKeys.PlayerDate))
                 {
                     _playerData =

@@ -9,6 +9,7 @@ public class HexMapGenerator : MonoBehaviour, IHexMapGenerator
     public HexPanelBase[,] HexGrid => _hexGrid;
 
     [Inject] private HexPanelBase _hexPrefab;
+    [SerializeField] private float _intervalTime;
     [SerializeField] private FieldCoordinate _fieldSize;
 
     [Tooltip("dont touch it. these are from blender")] [SerializeField]
@@ -55,7 +56,7 @@ public class HexMapGenerator : MonoBehaviour, IHexMapGenerator
         {
             for (int x = 0; x < _fieldSize.X; x++)
             {
-                yield return new WaitForSeconds(0.005f);
+                yield return new WaitForSeconds(_intervalTime);
                 HexPanelBase hexPanel = GameObject.Instantiate(_hexPrefab);
                 FieldCoordinate gridPos = new FieldCoordinate(x, y);
                 hexPanel.SetPosition(CalculateWorldPosition(gridPos));

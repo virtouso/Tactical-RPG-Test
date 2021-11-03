@@ -8,13 +8,10 @@ public abstract class BaseAudioManager : MonoBehaviour
 {
 
     [Inject] private IUtilityFile _utilityFile;
-
     [SerializeField] private AudioMixer _audioMixer;
 
 
-
-
-
+    
     public float MusicVolume
     {
         get
@@ -45,8 +42,7 @@ public abstract class BaseAudioManager : MonoBehaviour
     }
 
 
-
-
+    
     private void InitAfxVolume()
     {
         _audioMixer.SetFloat(MixerKeys.Afx, _utilityFile.LoadFloat(MixerKeys.Afx));
@@ -58,23 +54,13 @@ public abstract class BaseAudioManager : MonoBehaviour
 
     }
 
-
-
-
-
-
-
-
-
-
+    
     private void Start()
     {
         InitAfxVolume();
         InitMusicVolume();
     }
-
-
-
+    
 }
 
 

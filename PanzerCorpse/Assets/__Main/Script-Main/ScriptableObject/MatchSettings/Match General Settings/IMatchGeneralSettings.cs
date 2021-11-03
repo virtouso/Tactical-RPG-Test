@@ -10,4 +10,9 @@ public interface IMatchGeneralSettings
     public Material NormalMaterial { get; }
     public Material AttackMaterial { get; }
     public Material MoveMaterial { get; }
+
+    float LongWaitTime { get; }
+    float AverageWaitTime { get; }
+    float ShortWaitTime { get; }
+    int TowersInitialHealth { get; }
 }

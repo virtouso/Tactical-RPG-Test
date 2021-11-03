@@ -17,16 +17,23 @@ public class OpponentManager :MonoBehaviour, IOpponentManager
     {
         if (playerTurn != MatchPlayerType.Opponent) return;
         UnityEngine.Debug.Log("its Opponent turn");
+        StartCoroutine(ApplyActionWaited());
+
+    }
+
+
+    private IEnumerator ApplyActionWaited()
+    {
+        yield return new WaitForSeconds(5f);
         ActionQuery opponentSelectedAction = _opponent.ApplyAction(_utilityMatchQueries.MatchModel);
-        opponentSelectedAction.From = MatchPlayerType.Opponent;
         _gameStateManager.SelectedWholeMoveByPlayers(opponentSelectedAction);
-        
     }
 
     private void OnMoveFinished(bool valid,MatchPlayerType playerType )
     {
         if (valid) return;
         if (playerType != MatchPlayerType.Opponent) return;
+        Debug.Log(" Opponent action was no valid, do it again");
         CheckMyTurn(playerType);
     }
     

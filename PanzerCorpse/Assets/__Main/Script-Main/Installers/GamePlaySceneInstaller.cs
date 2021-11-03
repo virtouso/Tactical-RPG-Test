@@ -5,19 +5,18 @@ public class GamePlaySceneInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
-        Container.Bind<BaseOpponent>().To<AiOpponentBasedOnChainOfResponsibility>().FromComponentsInHierarchy()
-            .AsSingle();
+        Container.Bind<BaseOpponent>().To<AiOpponentBasedOnChainOfResponsibility>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<IEndPopup>().To<EndPopup>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<ITurnPopup>().To<TurnPopup>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<InputHandlerBase>().To<WindowsInputHandler>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<IGamePlayCamera>().To<GamePlayCamera>().FromComponentsInHierarchy().AsSingle();
-        Container.Bind<IHexMapGenerator>().To<HexMapGenerator>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<IGamePlayMainManager>().To<GamePlayMainManager>().FromComponentsInHierarchy().AsSingle();
-        Container.Bind<IGameStateManager>().To<GameStateManager>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<IGameDataManager>().To<GameDataManager>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<IGamePlayUiManager>().To<GamePlayUiManager>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<BaseAudioManager>().To<GamePlaySceneAudioManager>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<IOpponentManager>().To<OpponentManager>().FromComponentsInHierarchy().AsSingle();
-       
+        Container.Bind<IHexMapGenerator>().To<HexMapGenerator>().FromComponentsInHierarchy().AsSingle();
+        Container.Bind<IMapElementsGenerator>().To<MapElementsGenerator>().FromComponentsInHierarchy().AsSingle();
+        Container.Bind<IGameStateManager>().To<GameStateManager>().FromComponentsInHierarchy().AsSingle();
     }
 }

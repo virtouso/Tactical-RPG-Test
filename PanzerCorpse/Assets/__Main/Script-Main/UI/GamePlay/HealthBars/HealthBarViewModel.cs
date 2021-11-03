@@ -16,6 +16,8 @@ public class HealthBarViewModel : ViewModelBase, IHealthBarViewModel
     private void UpdateSlider(int value)
     {
         _slider.value = value;
+        if(value<=0)
+            gameObject.SetActive(false);
     }
 
 

@@ -8,7 +8,9 @@ public class TigerTankMono : FightingUnitMonoBase
     {
         ShootEffect.SetActive(true);
         ShootSound.Play();
-        yield return new WaitForSeconds(1f);
+        Vector3 direction = goal - transform.position;
+        transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+        yield return new WaitForSeconds(TimeKeepActionAlive);
         ShootEffect.SetActive(false);
     }
 
@@ -16,7 +18,7 @@ public class TigerTankMono : FightingUnitMonoBase
     {
         TakeDamageEffect.SetActive(true);
         DamageSound.Play();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(TimeKeepActionAlive);
         ShootEffect.SetActive(false);
     }
 
@@ -24,7 +26,7 @@ public class TigerTankMono : FightingUnitMonoBase
     {
         DeathEffect.SetActive(true);
         DeathSound.Play();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(TimeKeepActionAlive);
         DeathEffect.SetActive(false);
         gameObject.SetActive(false);
     }

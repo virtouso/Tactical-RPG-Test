@@ -22,7 +22,7 @@ public class ThereIsMyVulnerableUnitInEnemyRange : ConditionActionBase
                     myUnit.CurrentState.HealthAmount.Data <= enemyUnit.CurrentState.DamageAmount.Data;
                 bool inRange = generalMatchUtility.CalculateDistanceBetween2Coordinates(
                     myUnit.FieldCoordinate.Data, enemyUnit.FieldCoordinate.Data
-                ) <= enemyUnit.CurrentState.MovingUntsInTurn.Data;
+                ) <= enemyUnit.CurrentState.MovingUnitsInTurn.Data;
 
                 if (inRange && myUnitIsVulnerable)
                 {
@@ -45,7 +45,7 @@ public class ThereIsMyVulnerableUnitInEnemyRange : ConditionActionBase
                 int newDistance = generalMatchUtility.CalculateDistanceBetween2Coordinates(
                     selectedEnemyUnit.FieldCoordinate.Data, new FieldCoordinate(i,j));
 
-                bool stillInDanger = newDistance <= selectedEnemyUnit.CurrentState.MovingUntsInTurn.Data;
+                bool stillInDanger = newDistance <= selectedEnemyUnit.CurrentState.MovingUnitsInTurn.Data;
 
                 bool hexInBoard = queryMatchUtility.CheckCoordinateIsInsideBoard(new FieldCoordinate(i, j));
                 bool hexMasked = queryMatchUtility.CheckHexPanelIsMasked(new FieldCoordinate(i, j));

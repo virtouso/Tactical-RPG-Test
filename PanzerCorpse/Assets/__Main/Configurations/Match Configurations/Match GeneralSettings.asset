@@ -17,3 +17,7 @@ MonoBehaviour:
   _hexNormalMaterial: {fileID: 2100000, guid: 90a61c0dc010b784b93b5719b0cb38b8, type: 2}
   _hexAttackMaterial: {fileID: 2100000, guid: be4d7173474f80c4b9937bea872bc76e, type: 2}
   _hexMoveMaterial: {fileID: 2100000, guid: 44584c34293968143874ac78ae8810fd, type: 2}
+  _longWaitTime: 3
+  _averageWaitTime: 1
+  _shortWaitTime: 0.2
+  _towersInitialHealth: 0

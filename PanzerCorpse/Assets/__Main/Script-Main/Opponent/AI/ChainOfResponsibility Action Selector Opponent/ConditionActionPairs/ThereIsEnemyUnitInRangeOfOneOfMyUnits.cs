@@ -17,7 +17,7 @@ public class ThereIsEnemyUnitInRangeOfOneOfMyUnits : ConditionActionBase
                 FieldCoordinate myUnitCoord = myUnit.FieldCoordinate.Data;
 
                 int distance = generalMatchUtility.CalculateDistanceBetween2Coordinates(playerUnitCoord, myUnitCoord);
-                if (distance <= myUnit.CurrentState.MovingUntsInTurn.Data)
+                if (distance <= myUnit.CurrentState.MovingUnitsInTurn.Data)
                 {
                     return new ActionQuery(ActionType.Shoot,myUnitCoord,playerUnitCoord,MatchPlayerType.Opponent);
                 }

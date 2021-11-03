@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -29,13 +30,13 @@ public class UtilityMatchQueries : IUtilityMatchQueries
 
     public void RemoveDeadUnityFromList()
     {
-        foreach (var playerUnit in _matchModel.Players[MatchPlayerType.Player].FightingUnits)
+        foreach (var playerUnit in _matchModel.Players[MatchPlayerType.Player].FightingUnits.ToList())
         {
             if (playerUnit.CurrentState.HealthAmount.Data <= 0)
                 _matchModel.Players[MatchPlayerType.Player].FightingUnits.Remove(playerUnit);
         }
 
-        foreach (var opponentUnit in _matchModel.Players[MatchPlayerType.Opponent].FightingUnits)
+        foreach (var opponentUnit in _matchModel.Players[MatchPlayerType.Opponent].FightingUnits.ToList())
         {
             if (opponentUnit.CurrentState.HealthAmount.Data <= 0)
                 _matchModel.Players[MatchPlayerType.Opponent].FightingUnits.Remove(opponentUnit);
@@ -93,13 +94,13 @@ public class UtilityMatchQueries : IUtilityMatchQueries
 
         if (goalIsPlayerTower)
             return false;
-        
+
         int distance =
             _utilityMatchGeneral.CalculateDistanceBetween2Coordinates(actionQuery.Current, actionQuery.Goal);
-        bool inRange = distance <= selectedUnit.CurrentState.MovingUntsInTurn.Data;
+        bool inRange = distance <= selectedUnit.CurrentState.MovingUnitsInTurn.Data;
         if (!inRange)
             return false;
-        
+
         return true;
     }
 
@@ -122,7 +123,8 @@ public class UtilityMatchQueries : IUtilityMatchQueries
         {
             if (_utilityMatchGeneral.Check2CoordinatesAreEqual(hexPanel.FieldCoordinate, coordinate))
                 continue;
-            if (_utilityMatchGeneral.CalculateDistanceBetween2Coordinates(coordinate, hexPanel.FieldCoordinate) >
+            if (_utilityMatchGeneral.CalculateDistanceBetween2Coordinates(coordinate,
+                    hexPanel.FieldCoordinate) >
                 selectedPlayerUnit.InitialStats.MovingUnitsInTurn)
                 continue;
             //check no friendly unit or tower in that hex
@@ -143,17 +145,30 @@ public class UtilityMatchQueries : IUtilityMatchQueries
 
             // check there is enemy unit or tower in that hex or not.
             if (_utilityMatchGeneral.Check2CoordinatesAreEqual(
-                _matchModel.Players[MatchPlayerType.Opponent].TowerBase.FieldCoordinate, hexPanel.FieldCoordinate))
+                _matchModel.Players[MatchPlayerType.Opponent].TowerBase.FieldCoordinate,
+                hexPanel.FieldCoordinate))
+            {
                 possibleQueries.Add(new ActionQuery(ActionType.Shoot, coordinate, hexPanel.FieldCoordinate,
-                    MatchPlayerType.None));
+                    MatchPlayerType.Player));
+                continue;
+            }
 
+            bool addedEnemy = false;
             foreach (var enemyUnit in _matchModel.Players[MatchPlayerType.Opponent].FightingUnits)
             {
+                if (addedEnemy) continue;
                 if (_utilityMatchGeneral.Check2CoordinatesAreEqual(enemyUnit.FieldCoordinate.Data,
                     hexPanel.FieldCoordinate))
-                    possibleQueries.Add(new ActionQuery(ActionType.Shoot, coordinate, enemyUnit.FieldCoordinate.Data,
-                        MatchPlayerType.None));
+                {
+                    possibleQueries.Add(new ActionQuery(ActionType.Shoot, coordinate,
+                        enemyUnit.FieldCoordinate.Data,
+                        MatchPlayerType.Player));
+                    addedEnemy = true;
+                }
             }
+
+            if (addedEnemy)
+                continue;
 
             possibleQueries.Add(new ActionQuery(ActionType.Move, coordinate, hexPanel.FieldCoordinate,
                 MatchPlayerType.None));
@@ -207,7 +222,8 @@ public class UtilityMatchQueries : IUtilityMatchQueries
         foreach (var enemyUnit in _matchModel.Players[_utilityMatchGeneral.SwitchPlayers(actionQuery.From)]
             .FightingUnits)
         {
-            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(actionQuery.Current, enemyUnit.FieldCoordinate.Data))
+            if (_utilityMatchGeneral.Check2CoordinatesAreEqual(actionQuery.Goal,
+                enemyUnit.FieldCoordinate.Data))
                 selectedEnemyUnit = enemyUnit;
         }
 
@@ -218,7 +234,7 @@ public class UtilityMatchQueries : IUtilityMatchQueries
             enemySelectedTower = enemyTower;
 
         ActionType action = ActionType.None;
-        if (selectedEnemyUnit == null && selectedEnemyUnit == null)
+        if (selectedEnemyUnit == null && enemySelectedTower == null)
         {
             action = ActionType.Move;
         }
@@ -226,7 +242,7 @@ public class UtilityMatchQueries : IUtilityMatchQueries
         {
             action = ActionType.Shoot;
         }
-            
+
         switch (action)
         {
             case ActionType.Move:
@@ -247,7 +263,7 @@ public class UtilityMatchQueries : IUtilityMatchQueries
                 }
 
                 break;
-            
+
             default:
                 throw new NotImplementedException();
                 break;

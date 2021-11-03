@@ -2035,6 +2035,7 @@ MonoBehaviour:
     DamageAmount: 0
     HealthAmount: 0
     MovingUnitsInTurn: 0
+  TimeKeepActionAlive: 1
   _body: {fileID: 7244280440353707806}
   DeathEffect: {fileID: 5272041482733566764}
   TakeDamageEffect: {fileID: 8669530224026893493}

@@ -9,10 +9,7 @@ public class HexPanel : HexPanelBase
     [SerializeField] private MeshRenderer _meshRenderer;
     public override FieldCoordinate FieldCoordinate { get; set; }
 
-    public override Vector3 Position
-    {
-        get => _centerTransform.position;
-    }
+    public override Vector3 Position => _centerTransform.position;
 
     public override void SetPosition(Vector3 position)
     {

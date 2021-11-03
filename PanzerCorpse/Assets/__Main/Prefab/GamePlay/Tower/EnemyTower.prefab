@@ -229,6 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damageEffect: {fileID: 1609007130583252642}
   _destroyEffect: {fileID: 423259522641067220}
+  _timeKeepActionAlive: 2
   _damageSound: {fileID: 7813400953955641466}
   _destroySound: {fileID: 6705592212375432659}
 --- !u!114 &2447549735214365508

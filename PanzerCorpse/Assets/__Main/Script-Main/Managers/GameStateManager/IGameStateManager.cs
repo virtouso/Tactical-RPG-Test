@@ -6,13 +6,8 @@ using UnityEngine;
 public interface IGameStateManager 
 {
   bool PlayerCanPlay { get; }
-
-
   void PlayerCleared();
-
   void PlayerSelectedOrigin(FieldCoordinate coordinate);
-
-
   void SelectedWholeMoveByPlayers(ActionQuery actionQuery);
   System.Action<MatchPlayerType> OnTurnUpdate { get; set; }
   System.Action<bool, MatchPlayerType> ActionFinished { get; set; }

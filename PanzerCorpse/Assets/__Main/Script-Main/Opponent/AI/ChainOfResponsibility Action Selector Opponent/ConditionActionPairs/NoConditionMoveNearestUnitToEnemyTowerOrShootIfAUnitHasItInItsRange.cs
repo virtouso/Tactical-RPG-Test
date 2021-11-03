@@ -26,13 +26,13 @@ public class NoConditionMoveNearestUnitToEnemyTowerOrShootIfAUnitHasItInItsRange
             }
         }
 
-        if (nearestDistance <= nearestUnit.CurrentState.MovingUntsInTurn.Data)
+        if (nearestDistance <= nearestUnit.CurrentState.MovingUnitsInTurn.Data)
             return new ActionQuery(ActionType.Shoot, nearestUnit.FieldCoordinate.Data,
                 matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate, MatchPlayerType.Opponent);
         else
         {
             FieldCoordinate destination =
-                generalMatchUtility.MoveToDestination(nearestUnit.CurrentState.MovingUntsInTurn.Data,
+                generalMatchUtility.MoveToDestination(nearestUnit.CurrentState.MovingUnitsInTurn.Data,
                     nearestUnit.FieldCoordinate.Data,
                     matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate);
             

@@ -14,7 +14,7 @@ public class ThereIsEnemyUnitInMyTowerRangeAndHaveNoUnitOnItRange : ConditionAct
         {
             if (generalMatchUtility.CalculateDistanceBetween2Coordinates
             (matchState.Players[MatchPlayerType.Opponent].TowerBase.FieldCoordinate,
-                item.FieldCoordinate.Data) <= item.CurrentState.MovingUntsInTurn.Data)
+                item.FieldCoordinate.Data) <= item.CurrentState.MovingUnitsInTurn.Data)
                 nearPlayerUnitToMyTower = item;
         }
 
@@ -26,7 +26,7 @@ public class ThereIsEnemyUnitInMyTowerRangeAndHaveNoUnitOnItRange : ConditionAct
         {
             if (generalMatchUtility.CalculateDistanceBetween2Coordinates(
                     item.FieldCoordinate.Data, nearPlayerUnitToMyTower.FieldCoordinate.Data) <
-                item.CurrentState.MovingUntsInTurn.Data)
+                item.CurrentState.MovingUnitsInTurn.Data)
             {
                 myNearUnitToEnemy = item;
                 break;
