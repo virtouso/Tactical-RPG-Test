@@ -27,8 +27,10 @@ public class NoConditionMoveNearestUnitToEnemyTowerOrShootIfAUnitHasItInItsRange
         }
 
         if (nearestDistance <= nearestUnit.CurrentState.MovingUnitsInTurn.Data)
+        {
             return new ActionQuery(ActionType.Shoot, nearestUnit.FieldCoordinate.Data,
                 matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate, MatchPlayerType.Opponent);
+        }
         else
         {
             FieldCoordinate destination =

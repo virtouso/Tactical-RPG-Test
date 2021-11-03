@@ -6,11 +6,7 @@ public abstract class ViewModelBase : MonoBehaviour
 {
 
     protected abstract void BindDependencies();
-
-
-
-
-
+    
     protected virtual void Start()
     {
         BindDependencies();

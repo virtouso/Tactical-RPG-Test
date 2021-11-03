@@ -15,8 +15,6 @@ public class PlayerData
 }
 
 
-
-
 public class PlayerCredentials
 {
     public Model<string> UniqueId;
@@ -27,6 +25,7 @@ public class PlayerCredentials
     {
         UniqueId = new Model<string>("no_id");
         DisplayName = new Model<string>("No Name");
+   
     }
     public PlayerCredentials(Model<string> uniqueId, Model<string> displayName)
     {
