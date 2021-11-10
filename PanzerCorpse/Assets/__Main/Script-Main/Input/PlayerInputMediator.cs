@@ -8,6 +8,7 @@ public class PlayerInputMediator : MonoBehaviour
 {
     [Inject] private InputHandlerBase _inputHandler;
     [Inject] private IGameStateManager _gameStateManager;
+    [Inject] private ILogger _logger;
     [SerializeField] private LayerMask _panelLayerMask;
     private Camera _camera;
 
@@ -22,7 +23,8 @@ public class PlayerInputMediator : MonoBehaviour
     private void OnPointerClicked()
     {
         if (!_gameStateManager.PlayerCanPlay) return;
-        Debug.Log("pointer clicked called");
+
+        _logger.ShowNormalLog("pointer clicked called",Color.magenta,Channels.Input);
         HexPanelBase selectedPanel = SelectHexPanelUnderMouse();
         if (selectedPanel == null)
         {
@@ -34,13 +36,15 @@ public class PlayerInputMediator : MonoBehaviour
         {
             if (_cachedQuery.Current == null && _cachedQuery.Goal == null)
             {
-                Debug.Log("player first action");
+            
+                _logger.ShowNormalLog("player first action",Color.yellow, Channels.Input);
                 _cachedQuery.Current = selectedPanel.FieldCoordinate;
                 _playerSelectedOrigin.Invoke(selectedPanel.FieldCoordinate);
             }
             else if (_cachedQuery.Current != null && _cachedQuery.Goal == null)
             {
-                Debug.Log("player complete action");
+                _logger.ShowNormalLog("player complete action",Color.yellow, Channels.Input);
+
                 _cachedQuery.Goal = selectedPanel.FieldCoordinate;
                 _playerSelectedWholeAction.Invoke(_cachedQuery);
 

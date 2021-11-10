@@ -25,7 +25,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     [Inject] private IUtilityMatchGeneral _matchGeneralUtility;
     [Inject] private HealthBarViewModel.Factory _healthBarFactory;
     [Inject] private IMatchGeneralSettings _matchGeneralSettings;
-
+    [Inject] private ILogger _logger;
     [SerializeField] private Transform _healthBarParent;
 
 
@@ -193,7 +193,8 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
     public void SelectedWholeMoveByPlayers(ActionQuery actionQuery)
     {
         bool moveIsValid = _matchQueryUtility.CheckActionIsValid(actionQuery);
-        Debug.Log("Action Is valid::" + moveIsValid + ",from:" + actionQuery.From);
+   
+        _logger.ShowNormalLog("Action Is valid::" + moveIsValid + ",from:" + actionQuery.From,Color.green, Channels.MatchState);
         ClearBoardColors();
         if (!moveIsValid)
         {
