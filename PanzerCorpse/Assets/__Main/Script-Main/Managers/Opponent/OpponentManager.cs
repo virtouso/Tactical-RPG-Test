@@ -9,14 +9,14 @@ public class OpponentManager :MonoBehaviour, IOpponentManager
     [Inject] private BaseOpponent _opponent;
     [Inject] private IGameStateManager _gameStateManager;
     [Inject] private IUtilityMatchQueries _utilityMatchQueries;
-
+    [Inject] private ILogger _logger;
 
 
 
     private void CheckMyTurn(MatchPlayerType playerTurn)
     {
         if (playerTurn != MatchPlayerType.Opponent) return;
-        UnityEngine.Debug.Log("its Opponent turn");
+        _logger.ShowNormalLog("its Opponent turn",Color.blue,Channels.MatchState );
         StartCoroutine(ApplyActionWaited());
 
     }

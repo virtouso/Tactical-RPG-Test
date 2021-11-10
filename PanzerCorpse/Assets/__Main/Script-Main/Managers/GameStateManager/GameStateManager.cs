@@ -137,7 +137,7 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
         MatchPlayerType currentTurn = MatchPlayerType.None;
         if (isInitial)
         {
-            _matchQueryUtility.MatchModel.Turn.Data = (MatchPlayerType)UnityEngine.Random.Range(0, 1);
+            _matchQueryUtility.MatchModel.Turn.Data = (MatchPlayerType)UnityEngine.Random.Range(0, 2);
 
             currentTurn = _matchQueryUtility.MatchModel.Turn.Data;
             _matchQueryUtility.MatchModel.Players[currentTurn].CurrentPermittedMoves =
@@ -203,8 +203,12 @@ public class GameStateManager : MonoBehaviour, IGameStateManager
         }
 
         _updatingUi = true;
-        ApplyMoveCoroutine(actionQuery).SelectMany((query) => Observable.FromCoroutine(EmptyWait))
-            .SelectMany(RemoveDeadUnits()).SelectMany(CheckMatchIsFinished()).SelectMany((winner) =>
+        ApplyMoveCoroutine(actionQuery)
+            .SelectMany((query) => Observable
+                .FromCoroutine(EmptyWait))
+            .SelectMany(RemoveDeadUnits()).
+            SelectMany(CheckMatchIsFinished()).
+            SelectMany((winner) =>
             {
                 if (winner == MatchPlayerType.None)
                     StartCoroutine(UpdateTurn(false));
