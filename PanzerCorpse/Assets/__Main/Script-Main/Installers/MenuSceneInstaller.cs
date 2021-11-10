@@ -5,9 +5,9 @@ public class MenuSceneInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
-        Container.Bind<IMenuSceneMainManager>().To<MenuSceneMainManager>().FromComponentsInHierarchy().AsSingle();
-        Container.Bind<BaseAudioManager>().To<MenuSceneAudioManager>().FromComponentsInHierarchy().AsSingle();
-        Container.Bind<IMenuUiManager>().To<MenuUiManager>().FromComponentsInHierarchy().AsSingle();
-        Container.Bind<IGameDataManager>().To<GameDataManager>().FromComponentsInHierarchy().AsSingle();
+        Container.Bind<IMenuSceneMainManager>().To<MenuSceneMainManager>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<BaseAudioManager>().To<MenuSceneAudioManager>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<IMenuUiManager>().To<MenuUiManager>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<IGameDataManager>().To<GameDataManager>().FromComponentInHierarchy().AsSingle();
     }
 }

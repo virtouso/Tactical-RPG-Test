@@ -24,8 +24,9 @@ public class MenuSceneAudioManager : BaseAudioManager
     }
 
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         StartMusic();
     }
 

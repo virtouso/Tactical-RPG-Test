@@ -9,7 +9,7 @@ public abstract class BaseAudioManager : MonoBehaviour
 
     [Inject] private IUtilityFile _utilityFile;
     [SerializeField] private AudioMixer _audioMixer;
-
+    [Inject] private ILogger _logger;
 
     
     public float MusicVolume
@@ -50,12 +50,13 @@ public abstract class BaseAudioManager : MonoBehaviour
 
     private void InitMusicVolume()
     {
+       _logger.ShowNormalLog( _utilityFile.LoadFloat(MixerKeys.Music).ToString(),Color.blue, Channels.Ui);
         _audioMixer.SetFloat(MixerKeys.Music, _utilityFile.LoadFloat(MixerKeys.Music));
 
     }
 
     
-    private void Start()
+    protected virtual void Start()
     {
         InitAfxVolume();
         InitMusicVolume();

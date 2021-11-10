@@ -5,4 +5,12 @@ using UnityEngine;
 public class GamePlaySceneAudioManager : BaseAudioManager
 {
 
+
+
+
+    protected override void Start()
+    {
+        base.Start();
+    }
+    
 }

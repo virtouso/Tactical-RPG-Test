@@ -9,6 +9,7 @@ public enum Channels : uint
     Ui = 1 << 1,
     MatchGraphics = 1 << 2,
     GameLogic = 1 << 3,
-    Input = 1 << 4
+    Input = 1 << 4,
+    Settings = 1 << 5
     //.. add channels you n need
 }
