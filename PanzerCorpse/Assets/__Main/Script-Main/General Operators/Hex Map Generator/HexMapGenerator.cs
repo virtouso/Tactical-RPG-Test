@@ -12,9 +12,10 @@ public class HexMapGenerator : MonoBehaviour, IHexMapGenerator
     [SerializeField] private float _intervalTime;
     [SerializeField] private FieldCoordinate _fieldSize;
 
-    [Tooltip("dont touch it. these are from blender")] [SerializeField]
-    private Vector2 _hexSize;
-
+    [Tooltip("dont touch it. these are from blender")] 
+    [SerializeField] private Vector2 _hexSize;
+    [SerializeField] private float _hexYOffset;
+    
     [SerializeField] private float _gap;
 
 
@@ -43,7 +44,7 @@ public class HexMapGenerator : MonoBehaviour, IHexMapGenerator
             offset = _hexSize.x / 2;
 
         float x = -_hexSize.x * (_fieldSize.X / 2) - offset;
-        float z = _hexSize.y * 0.75f * (_fieldSize.Y / 2);
+        float z = _hexSize.y * _hexYOffset * (_fieldSize.Y / 2);
 
         _startPos = new Vector3(x, 0, z);
     }
@@ -78,7 +79,7 @@ public class HexMapGenerator : MonoBehaviour, IHexMapGenerator
             offset = _hexSize.x / 2;
 
         float x = _startPos.x + panelPosition.X * _hexSize.x + offset;
-        float z = _startPos.z - panelPosition.Y * _hexSize.y * 0.75f;
+        float z = _startPos.z - panelPosition.Y * _hexSize.y * _hexYOffset;
 
         return new Vector3(x, 0, z);
     }

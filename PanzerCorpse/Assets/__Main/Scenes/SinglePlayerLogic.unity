@@ -1000,6 +1000,7 @@ MonoBehaviour:
     X: 14
     Y: 9
   _hexSize: {x: 1.732, y: 2}
+  _hexYOffset: 0.75
   _gap: 0.1
 --- !u!114 &879017554
 MonoBehaviour:
