@@ -6,6 +6,5 @@ using Zenject;
 public abstract class ConditionActionBase : ScriptableObject
 {
     public abstract ActionQuery Execute(MatchModel matchState,IUtilityMatchGeneral generalMatchUtility,IUtilityMatchQueries queryMatchUtility);
-
-
+    
 }

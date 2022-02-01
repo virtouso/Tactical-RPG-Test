@@ -13,14 +13,9 @@ public class ThereIsEnemyUnitInMyTowerRangeAndIHaveUnitOnItRange : ConditionActi
 
         if (enemyNearMyTower == null) 
             return null;
-
-
+        
         var myNearestUnitToEnemy = GetMyNearestUnitToSelectedEnemy(matchState, generalMatchUtility, enemyNearMyTower);
-
-
-        FieldCoordinate destination = generalMatchUtility.MoveToDestination(
-            myNearestUnitToEnemy.CurrentState.MovingUnitsInTurn.Data,
-            myNearestUnitToEnemy.FieldCoordinate.Data, enemyNearMyTower.FieldCoordinate.Data);
+        FieldCoordinate destination = generalMatchUtility.MoveToDestination(myNearestUnitToEnemy.CurrentState.MovingUnitsInTurn.Data, myNearestUnitToEnemy.FieldCoordinate.Data, enemyNearMyTower.FieldCoordinate.Data);
 
         for (int i = destination.X - 1; i < destination.X + 1; i++)
         {
@@ -34,8 +29,6 @@ public class ThereIsEnemyUnitInMyTowerRangeAndIHaveUnitOnItRange : ConditionActi
                     new FieldCoordinate(i, j), MatchPlayerType.Opponent);
             }
         }
-
-
         return null;
     }
 

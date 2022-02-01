@@ -12,32 +12,20 @@ public class ThereIsEnemyUnitInMyTowerRangeAndHaveNoUnitOnItRange : ConditionAct
         FightingUnitMonoBase nearPlayerUnitToMyTower=null;
         foreach (var item in matchState.Players[MatchPlayerType.Player].FightingUnits)
         {
-            if (generalMatchUtility.CalculateDistanceBetween2Coordinates
-            (matchState.Players[MatchPlayerType.Opponent].TowerBase.FieldCoordinate,
-                item.FieldCoordinate.Data) <= item.CurrentState.MovingUnitsInTurn.Data)
+            if (generalMatchUtility.CalculateDistanceBetween2Coordinates(matchState.Players[MatchPlayerType.Opponent].TowerBase.FieldCoordinate, item.FieldCoordinate.Data) <= item.CurrentState.MovingUnitsInTurn.Data)
                 nearPlayerUnitToMyTower = item;
         }
-
         if (nearPlayerUnitToMyTower == null) return null;
-
         FightingUnitMonoBase myNearUnitToEnemy=null;
-
         foreach (var item in matchState.Players[MatchPlayerType.Opponent].FightingUnits )
         {
-            if (generalMatchUtility.CalculateDistanceBetween2Coordinates(
-                    item.FieldCoordinate.Data, nearPlayerUnitToMyTower.FieldCoordinate.Data) <
-                item.CurrentState.MovingUnitsInTurn.Data)
+            if (generalMatchUtility.CalculateDistanceBetween2Coordinates(item.FieldCoordinate.Data, nearPlayerUnitToMyTower.FieldCoordinate.Data) < item.CurrentState.MovingUnitsInTurn.Data)
             {
                 myNearUnitToEnemy = item;
                 break;
             }
         }
-
         if (myNearUnitToEnemy == null) return null;
-
-        return new ActionQuery(ActionType.Shoot, myNearUnitToEnemy.FieldCoordinate.Data,
-            nearPlayerUnitToMyTower.FieldCoordinate.Data,MatchPlayerType.Opponent);
-
-
+        return new ActionQuery(ActionType.Shoot, myNearUnitToEnemy.FieldCoordinate.Data, nearPlayerUnitToMyTower.FieldCoordinate.Data,MatchPlayerType.Opponent);
     }
 }

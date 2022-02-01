@@ -59,7 +59,6 @@ public class NoConditionMoveNearestUnitToEnemyTowerOrShootIfAUnitHasItInItsRange
                 nearestUnit = item;
             }
         }
-
         return nearestUnit;
     }
 }

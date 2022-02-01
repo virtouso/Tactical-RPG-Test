@@ -20,8 +20,7 @@ public class OpponentManager :MonoBehaviour, IOpponentManager
         StartCoroutine(ApplyActionWaited());
 
     }
-
-
+    
     private IEnumerator ApplyActionWaited()
     {
         yield return new WaitForSeconds(5f);

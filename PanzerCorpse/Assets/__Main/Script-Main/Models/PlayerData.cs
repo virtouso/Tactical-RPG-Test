@@ -19,8 +19,7 @@ public class PlayerCredentials
 {
     public Model<string> UniqueId;
     public Model<string> DisplayName;
-
-
+    
     public PlayerCredentials()
     {
         UniqueId = new Model<string>("no_id");
