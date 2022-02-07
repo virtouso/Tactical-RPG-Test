@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XDiffGui;
 
-[System.Serializable]
-public class PanelKeyPanelBasePair
+
+namespace Panzers.Reference
 {
-    public PanelKeys PanelKey;
-    public PanelBase Panel;
+    [System.Serializable]
+    public class PanelKeyPanelBasePair
+    {
+        public PanelKeys PanelKey;
+        public PanelBase Panel;
+    }
 }

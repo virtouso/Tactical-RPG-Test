@@ -3,18 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WindowsInputHandler : InputHandlerBase
+
+namespace Panzers.Input
 {
-    
-    public override Vector3 PointerPosition => Input.mousePosition;
-    public override Action PointerClicked { get; set; }
-  
-
-
-    private void Update()
+    public class WindowsInputHandler : InputHandlerBase
     {
-        
-        if (Input.GetMouseButtonDown(0))
-            PointerClicked?.Invoke();
+        public override Vector3 PointerPosition => UnityEngine.Input.mousePosition;
+        public override Action PointerClicked { get; set; }
+
+
+        private void Update()
+        {
+            if (UnityEngine.Input.GetMouseButtonDown(0))
+                PointerClicked?.Invoke();
+        }
     }
 }

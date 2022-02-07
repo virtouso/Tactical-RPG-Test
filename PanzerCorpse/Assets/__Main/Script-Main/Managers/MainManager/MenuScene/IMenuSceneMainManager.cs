@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IMenuSceneMainManager
+namespace Panzers.Manager
 {
+    public interface IMenuSceneMainManager
+    {
 
+    }
 }

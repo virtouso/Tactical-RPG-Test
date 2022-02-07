@@ -1,3 +1,7 @@
+using Panzers.Entities;
+using Panzers.Input;
+using Panzers.Manager;
+using Panzers.Operators;
 using UnityEngine;
 using Zenject;
 

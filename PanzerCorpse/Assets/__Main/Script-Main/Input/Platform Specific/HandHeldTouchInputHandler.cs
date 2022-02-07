@@ -3,13 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HandHeldTouchInputHandler :InputHandlerBase
+namespace Panzers.Input
 {
-    public override Vector3 PointerPosition => throw new NotImplementedException();
 
-    public override Action PointerClicked
+    public class HandHeldTouchInputHandler : InputHandlerBase
     {
-        get => throw new NotImplementedException();
-        set => throw new NotImplementedException();
+        public override Vector3 PointerPosition => throw new NotImplementedException();
+
+        public override Action PointerClicked
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
     }
 }

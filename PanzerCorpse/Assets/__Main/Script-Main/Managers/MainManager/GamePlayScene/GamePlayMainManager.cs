@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class GamePlayMainManager : MonoBehaviour, IGamePlayMainManager
+namespace Panzers.Manager
 {
-   
+    public class GamePlayMainManager : MonoBehaviour, IGamePlayMainManager
+    {
 
+
+    }
 }

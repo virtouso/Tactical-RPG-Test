@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IMapElementsGenerator 
+namespace Panzers.Operators
 {
-    
-    IEnumerator GeneratePlayerTower();
-    IEnumerator GeneratePlayerUnits();
-    IEnumerator GenerateOpponentUnits();
-    IEnumerator GenerateOpponentTower();
+    public interface IMapElementsGenerator
+    {
+
+        IEnumerator GeneratePlayerTower();
+        IEnumerator GeneratePlayerUnits();
+        IEnumerator GenerateOpponentUnits();
+        IEnumerator GenerateOpponentTower();
+    }
 }

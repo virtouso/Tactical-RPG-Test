@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PanelKeys
+namespace Panzers.Reference
 {
-    Root,
-    Settings
+    public enum PanelKeys
+    {
+        Root,
+        Settings
+    }
 }
-
 
 

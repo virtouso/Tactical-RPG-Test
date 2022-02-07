@@ -2,7 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IGamePlayCamera
+
+namespace Panzers.Entities
 {
-   IEnumerator PlayStartAnimation();
+
+   public interface IGamePlayCamera
+   {
+      IEnumerator PlayStartAnimation();
+   }
 }

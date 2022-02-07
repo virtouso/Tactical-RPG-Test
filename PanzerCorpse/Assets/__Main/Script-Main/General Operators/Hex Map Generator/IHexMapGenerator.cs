@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IHexMapGenerator
+namespace Panzers.Operators
 {
-    IEnumerator GenerateHexGrid();
-     HexPanelBase[,] HexGrid { get; } 
     
+    public interface IHexMapGenerator
+    {
+        IEnumerator GenerateHexGrid();
+        HexPanelBase[,] HexGrid { get; }
+
+    }
 }

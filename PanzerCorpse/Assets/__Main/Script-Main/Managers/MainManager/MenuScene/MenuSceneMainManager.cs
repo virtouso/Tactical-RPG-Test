@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuSceneMainManager : MonoBehaviour, IMenuSceneMainManager
+namespace Panzers.Manager
 {
+    public class MenuSceneMainManager : MonoBehaviour, IMenuSceneMainManager
+    {
 
+    }
 }

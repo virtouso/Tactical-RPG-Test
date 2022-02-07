@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IGamePlayMainManager
+namespace Panzers.Manager
 {
+    public interface IGamePlayMainManager
+    {
+    }
 }

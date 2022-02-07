@@ -4,65 +4,69 @@ using UnityEngine;
 using UnityEngine.Audio;
 using Zenject;
 
-public abstract class BaseAudioManager : MonoBehaviour
+
+namespace Panzers.Manager
 {
-
-    [Inject] private IUtilityFile _utilityFile;
-    [SerializeField] private AudioMixer _audioMixer;
-    [Inject] private ILogger _logger;
-
     
-    public float MusicVolume
+    public abstract class BaseAudioManager : MonoBehaviour
     {
-        get
+
+        [Inject] private IUtilityFile _utilityFile;
+        [SerializeField] private AudioMixer _audioMixer;
+        [Inject] private ILogger _logger;
+
+
+        public float MusicVolume
         {
-            _audioMixer.GetFloat(MixerKeys.Music, out float value);
-            return value;
+            get
+            {
+                _audioMixer.GetFloat(MixerKeys.Music, out float value);
+                return value;
+            }
+            set
+            {
+                _utilityFile.SaveFloat(MixerKeys.Music, value);
+                _audioMixer.SetFloat(MixerKeys.Music, value);
+            }
         }
-        set
+
+
+        public float AfxVolume
         {
-            _utilityFile.SaveFloat(MixerKeys.Music, value);
-            _audioMixer.SetFloat(MixerKeys.Music, value);
+            get
+            {
+                _audioMixer.GetFloat(MixerKeys.Afx, out float value);
+                return value;
+            }
+            set
+            {
+                _utilityFile.SaveFloat(MixerKeys.Afx, value);
+                _audioMixer.SetFloat(MixerKeys.Afx, value);
+            }
         }
-    }
 
 
-    public float AfxVolume
-    {
-        get
+
+        private void InitAfxVolume()
         {
-            _audioMixer.GetFloat(MixerKeys.Afx, out float value);
-            return value;
+            _audioMixer.SetFloat(MixerKeys.Afx, _utilityFile.LoadFloat(MixerKeys.Afx));
         }
-        set
+
+        private void InitMusicVolume()
         {
-            _utilityFile.SaveFloat(MixerKeys.Afx, value);
-            _audioMixer.SetFloat(MixerKeys.Afx, value);
+            _logger.ShowNormalLog(_utilityFile.LoadFloat(MixerKeys.Music).ToString(), Color.blue, Channels.Ui);
+            _audioMixer.SetFloat(MixerKeys.Music, _utilityFile.LoadFloat(MixerKeys.Music));
+
         }
-    }
 
 
-    
-    private void InitAfxVolume()
-    {
-        _audioMixer.SetFloat(MixerKeys.Afx, _utilityFile.LoadFloat(MixerKeys.Afx));
-    }
-
-    private void InitMusicVolume()
-    {
-       _logger.ShowNormalLog( _utilityFile.LoadFloat(MixerKeys.Music).ToString(),Color.blue, Channels.Ui);
-        _audioMixer.SetFloat(MixerKeys.Music, _utilityFile.LoadFloat(MixerKeys.Music));
+        protected virtual void Start()
+        {
+            InitAfxVolume();
+            InitMusicVolume();
+        }
 
     }
-
-    
-    protected virtual void Start()
-    {
-        InitAfxVolume();
-        InitMusicVolume();
-    }
-    
 }
-
 
 

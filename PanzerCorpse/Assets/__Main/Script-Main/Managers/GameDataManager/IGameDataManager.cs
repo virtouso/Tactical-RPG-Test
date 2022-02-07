@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IGameDataManager
+namespace Panzers.Manager
 {
-    PlayerData PlayerData { get; set; }
-    GameState GameState { get; set; }
-    string GetPlayerSelectedMap();
- 
+    public interface IGameDataManager
+    {
+        PlayerData PlayerData { get; set; }
+        GameState GameState { get; set; }
+        string GetPlayerSelectedMap();
+
+    }
 }
