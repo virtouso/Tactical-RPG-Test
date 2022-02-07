@@ -45,7 +45,7 @@ public class GameDataManager : MonoBehaviour, IGameDataManager
                 
                 if (!_utilityFile.KeyExist(PlayerPrefsGeneralKeys.GameState))
                 {
-                    _gameState = new GameState(SceneNames.JungleThemeScene);
+                    _gameState = new GameState(SceneNames.DesertThemeScene);
                 }
                 else
                 {
