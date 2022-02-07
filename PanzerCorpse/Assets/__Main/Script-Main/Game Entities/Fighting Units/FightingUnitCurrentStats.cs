@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mvvm;
 using UnityEngine;
 
 namespace Panzers.Entities

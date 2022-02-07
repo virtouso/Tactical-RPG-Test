@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-[System.Serializable]
-public class AiTypeConditionActionListPair
+namespace Panzers.AI
 {
-    public AiTypes AiType;
-    public ConditionActionBase[] OrderedConditionActionList;
+
+    [System.Serializable]
+    public class AiTypeConditionActionListPair
+    {
+        public AiTypes AiType;
+        public ConditionActionBase[] OrderedConditionActionList;
+    }
 }

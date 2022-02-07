@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-
-[System.Serializable]
-public class FightingUnitPerLevelStats
+namespace Panzers.Configurations
 {
-    public int DamageAmount;
-    public int HealthAmount;
-   public int MovingUnitsInTurn;
+    [System.Serializable]
+    public class FightingUnitPerLevelStats
+    {
+        public int DamageAmount;
+        public int HealthAmount;
+        public int MovingUnitsInTurn;
+    }
 }

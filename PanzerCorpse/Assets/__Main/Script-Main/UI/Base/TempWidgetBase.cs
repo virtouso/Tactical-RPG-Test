@@ -3,24 +3,27 @@ using System.Collections.Generic;
 using Codice.Client.BaseCommands;
 using UnityEngine;
 
-public abstract class TempWidgetBase : MonoBehaviour
+namespace Panzers.UI
 {
-
-
-    public virtual void Show(float displayTime)
+    public abstract class TempWidgetBase : MonoBehaviour
     {
-        gameObject.SetActive(true);
 
-        StartCoroutine(Disappear(displayTime));
 
+        public virtual void Show(float displayTime)
+        {
+            gameObject.SetActive(true);
+
+            StartCoroutine(Disappear(displayTime));
+
+
+        }
+
+
+        private IEnumerator Disappear(float displayTime)
+        {
+            yield return new WaitForSeconds(displayTime);
+            gameObject.SetActive(false);
+        }
 
     }
-
-
-    private IEnumerator Disappear(float displayTime)
-    {
-        yield return new WaitForSeconds(displayTime);
-        gameObject.SetActive(false);
-    }
-
 }

@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class PlayerPrefsGeneralKeys
+namespace Panzers.Reference
 {
-    public static string PlayerDate = "PlayerData";
-    public static string GameState = "GameState";
+    public static class PlayerPrefsGeneralKeys
+    {
+        public static string PlayerDate = "PlayerData";
+        public static string GameState = "GameState";
+    }
 }

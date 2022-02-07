@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-[System.Serializable]
-public class FieldCoordinate
+namespace Panzers.DataModel
 {
-    public int X;
-    public int Y;
-
-    public FieldCoordinate(int x, int y)
+    [System.Serializable]
+    public class FieldCoordinate
     {
-        X = x;
-        Y = y;
+        public int X;
+        public int Y;
+
+        public FieldCoordinate(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
     }
 }

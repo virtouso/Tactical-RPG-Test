@@ -1,39 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
+using Panzers.DataModel;
 using UnityEngine;
 
-
-[CreateAssetMenu(fileName = "Unit Intial Placement Config", menuName = "Config/Unit Placement/Unit Placements")]
-public class UnitInitialPlacementConfig : ScriptableObject,IUnitInitialPlacementConfig
+namespace Panzers.Configurations
 {
-    [SerializeField] private List< IndexCoordinatePair> _indexCoordinatePairs;
-    private Dictionary<int, FieldCoordinate> _indexCoordinates;
-    public Dictionary<int, FieldCoordinate> IndexCoordinates
+    [CreateAssetMenu(fileName = "Unit Intial Placement Config", menuName = "Config/Unit Placement/Unit Placements")]
+    public class UnitInitialPlacementConfig : ScriptableObject, IUnitInitialPlacementConfig
     {
-        get
+        [SerializeField] private List<IndexCoordinatePair> _indexCoordinatePairs;
+        private Dictionary<int, FieldCoordinate> _indexCoordinates;
+
+        public Dictionary<int, FieldCoordinate> IndexCoordinates
         {
-            if (_indexCoordinates == null)
+            get
             {
-                _indexCoordinates = new Dictionary<int, FieldCoordinate>(_indexCoordinatePairs.Count);
-                foreach (var item in _indexCoordinatePairs)
+                if (_indexCoordinates == null)
                 {
-                    _indexCoordinates.Add(item.Index,item.Coordinate);
+                    _indexCoordinates = new Dictionary<int, FieldCoordinate>(_indexCoordinatePairs.Count);
+                    foreach (var item in _indexCoordinatePairs)
+                    {
+                        _indexCoordinates.Add(item.Index, item.Coordinate);
+                    }
                 }
+
+                return _indexCoordinates;
             }
-            return _indexCoordinates;
+
         }
-        
+
     }
 
+
+    [System.Serializable]
+    public class IndexCoordinatePair
+    {
+        public int Index;
+        public FieldCoordinate Coordinate;
+    }
+
+
 }
-
-
-[System.Serializable]
-public class IndexCoordinatePair
-{
-    public int Index;
-    public FieldCoordinate Coordinate;
-}
-
-
-

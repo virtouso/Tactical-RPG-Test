@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Panzers.Configurations;
 using UnityEngine;
 using UnityEngine.Serialization;
 

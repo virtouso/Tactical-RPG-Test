@@ -5,14 +5,14 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public interface IUtilityAssetLoader
+namespace Panzers.Utility
 {
-    void LoadAssetByStringAddressAsync<T>(string address, Action<AsyncOperationHandle<T>> callback);
+    public interface IUtilityAssetLoader
+    {
+        void LoadAssetByStringAddressAsync<T>(string address, Action<AsyncOperationHandle<T>> callback);
 
-    void LoadAssetByAssetReferenceAsync<T>(AssetReference assetReference, Action<AsyncOperationHandle<T>> callback);
+        void LoadAssetByAssetReferenceAsync<T>(AssetReference assetReference, Action<AsyncOperationHandle<T>> callback);
 
-     T LoadAssetSync<T>(string address);
-
-
-
+        T LoadAssetSync<T>(string address);
+    }
 }

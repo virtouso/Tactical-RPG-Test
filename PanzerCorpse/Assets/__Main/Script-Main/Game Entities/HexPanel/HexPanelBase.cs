@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Panzers.DataModel;
 using UnityEngine;
 
 public abstract class HexPanelBase : MonoBehaviour

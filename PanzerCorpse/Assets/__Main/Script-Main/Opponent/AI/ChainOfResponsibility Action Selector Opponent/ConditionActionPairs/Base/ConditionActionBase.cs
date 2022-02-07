@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using Panzers.DataModel;
+using Panzers.Utility;
 using UnityEngine;
 using Zenject;
 
-public abstract class ConditionActionBase : ScriptableObject
+namespace Panzers.AI
 {
-    public abstract ActionQuery Execute(MatchModel matchState,IUtilityMatchGeneral generalMatchUtility,IUtilityMatchQueries queryMatchUtility);
-    
+    public abstract class ConditionActionBase : ScriptableObject
+    {
+        public abstract ActionQuery Execute(MatchModel matchState, IUtilityMatchGeneral generalMatchUtility,
+            IUtilityMatchQueries queryMatchUtility);
+
+    }
 }

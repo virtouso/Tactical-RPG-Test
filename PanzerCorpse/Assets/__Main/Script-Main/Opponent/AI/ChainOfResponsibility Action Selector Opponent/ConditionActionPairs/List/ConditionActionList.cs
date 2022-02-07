@@ -1,44 +1,49 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Panzers.DataModel;
+using Panzers.Utility;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-
-[CreateAssetMenu(fileName = "ConditionActionList", menuName = "Config/Condition Action/List")]
-public class ConditionActionList : ScriptableObject
+namespace Panzers.AI
 {
-    [FormerlySerializedAs("PlayerTypes")] [SerializeField] 
-    private List<AiTypeConditionActionListPair> _playerTypes;
-
-    private Dictionary<AiTypes,  ConditionActionBase[]> _actionsDictionary;
-
-    public Dictionary<AiTypes, ConditionActionBase[]> ActionsDictionary
+    [CreateAssetMenu(fileName = "ConditionActionList", menuName = "Config/Condition Action/List")]
+    public class ConditionActionList : ScriptableObject
     {
-        get
+        [FormerlySerializedAs("PlayerTypes")] [SerializeField]
+        private List<AiTypeConditionActionListPair> _playerTypes;
+
+        private Dictionary<AiTypes, ConditionActionBase[]> _actionsDictionary;
+
+        public Dictionary<AiTypes, ConditionActionBase[]> ActionsDictionary
         {
-            if (_actionsDictionary == null)
+            get
             {
-                _actionsDictionary = new Dictionary<AiTypes, ConditionActionBase[]>(_playerTypes.Count);
-                foreach (var item in  _playerTypes)
+                if (_actionsDictionary == null)
                 {
-                    _actionsDictionary.Add(item.AiType, item.OrderedConditionActionList);
+                    _actionsDictionary = new Dictionary<AiTypes, ConditionActionBase[]>(_playerTypes.Count);
+                    foreach (var item in _playerTypes)
+                    {
+                        _actionsDictionary.Add(item.AiType, item.OrderedConditionActionList);
+                    }
                 }
+
+                return _actionsDictionary;
+            }
+        }
+
+        public ActionQuery SelectBestAction(AiTypes aiType, MatchModel matchState,
+            IUtilityMatchGeneral generalMatchUtility, IUtilityMatchQueries queryMatchUtility)
+        {
+            foreach (var item in ActionsDictionary[aiType])
+            {
+                var result = item.Execute(matchState, generalMatchUtility, queryMatchUtility);
+                if (result != null)
+                    return result;
             }
 
-            return _actionsDictionary;
+            throw new NotImplementedException();
         }
-    }
-
-    public ActionQuery SelectBestAction(AiTypes aiType,MatchModel matchState,IUtilityMatchGeneral generalMatchUtility,IUtilityMatchQueries queryMatchUtility)
-    {
-        foreach (var item in ActionsDictionary[aiType])
-        {
-            var result = item.Execute(matchState,generalMatchUtility,queryMatchUtility);
-            if (result != null)
-                return result;
-        }
-
-        throw new NotImplementedException();
     }
 }

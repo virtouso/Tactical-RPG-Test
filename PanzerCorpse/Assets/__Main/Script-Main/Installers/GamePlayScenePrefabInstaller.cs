@@ -1,3 +1,6 @@
+using Panzers.Configurations;
+using Panzers.Configurations.Panzers.Configurations;
+using Panzers.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;

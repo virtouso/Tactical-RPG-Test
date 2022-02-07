@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using Panzers.DataModel;
+using Panzers.Utility;
 using UnityEngine;
 
 
-
-[CreateAssetMenu(fileName = "ThereIsMyUnitInRangeOfEnemy", menuName = "Config/Condition Action/ThereIsMyUnitInRangeOfEnemy")]
-public class ThereIsMyUnitInRangeOfEnemy : ConditionActionBase
+namespace Panzers.AI
 {
-    public override ActionQuery Execute(MatchModel matchState,IUtilityMatchGeneral generalMatchUtility,IUtilityMatchQueries queryMatchUtility)
+    [CreateAssetMenu(fileName = "ThereIsMyUnitInRangeOfEnemy",
+        menuName = "Config/Condition Action/ThereIsMyUnitInRangeOfEnemy")]
+    public class ThereIsMyUnitInRangeOfEnemy : ConditionActionBase
     {
-        throw new System.NotImplementedException();
+        public override ActionQuery Execute(MatchModel matchState, IUtilityMatchGeneral generalMatchUtility,
+            IUtilityMatchQueries queryMatchUtility)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -1,25 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using Panzers.DataModel;
+using Panzers.Utility;
 using UnityEngine;
 
-
-[CreateAssetMenu(fileName = "ThereIsEnemyTowerInRangeOfOneOfMyUnits", menuName = "Config/Condition Action/ThereIsEnemyTowerInRangeOfOneOfMyUnits")]
-public class ThereIsEnemyTowerInRangeOfOneOfMyUnits : ConditionActionBase
+namespace Panzers.AI
 {
-    // could cache to variables to make lines shorter.
-    public override ActionQuery Execute(MatchModel matchState,IUtilityMatchGeneral generalMatchUtility,IUtilityMatchQueries queryMatchUtility)
+    [CreateAssetMenu(fileName = "ThereIsEnemyTowerInRangeOfOneOfMyUnits",
+        menuName = "Config/Condition Action/ThereIsEnemyTowerInRangeOfOneOfMyUnits")]
+    public class ThereIsEnemyTowerInRangeOfOneOfMyUnits : ConditionActionBase
     {
-        foreach (var item in matchState.Players[MatchPlayerType.Opponent].FightingUnits)
+        // could cache to variables to make lines shorter.
+        public override ActionQuery Execute(MatchModel matchState, IUtilityMatchGeneral generalMatchUtility,
+            IUtilityMatchQueries queryMatchUtility)
         {
-            int distanceToTower = generalMatchUtility.
-                CalculateDistanceBetween2Coordinates(item.FieldCoordinate.Data
-                , matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate);
+            foreach (var item in matchState.Players[MatchPlayerType.Opponent].FightingUnits)
+            {
+                int distanceToTower = generalMatchUtility.CalculateDistanceBetween2Coordinates(item.FieldCoordinate.Data
+                    , matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate);
 
-            if (distanceToTower <= item.CurrentState.MovingUnitsInTurn.Data)
-                return new ActionQuery(ActionType.Shoot, item.FieldCoordinate.Data,
-                    matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate,MatchPlayerType.Opponent);
+                if (distanceToTower <= item.CurrentState.MovingUnitsInTurn.Data)
+                    return new ActionQuery(ActionType.Shoot, item.FieldCoordinate.Data,
+                        matchState.Players[MatchPlayerType.Player].TowerBase.FieldCoordinate, MatchPlayerType.Opponent);
+            }
+
+            return null;
         }
-
-        return null;
     }
 }

@@ -1,13 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Panzers.Configurations;
+using Panzers.DataModel;
+using Panzers.Utility;
 using UnityEngine;
 using Zenject;
 
-public abstract class BaseOpponent : MonoBehaviour
+namespace Panzers.Opponent
 {
-    [Inject] protected IMatchGeneralSettings   GeneralSettings;
-    [Inject] protected IUtilityMatchGeneral UtilityMatchGeneral;
-    [Inject] protected IUtilityMatchQueries UtilityMatchQueries;
-    
-    public abstract ActionQuery ApplyAction(MatchModel matchModel);
+    public abstract class BaseOpponent : MonoBehaviour
+    {
+        [Inject] protected IMatchGeneralSettings GeneralSettings;
+        [Inject] protected IUtilityMatchGeneral UtilityMatchGeneral;
+        [Inject] protected IUtilityMatchQueries UtilityMatchQueries;
+
+        public abstract ActionQuery ApplyAction(MatchModel matchModel);
+    }
 }

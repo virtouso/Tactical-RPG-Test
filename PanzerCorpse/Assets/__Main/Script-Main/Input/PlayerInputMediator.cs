@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Panzers.DataModel;
 using Panzers.Manager;
 using UnityEngine;
 using Zenject;

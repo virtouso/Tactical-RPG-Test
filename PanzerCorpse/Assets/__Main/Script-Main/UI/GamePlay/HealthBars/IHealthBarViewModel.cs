@@ -1,8 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mvvm;
 using UnityEngine;
 
-public interface IHealthBarViewModel
+namespace Panzers.UI
 {
-    public abstract void Init(Model<int> currentHealth, Transform referenceEntity,Transform parent);
+    public interface IHealthBarViewModel
+    {
+        public abstract void Init(Model<int> currentHealth, Transform referenceEntity, Transform parent);
+    }
 }

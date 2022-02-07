@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using Panzers.Entities;
 using UnityEngine;
 
-public abstract class FightingUnitConfigBase : ScriptableObject
+namespace Panzers.Configurations
 {
-    public FightingUnitNamesEnum Name;
-    public Sprite DisplaySprite;
-    public FightingUnitMonoBase GameObject;
-    public FightingUnitPerLevelStats[] Stats;
 
-
+    public abstract class FightingUnitConfigBase : ScriptableObject
+    {
+        public FightingUnitNamesEnum Name;
+        public Sprite DisplaySprite;
+        public FightingUnitMonoBase GameObject;
+        public FightingUnitPerLevelStats[] Stats;
+    }
 }

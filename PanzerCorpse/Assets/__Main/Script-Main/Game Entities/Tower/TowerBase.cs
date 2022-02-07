@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using ModestTree;
+using Panzers.DataModel;
 using UnityEngine;
 
 public abstract class TowerBase : MonoBehaviour

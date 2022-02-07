@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
-public class UtilityNewtonSoftJson : IUtilitySerializer
+
+namespace Panzers.Utility
 {
-    public T Deserialize<T>(string serializedText)
+    public class UtilityNewtonSoftJson : IUtilitySerializer
     {
+        public T Deserialize<T>(string serializedText)
+        {
 
-        return JsonConvert.DeserializeObject<T>(serializedText);
-    }
+            return JsonConvert.DeserializeObject<T>(serializedText);
+        }
 
-    public string Serialize<T>(T dataModel)
-    {
-        return JsonConvert.SerializeObject(dataModel);
+        public string Serialize<T>(T dataModel)
+        {
+            return JsonConvert.SerializeObject(dataModel);
+        }
     }
 }

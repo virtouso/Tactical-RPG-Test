@@ -1,22 +1,27 @@
 using System;
-public class Model<T>
+
+namespace Mvvm
 {
-    private T _data;
-    public Action<T> Action;
 
-    public T Data
+    public class Model<T>
     {
-        get => _data;
-        set
+        private T _data;
+        public Action<T> Action;
+
+        public T Data
         {
-            _data = value;
-            Action?.Invoke(_data);
+            get => _data;
+            set
+            {
+                _data = value;
+                Action?.Invoke(_data);
+            }
         }
-    }
 
 
-    public Model(T data)
-    {
-        _data = data;
+        public Model(T data)
+        {
+            _data = data;
+        }
     }
 }

@@ -1,31 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
+using Panzers.DataModel;
+using Panzers.Utility;
 using UnityEngine;
 
 
-
-[CreateAssetMenu(fileName = "ThereIsEnemyVolnurableUnitInRangeOfMyUnits", menuName = "Config/Condition Action/ThereIsEnemyVolnurableUnitInRangeOfMyUnits")]
-public class ThereIsEnemyVolnurableUnitInRangeOfMyUnits : ConditionActionBase
+namespace Panzers.AI
 {
-    public override ActionQuery Execute(MatchModel matchState,IUtilityMatchGeneral generalMatchUtility,IUtilityMatchQueries queryMatchUtility)
+    [CreateAssetMenu(fileName = "ThereIsEnemyVolnurableUnitInRangeOfMyUnits",
+        menuName = "Config/Condition Action/ThereIsEnemyVolnurableUnitInRangeOfMyUnits")]
+    public class ThereIsEnemyVolnurableUnitInRangeOfMyUnits : ConditionActionBase
     {
-        var enemyUnits = matchState.Players[MatchPlayerType.Player].FightingUnits;
-        var myUnits = matchState.Players[MatchPlayerType.Opponent].FightingUnits;
-
-        foreach (var enemyUnit in enemyUnits)
+        public override ActionQuery Execute(MatchModel matchState, IUtilityMatchGeneral generalMatchUtility,
+            IUtilityMatchQueries queryMatchUtility)
         {
-            foreach (var myUnit in myUnits)
+            var enemyUnits = matchState.Players[MatchPlayerType.Player].FightingUnits;
+            var myUnits = matchState.Players[MatchPlayerType.Opponent].FightingUnits;
+
+            foreach (var enemyUnit in enemyUnits)
             {
-                int distance = generalMatchUtility.CalculateDistanceBetween2Coordinates
-                    (enemyUnit.FieldCoordinate.Data,myUnit.FieldCoordinate.Data);
+                foreach (var myUnit in myUnits)
+                {
+                    int distance = generalMatchUtility.CalculateDistanceBetween2Coordinates
+                        (enemyUnit.FieldCoordinate.Data, myUnit.FieldCoordinate.Data);
 
-                bool inRange = distance <= myUnit.CurrentState.MovingUnitsInTurn.Data;
-                bool vulnerable = enemyUnit.CurrentState.HealthAmount.Data <= myUnit.CurrentState.DamageAmount.Data;
-                if (vulnerable && inRange)
-                    return new ActionQuery(ActionType.Shoot,myUnit.FieldCoordinate.Data,enemyUnit.FieldCoordinate.Data,MatchPlayerType.Opponent);
+                    bool inRange = distance <= myUnit.CurrentState.MovingUnitsInTurn.Data;
+                    bool vulnerable = enemyUnit.CurrentState.HealthAmount.Data <= myUnit.CurrentState.DamageAmount.Data;
+                    if (vulnerable && inRange)
+                        return new ActionQuery(ActionType.Shoot, myUnit.FieldCoordinate.Data,
+                            enemyUnit.FieldCoordinate.Data, MatchPlayerType.Opponent);
+                }
             }
-        }
 
-        return null;
+            return null;
+        }
     }
 }

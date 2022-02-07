@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameState 
+namespace Panzers.DataModel
 {
-    public string SelectedMap;
-
-    public GameState(string selectedMap)
+    public class GameState
     {
-        SelectedMap = selectedMap;
+        public string SelectedMap;
+
+        public GameState(string selectedMap)
+        {
+            SelectedMap = selectedMap;
+        }
     }
 }

@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ViewModelBase : MonoBehaviour
+namespace Mvvm
 {
-
-    protected abstract void BindDependencies();
-    
-    protected virtual void Start()
+    public abstract class ViewModelBase : MonoBehaviour
     {
-        BindDependencies();
-    }
 
+        protected abstract void BindDependencies();
+
+        protected virtual void Start()
+        {
+            BindDependencies();
+        }
+
+    }
 }

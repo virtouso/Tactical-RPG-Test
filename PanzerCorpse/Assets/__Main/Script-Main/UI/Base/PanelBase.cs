@@ -5,12 +5,16 @@ using Panzers.Manager;
 using UnityEngine;
 using Zenject;
 
-public abstract class PanelBase : MonoBehaviour
+namespace Panzers.UI
 {
-
-    [Inject] protected IMenuUiManager UiManager;
-
-    public abstract void Show(Action<object> action, object data);
-    public abstract void Hide();
     
+    public abstract class PanelBase : MonoBehaviour
+    {
+
+        [Inject] protected IMenuUiManager UiManager;
+
+        public abstract void Show(Action<object> action, object data);
+        public abstract void Hide();
+
+    }
 }

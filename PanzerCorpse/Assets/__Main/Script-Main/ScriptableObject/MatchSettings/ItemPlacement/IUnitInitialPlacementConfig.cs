@@ -1,8 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Panzers.DataModel;
 using UnityEngine;
 
-public interface IUnitInitialPlacementConfig 
+namespace Panzers.Configurations
 {
-     Dictionary<int, FieldCoordinate> IndexCoordinates { get; }
+     public interface IUnitInitialPlacementConfig
+     {
+          Dictionary<int, FieldCoordinate> IndexCoordinates { get; }
+     }
 }

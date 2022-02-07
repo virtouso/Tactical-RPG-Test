@@ -3,22 +3,27 @@ using System.Collections.Generic;
 using Panzers.Entities;
 using UnityEngine;
 
-public class MatchPlayer
+namespace Panzers.DataModel
 {
-    public MatchPlayerType PlayerType;
-    public string Name;
-    public int Score;
-    public TowerBase TowerBase;
-    public List<FightingUnitMonoBase> FightingUnits;
-    public int CurrentPermittedMoves;
 
- 
-    public MatchPlayer(MatchPlayerType playerType, string name, int score, TowerBase towerBase, List<FightingUnitMonoBase> fightingUnits)
+    public class MatchPlayer
     {
-        PlayerType = playerType;
-        Name = name;
-        Score = score;
-        TowerBase = towerBase;
-        FightingUnits = fightingUnits;
+        public MatchPlayerType PlayerType;
+        public string Name;
+        public int Score;
+        public TowerBase TowerBase;
+        public List<FightingUnitMonoBase> FightingUnits;
+        public int CurrentPermittedMoves;
+
+
+        public MatchPlayer(MatchPlayerType playerType, string name, int score, TowerBase towerBase,
+            List<FightingUnitMonoBase> fightingUnits)
+        {
+            PlayerType = playerType;
+            Name = name;
+            Score = score;
+            TowerBase = towerBase;
+            FightingUnits = fightingUnits;
+        }
     }
 }
